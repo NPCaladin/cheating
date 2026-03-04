@@ -3,7 +3,9 @@
 import { useState } from "react";
 import {
   Search, AlertTriangle, ShieldCheck, Shield, ShieldAlert,
-  Zap, ChevronDown, ChevronUp, ExternalLink, Youtube, Instagram, FileText, Link2
+  Zap, ChevronDown, ChevronUp, ExternalLink, Youtube, Instagram,
+  FileText, Link2, Scale, Brain, ListChecks, Phone, Target,
+  CheckCircle2, Circle, ArrowRight
 } from "lucide-react";
 
 type InputMode = "text" | "youtube" | "sns";
@@ -13,11 +15,43 @@ interface DetectionResult {
   riskLevel: "safe" | "low" | "medium" | "high" | "critical";
   verdict: string;
   summary: string;
-  matchedScamTypes: Array<{ type: string; similarity: "high" | "medium" | "low"; reason: string }>;
-  detectedSignals: Array<{ signal: string; evidence: string; severity: "critical" | "high" | "medium" | "low" }>;
+  matchedScamTypes: Array<{
+    type: string;
+    similarity: "high" | "medium" | "low";
+    reason: string;
+  }>;
+  detectedSignals: Array<{
+    signal: string;
+    evidence: string;
+    severity: "critical" | "high" | "medium" | "low";
+    explanation?: string;
+  }>;
   safeAspects: string[];
   recommendation: string;
   reportTo: string[];
+  legalAnalysis?: {
+    violationRisk: "high" | "medium" | "low" | "none";
+    applicableLaws: string[];
+    explanation: string;
+  };
+  psychologyTactics?: Array<{
+    tactic: string;
+    description: string;
+    evidence: string;
+  }>;
+  verificationChecklist?: Array<{
+    item: string;
+    method: string;
+    priority: "high" | "medium" | "low";
+  }>;
+  reportingGuide?: {
+    primaryAgency: string;
+    phone: string;
+    website: string;
+    steps: string[];
+  };
+  analysisConfidence?: "high" | "medium" | "low";
+  confidenceReason?: string;
   meta?: {
     type: "youtube" | "sns";
     title?: string;
@@ -52,11 +86,42 @@ const severityColors = {
 
 const similarityColors = { high: "text-red-400", medium: "text-amber-400", low: "text-blue-400" };
 
+const legalRiskColors = {
+  high: "text-red-400 bg-red-400/10 border-red-400/30",
+  medium: "text-amber-400 bg-amber-400/10 border-amber-400/30",
+  low: "text-blue-400 bg-blue-400/10 border-blue-400/30",
+  none: "text-green-400 bg-green-400/10 border-green-400/30",
+};
+
+const confidenceConfig = {
+  high: { color: "text-green-400", label: "높음", desc: "충분한 정보를 바탕으로 신뢰도 높은 분석" },
+  medium: { color: "text-amber-400", label: "중간", desc: "일부 정보가 부족하여 추가 확인 권장" },
+  low: { color: "text-[#8b949e]", label: "낮음", desc: "정보 부족으로 인한 제한적 분석" },
+};
+
+const priorityConfig = {
+  high: { color: "text-red-400", label: "필수" },
+  medium: { color: "text-amber-400", label: "권장" },
+  low: { color: "text-blue-400", label: "참고" },
+};
+
 const tabs: { id: InputMode; label: string; icon: React.ElementType; desc: string }[] = [
   { id: "text",    label: "텍스트",   icon: FileText,   desc: "광고 문구, 강의 소개, 카톡 메시지 등 텍스트를 직접 붙여넣기" },
   { id: "youtube", label: "YouTube", icon: Youtube,    desc: "YouTube 또는 Shorts URL을 붙여넣으면 제목·채널·자막 자동 분석" },
   { id: "sns",     label: "SNS/기타", icon: Instagram,  desc: "인스타그램, 틱톡 등 SNS URL + 게시글 캡션 붙여넣기" },
 ];
+
+function SectionHeader({ icon: Icon, title, badge }: { icon: React.ElementType; title: string; badge?: string }) {
+  return (
+    <div className="flex items-center gap-2 mb-3">
+      <Icon size={13} className="text-[#8b949e]" />
+      <h3 className="text-xs font-semibold text-[#8b949e] uppercase tracking-wider">{title}</h3>
+      {badge && (
+        <span className="text-xs px-1.5 py-0.5 rounded bg-[#21262d] text-[#8b949e]">{badge}</span>
+      )}
+    </div>
+  );
+}
 
 function ResultPanel({ result }: { result: DetectionResult }) {
   const [showDetails, setShowDetails] = useState(true);
@@ -89,18 +154,18 @@ function ResultPanel({ result }: { result: DetectionResult }) {
             <RiskIcon size={24} className={config.color} />
           </div>
           <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1">
+            <div className="flex items-center gap-2 mb-1.5">
               <span className={`text-2xl font-bold ${config.color}`}>{result.verdict}</span>
               <span className={`text-xs px-2 py-0.5 rounded-full border ${config.border} ${config.color}`}>
                 위험도 {result.riskScore}/100
               </span>
             </div>
-            <p className="text-[#8b949e] text-sm leading-relaxed">{result.summary}</p>
+            <p className="text-[#e6edf3] text-sm leading-relaxed">{result.summary}</p>
           </div>
         </div>
 
         {/* Risk bar */}
-        <div className="mb-2">
+        <div className="mb-5">
           <div className="flex justify-between text-xs text-[#8b949e] mb-1.5">
             <span>안전</span><span>극도 위험</span>
           </div>
@@ -110,11 +175,12 @@ function ResultPanel({ result }: { result: DetectionResult }) {
         </div>
 
         {/* Recommendation */}
-        <div className="mt-5 p-4 rounded-xl bg-[#0d1117]/60 border border-[#21262d]">
-          <p className="text-xs text-[#8b949e] font-medium mb-1">권고사항</p>
-          <p className="text-[#e6edf3] text-sm">{result.recommendation}</p>
+        <div className="p-4 rounded-xl bg-[#0d1117]/60 border border-[#21262d]">
+          <p className="text-xs text-[#8b949e] font-medium mb-1.5">권고사항</p>
+          <p className="text-[#e6edf3] text-sm leading-relaxed">{result.recommendation}</p>
         </div>
 
+        {/* Report To */}
         {result.reportTo.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-2">
             {result.reportTo.map((org) => (
@@ -124,72 +190,201 @@ function ResultPanel({ result }: { result: DetectionResult }) {
             ))}
           </div>
         )}
+
+        {/* Analysis Confidence indicator */}
+        {result.analysisConfidence && (
+          <div className="mt-4 flex items-center gap-2 text-xs text-[#8b949e]">
+            <Target size={11} />
+            <span>분석 신뢰도: </span>
+            <span className={`font-medium ${confidenceConfig[result.analysisConfidence].color}`}>
+              {confidenceConfig[result.analysisConfidence].label}
+            </span>
+            {result.confidenceReason && (
+              <span className="text-[#8b949e]/70">— {result.confidenceReason}</span>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Details toggle */}
-      <div className="border-t border-[#30363d]/30">
+      <div className="border-t border-[#30363d]/50">
         <button
           onClick={() => setShowDetails(!showDetails)}
           className="w-full flex items-center justify-between px-6 py-3 text-[#8b949e] text-xs hover:text-[#e6edf3] transition-colors"
         >
-          <span>상세 분석 결과</span>
+          <span className="font-medium">상세 분석 결과 보기</span>
           {showDetails ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
         </button>
 
         {showDetails && (
-          <div className="px-6 pb-6 space-y-5">
+          <div className="px-6 pb-8 space-y-7">
+
+            {/* Legal Analysis */}
+            {result.legalAnalysis && (
+              <div>
+                <SectionHeader icon={Scale} title="법적 분석" />
+                <div className="space-y-3">
+                  <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-medium ${legalRiskColors[result.legalAnalysis.violationRisk]}`}>
+                    {result.legalAnalysis.violationRisk === "high" ? "법적 위반 위험 높음" :
+                     result.legalAnalysis.violationRisk === "medium" ? "법적 위반 가능성 있음" :
+                     result.legalAnalysis.violationRisk === "low" ? "경미한 위반 가능성" : "명확한 위반 없음"}
+                  </div>
+                  <p className="text-[#e6edf3] text-sm leading-relaxed">{result.legalAnalysis.explanation}</p>
+                  {result.legalAnalysis.applicableLaws.length > 0 && (
+                    <div className="space-y-2">
+                      {result.legalAnalysis.applicableLaws.map((law, i) => (
+                        <div key={i} className="flex items-start gap-2 p-3 rounded-lg bg-[#0d1117] border border-[#21262d]">
+                          <span className="text-[#f0a500] text-xs mt-0.5 shrink-0">§</span>
+                          <p className="text-[#8b949e] text-xs leading-relaxed">{law}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Detected Signals */}
             {result.detectedSignals.length > 0 && (
               <div>
-                <h3 className="text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-3">
-                  감지된 위험 신호 ({result.detectedSignals.length}개)
-                </h3>
-                <div className="space-y-2">
+                <SectionHeader icon={AlertTriangle} title="감지된 위험 신호" badge={`${result.detectedSignals.length}개`} />
+                <div className="space-y-2.5">
                   {result.detectedSignals.map((signal, i) => (
-                    <div key={i} className={`p-3 rounded-xl border ${severityColors[signal.severity]}`}>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-medium text-xs">{signal.signal}</span>
-                        <span className="text-xs opacity-60">
+                    <div key={i} className={`p-3.5 rounded-xl border ${severityColors[signal.severity]}`}>
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className="font-semibold text-xs">{signal.signal}</span>
+                        <span className="text-xs opacity-60 border border-current/30 rounded px-1.5 py-0.5">
                           {signal.severity === "critical" ? "극도 위험" : signal.severity === "high" ? "높은 위험" : signal.severity === "medium" ? "주의" : "참고"}
                         </span>
                       </div>
-                      <p className="text-[#8b949e] text-xs">{signal.evidence}</p>
+                      <p className="text-xs font-mono bg-black/20 rounded px-2 py-1 mb-2 leading-relaxed">"{signal.evidence}"</p>
+                      {signal.explanation && (
+                        <p className="text-xs opacity-80 leading-relaxed">{signal.explanation}</p>
+                      )}
                     </div>
                   ))}
                 </div>
               </div>
             )}
 
+            {/* Psychology Tactics */}
+            {result.psychologyTactics && result.psychologyTactics.length > 0 && (
+              <div>
+                <SectionHeader icon={Brain} title="심리 조작 기법 분석" badge={`${result.psychologyTactics.length}개`} />
+                <div className="space-y-2.5">
+                  {result.psychologyTactics.map((tactic, i) => (
+                    <div key={i} className="p-3.5 rounded-xl bg-[#0d1117] border border-purple-500/20">
+                      <p className="text-purple-300 text-xs font-semibold mb-1.5">{tactic.tactic}</p>
+                      <p className="text-[#e6edf3] text-xs leading-relaxed mb-2">{tactic.description}</p>
+                      <div className="flex items-start gap-1.5">
+                        <ArrowRight size={10} className="text-[#8b949e] mt-0.5 shrink-0" />
+                        <p className="text-[#8b949e] text-xs italic">증거: "{tactic.evidence}"</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Verification Checklist */}
+            {result.verificationChecklist && result.verificationChecklist.length > 0 && (
+              <div>
+                <SectionHeader icon={ListChecks} title="검증 체크리스트" />
+                <div className="space-y-2">
+                  {result.verificationChecklist.map((item, i) => (
+                    <div key={i} className="flex items-start gap-3 p-3.5 rounded-xl bg-[#0d1117] border border-[#21262d]">
+                      <div className="shrink-0 mt-0.5">
+                        <Circle size={14} className="text-[#30363d]" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-[#e6edf3] text-xs font-medium">{item.item}</span>
+                          <span className={`text-xs font-medium ${priorityConfig[item.priority].color}`}>
+                            [{priorityConfig[item.priority].label}]
+                          </span>
+                        </div>
+                        <p className="text-[#8b949e] text-xs leading-relaxed">{item.method}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Reporting Guide */}
+            {result.reportingGuide && (
+              <div>
+                <SectionHeader icon={Phone} title="신고 가이드" />
+                <div className="rounded-xl bg-[#0d1117] border border-[#21262d] overflow-hidden">
+                  <div className="flex items-center gap-3 p-4 border-b border-[#21262d]">
+                    <div className="w-9 h-9 rounded-lg bg-red-400/10 border border-red-400/20 flex items-center justify-center shrink-0">
+                      <Phone size={14} className="text-red-400" />
+                    </div>
+                    <div>
+                      <p className="text-[#e6edf3] text-sm font-semibold">{result.reportingGuide.primaryAgency}</p>
+                      <div className="flex items-center gap-3 mt-0.5">
+                        <span className="text-red-400 text-xs font-mono font-bold">{result.reportingGuide.phone}</span>
+                        {result.reportingGuide.website && (
+                          <a
+                            href={result.reportingGuide.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#8b949e] text-xs hover:text-[#e6edf3] inline-flex items-center gap-1 transition-colors"
+                          >
+                            <ExternalLink size={10} />
+                            공식 사이트
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-4 space-y-2.5">
+                    {result.reportingGuide.steps.map((step, i) => (
+                      <div key={i} className="flex items-start gap-2.5">
+                        <CheckCircle2 size={13} className="text-green-400 shrink-0 mt-0.5" />
+                        <p className="text-[#8b949e] text-xs leading-relaxed">{step}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Matched Scam Types */}
             {result.matchedScamTypes.length > 0 && (
               <div>
-                <h3 className="text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-3">유사 사기 유형</h3>
-                <div className="space-y-2">
+                <SectionHeader icon={ShieldAlert} title="유사 사기 유형" />
+                <div className="space-y-2.5">
                   {result.matchedScamTypes.map((scam, i) => (
-                    <div key={i} className="p-3 rounded-xl bg-[#0d1117] border border-[#21262d]">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-[#e6edf3] text-xs font-medium">{scam.type}</span>
+                    <div key={i} className="p-3.5 rounded-xl bg-[#0d1117] border border-[#21262d]">
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className="text-[#e6edf3] text-xs font-semibold">{scam.type}</span>
                         <span className={`text-xs font-medium ${similarityColors[scam.similarity]}`}>
-                          {scam.similarity === "high" ? "높음" : scam.similarity === "medium" ? "중간" : "낮음"}
+                          유사도 {scam.similarity === "high" ? "높음" : scam.similarity === "medium" ? "중간" : "낮음"}
                         </span>
                       </div>
-                      <p className="text-[#8b949e] text-xs">{scam.reason}</p>
+                      <p className="text-[#8b949e] text-xs leading-relaxed">{scam.reason}</p>
                     </div>
                   ))}
                 </div>
               </div>
             )}
 
+            {/* Safe Aspects */}
             {result.safeAspects.length > 0 && (
               <div>
-                <h3 className="text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-3">안전 요소</h3>
-                <div className="space-y-1.5">
+                <SectionHeader icon={ShieldCheck} title="안전 요소" />
+                <div className="space-y-2">
                   {result.safeAspects.map((aspect, i) => (
-                    <div key={i} className="flex items-start gap-2 text-xs text-[#8b949e]">
-                      <span className="text-green-400 mt-0.5">✓</span>{aspect}
+                    <div key={i} className="flex items-start gap-2.5 p-3 rounded-lg bg-green-400/5 border border-green-400/20">
+                      <CheckCircle2 size={13} className="text-green-400 shrink-0 mt-0.5" />
+                      <span className="text-xs text-[#e6edf3] leading-relaxed">{aspect}</span>
                     </div>
                   ))}
                 </div>
               </div>
             )}
+
           </div>
         )}
       </div>
@@ -254,6 +449,7 @@ export default function DetectorPage() {
           <h1 className="text-2xl sm:text-3xl font-bold text-[#e6edf3] mb-2">사기 판별기</h1>
           <p className="text-[#8b949e] text-sm">
             텍스트, YouTube 링크, SNS 게시글을 AI가 즉시 분석합니다.
+            한국 법령 위반, 심리 조작 기법, 검증 체크리스트까지 상세 제공.
           </p>
         </div>
 

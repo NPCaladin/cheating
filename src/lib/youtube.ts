@@ -84,17 +84,62 @@ export async function fetchYoutubeMeta(videoId: string): Promise<YoutubeMeta> {
   return fetchYoutubeOEmbed(videoId);
 }
 
+/** Fetch transcript by scraping YouTube page for captionTracks, then fetching timedtext XML */
+async function fetchTranscriptDirect(videoId: string): Promise<string> {
+  const pageRes = await fetchWithTimeout(
+    `https://www.youtube.com/watch?v=${videoId}`,
+    10000
+  );
+  if (!pageRes.ok) return "";
+  const html = await pageRes.text();
+
+  const match = html.match(/"captionTracks":\[(\{.*?\}(?:,\{.*?\})*)\]/);
+  if (!match) return "";
+
+  // Find Korean track first, then any track
+  const tracks = match[1].matchAll(/"baseUrl":"(https:[^"]+)","name"[^}]*?"languageCode":"([^"]+)"/g);
+  let bestUrl = "";
+  let fallbackUrl = "";
+  for (const t of tracks) {
+    const url = t[1].replace(/\\u0026/g, "&");
+    if (t[2] === "ko") { bestUrl = url; break; }
+    if (!fallbackUrl) fallbackUrl = url;
+  }
+  const captionUrl = bestUrl || fallbackUrl;
+  if (!captionUrl) return "";
+
+  const xmlRes = await fetchWithTimeout(captionUrl + "&fmt=json3", 8000);
+  if (!xmlRes.ok) return "";
+
+  const json = await xmlRes.json() as {
+    events?: Array<{ segs?: Array<{ utf8?: string }> }>;
+  };
+  const text = (json.events ?? [])
+    .flatMap((e) => (e.segs ?? []).map((s) => s.utf8 ?? ""))
+    .join(" ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return text.slice(0, 5000);
+}
+
 export async function fetchYoutubeTranscript(videoId: string): Promise<string> {
+  // Try direct scraping first (more reliable than youtube-transcript library)
+  try {
+    const direct = await fetchTranscriptDirect(videoId);
+    if (direct.length > 0) return direct;
+  } catch { /* fall through */ }
+
+  // Fallback to library
   try {
     const transcript = await YoutubeTranscript.fetchTranscript(videoId, { lang: "ko" });
-    return transcript.map((t) => t.text).join(" ").slice(0, 4000);
+    if (transcript.length > 0) return transcript.map((t) => t.text).join(" ").slice(0, 5000);
+  } catch { /* fall through */ }
+
+  try {
+    const transcript = await YoutubeTranscript.fetchTranscript(videoId);
+    return transcript.map((t) => t.text).join(" ").slice(0, 5000);
   } catch {
-    try {
-      // Retry with default language if Korean subtitles unavailable
-      const transcript = await YoutubeTranscript.fetchTranscript(videoId);
-      return transcript.map((t) => t.text).join(" ").slice(0, 4000);
-    } catch {
-      return "";
-    }
+    return "";
   }
 }

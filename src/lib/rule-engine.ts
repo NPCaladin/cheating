@@ -5,8 +5,9 @@ import path from "path";
 
 interface BaitPhrase {
   text: string;
-  riskScore: number;
-  variants: string[];
+  riskScore?: number;
+  riskLevel?: string;
+  variants?: string[];
 }
 
 interface BaitCategory {
@@ -76,6 +77,16 @@ const warningSignalsData: WarningSignalsData = JSON.parse(
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
+function riskLevelToScore(level?: string): number {
+  switch (level) {
+    case "critical": return 90;
+    case "high": return 75;
+    case "medium": return 55;
+    case "low": return 30;
+    default: return 60;
+  }
+}
+
 function escapeRegex(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
@@ -104,12 +115,13 @@ export function matchBaitPhrases(text: string): MatchedPhrase[] {
 
   for (const category of baitPhrasesData.categories) {
     for (const phrase of category.phrases) {
-      const variants = [phrase.text, ...phrase.variants];
+      const variants = [phrase.text, ...(phrase.variants ?? [])];
+      const riskScore = phrase.riskScore ?? riskLevelToScore(phrase.riskLevel);
       const hit = variants.some((v) => new RegExp(escapeRegex(v), "i").test(text));
       if (hit) {
         matched.push({
           text: phrase.text,
-          riskScore: phrase.riskScore,
+          riskScore,
           categoryWeight: category.weight,
           categoryName: category.name,
         });
