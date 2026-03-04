@@ -76,19 +76,34 @@ export default function HomePage() {
         <div className="relative max-w-6xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#f0a500]/10 border border-[#f0a500]/20 text-[#f0a500] text-xs font-medium mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-[#f0a500] animate-pulse" />
-            2026년 사기 피해 4배 급증 — AI로 지금 바로 확인하세요
+            강연·교육·투자 사기 피해 2026년 4배 급증 — 결제 전에 확인하세요
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-6">
-            <span className="text-[#e6edf3]">강연·교육·투자</span>
+            <span className="text-[#e6edf3]">결제 전에 꼭 확인하세요</span>
             <br />
-            <span className="text-[#f0a500]">사기인지 확인하세요</span>
+            <span className="text-[#f0a500]">AI가 즉시 판별합니다</span>
           </h1>
 
-          <p className="text-[#8b949e] text-lg sm:text-xl max-w-2xl leading-relaxed mb-10">
-            AI가 광고 문구와 서비스 설명을 분석해 사기 가능성을 즉시 판별합니다.
-            15개 유형 사기 패턴 데이터베이스 기반.
+          <p className="text-[#8b949e] text-lg sm:text-xl max-w-2xl leading-relaxed mb-6">
+            광고 문구를 붙여넣으면 사기 패턴을 초 단위로 분석합니다.
+            강연·투자·부업·코인 15개 유형 데이터베이스 기반, 무료 공익 서비스입니다.
           </p>
+
+          {/* Social proof */}
+          <div className="flex flex-wrap items-center gap-4 mb-8 text-sm text-[#8b949e]">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[#f0a500] font-semibold">15개</span> 사기 유형 커버
+            </div>
+            <span className="text-[#30363d]">|</span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[#f0a500] font-semibold">50+</span> 위험 문구 패턴
+            </div>
+            <span className="text-[#30363d]">|</span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[#f0a500] font-semibold">무료</span> 공익 서비스
+            </div>
+          </div>
 
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
@@ -96,7 +111,7 @@ export default function HomePage() {
               className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#f0a500] text-[#0d1117] font-semibold text-sm hover:bg-[#f0a500]/90 transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
               <Search size={16} />
-              AI 사기 판별 시작하기
+              지금 무료로 판별하기
               <ArrowRight size={14} />
             </Link>
             <Link
@@ -297,9 +312,11 @@ export default function HomePage() {
           <div className="rounded-xl border border-[#21262d] bg-[#161b22]/50 p-4 flex gap-3">
             <AlertTriangle size={16} className="text-amber-400 shrink-0 mt-0.5" />
             <p className="text-[#8b949e] text-xs leading-relaxed">
-              <span className="text-amber-400 font-medium">면책 고지:</span>{" "}
-              본 서비스는 참고용 정보를 제공하며 법적 효력이 없습니다. AI 판별 결과는 100% 정확하지 않을 수 있습니다.
-              실제 피해가 발생했거나 의심되는 경우 경찰청(182), 금융감독원(1332), 소비자원(1372)에 신고하시기 바랍니다.
+              <span className="text-amber-400 font-medium">이용 안내:</span>{" "}
+              AI 판별 결과는 참고 자료이며 법적 효력이 없습니다. 최종 판단은 직접 하시기 바랍니다.
+              피해가 발생했거나 확실히 의심되는 경우 <span className="text-[#e6edf3]">경찰청 사이버범죄신고(182)</span>,{" "}
+              <span className="text-[#e6edf3]">금융감독원(1332)</span>,{" "}
+              <span className="text-[#e6edf3]">한국소비자원(1372)</span>에 신고하세요.
             </p>
           </div>
         </div>
