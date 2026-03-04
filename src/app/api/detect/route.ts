@@ -1,7 +1,9 @@
 import OpenAI from "openai";
+import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { preScreenText } from "@/lib/rule-engine";
 import { checkBlacklist } from "@/lib/blacklist";
+import { logAnalysis } from "@/lib/log-analysis";
 
 const BASE_SYSTEM_PROMPT = `당신은 한국의 사기 강연·교육·투자 서비스를 판별하는 전문 AI 분석관입니다.
 
@@ -103,9 +105,16 @@ function buildSafeResponse() {
   };
 }
 
+function hashIp(req: NextRequest): string {
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
+  return crypto.createHash("sha256").update(ip).digest("hex").slice(0, 16);
+}
+
 export async function POST(req: NextRequest) {
   try {
     const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    const ipHash = hashIp(req);
     const { text } = await req.json();
 
     if (!text || typeof text !== "string") {
@@ -122,6 +131,7 @@ export async function POST(req: NextRequest) {
     const prescreen = preScreenText(sanitizedText);
 
     if (!prescreen.shouldCallGPT) {
+      logAnalysis({ type: "text", riskLevel: "safe", riskScore: 10, aiCalled: false, ipHash });
       return NextResponse.json(buildSafeResponse());
     }
 
@@ -163,6 +173,15 @@ export async function POST(req: NextRequest) {
     if (blacklistResult) {
       result._blacklist = blacklistResult;
     }
+
+    logAnalysis({
+      type: "text",
+      riskLevel: result.riskLevel,
+      riskScore: result.riskScore,
+      scamType: result.matchedScamTypes?.[0]?.type ?? null,
+      aiCalled: true,
+      ipHash,
+    });
 
     return NextResponse.json(result);
   } catch (error) {

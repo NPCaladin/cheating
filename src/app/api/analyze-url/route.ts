@@ -1,8 +1,10 @@
 import OpenAI from "openai";
+import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { extractYoutubeId, fetchYoutubeMeta, fetchYoutubeTranscript } from "@/lib/youtube";
 import { preScreenText } from "@/lib/rule-engine";
 import { checkBlacklist } from "@/lib/blacklist";
+import { logAnalysis } from "@/lib/log-analysis";
 
 const BASE_SYSTEM_PROMPT = `당신은 한국의 사기 강연·교육·투자 서비스를 판별하는 전문 AI 분석관입니다.
 
@@ -108,9 +110,16 @@ function handleOpenAIError(error: unknown): NextResponse {
   );
 }
 
+function hashIp(req: NextRequest): string {
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
+  return crypto.createHash("sha256").update(ip).digest("hex").slice(0, 16);
+}
+
 export async function POST(req: NextRequest) {
   try {
     const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    const ipHash = hashIp(req);
     const { url, extraText } = await req.json();
 
     if (!url || typeof url !== "string") {
@@ -182,6 +191,15 @@ export async function POST(req: NextRequest) {
       };
       if (blacklistResult) result._blacklist = blacklistResult;
 
+      logAnalysis({
+        type: "youtube",
+        riskLevel: result.riskLevel,
+        riskScore: result.riskScore,
+        scamType: result.matchedScamTypes?.[0]?.type ?? null,
+        aiCalled: true,
+        ipHash,
+      });
+
       return NextResponse.json({
         ...result,
         meta: {
@@ -240,6 +258,15 @@ export async function POST(req: NextRequest) {
       matchedSignals: prescreen.matchedSignals.map((s) => s.name),
     };
     if (blacklistResult) result._blacklist = blacklistResult;
+
+    logAnalysis({
+      type: "sns",
+      riskLevel: result.riskLevel,
+      riskScore: result.riskScore,
+      scamType: result.matchedScamTypes?.[0]?.type ?? null,
+      aiCalled: true,
+      ipHash,
+    });
 
     return NextResponse.json({
       ...result,
