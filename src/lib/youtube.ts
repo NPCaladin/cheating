@@ -161,17 +161,17 @@ async function fetchTranscriptAndroid(videoId: string): Promise<string> {
 }
 
 /**
- * Fetch transcript via the Vercel Python serverless function (/api/transcript).
- * Python's urllib3 TLS fingerprint bypasses YouTube's cloud-IP bot detection
- * that blocks Node.js requests. Only available when VERCEL_URL env var is set.
+ * Fetch transcript via the Vercel Edge Function (/api/transcript).
+ * Edge functions run on Cloudflare's network (not AWS Lambda), so YouTube
+ * is less likely to block them. Only called when VERCEL_URL env var is set.
  */
-async function fetchTranscriptPythonApi(videoId: string): Promise<string> {
+async function fetchTranscriptEdge(videoId: string): Promise<string> {
   const vercelUrl = process.env.VERCEL_URL;
   if (!vercelUrl) return "";
 
   const res = await fetchT(
     `https://${vercelUrl}/api/transcript?id=${videoId}`,
-    15000
+    20000
   );
   if (!res.ok) return "";
 
@@ -180,10 +180,10 @@ async function fetchTranscriptPythonApi(videoId: string): Promise<string> {
 }
 
 export async function fetchYoutubeTranscript(videoId: string): Promise<string> {
-  // On Vercel: use Python function (different TLS fingerprint bypasses bot detection)
+  // On Vercel: delegate to Edge Function (Cloudflare IP, not AWS Lambda IP)
   if (process.env.VERCEL) {
     try {
-      const transcript = await fetchTranscriptPythonApi(videoId);
+      const transcript = await fetchTranscriptEdge(videoId);
       if (transcript.length > 0) return transcript;
     } catch { /* fall through */ }
   }
