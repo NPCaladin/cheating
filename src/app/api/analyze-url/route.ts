@@ -64,6 +64,50 @@ YouTube 영상 또는 SNS 콘텐츠의 제목, 채널명, 자막/스크립트를
 점수 기준: 0-20 safe / 21-40 low / 41-60 medium / 61-80 high / 81-100 critical
 JSON만 응답하고 다른 텍스트는 포함하지 마세요.`;
 
+/** Sanitize user input to prevent prompt injection */
+function sanitizeInput(text: string): string {
+  return text
+    .replace(/\[시스템\]|\[SYSTEM\]|\[INST\]|\[\/INST\]/gi, "")
+    .replace(/ignore\s+(?:all\s+)?previous\s+instructions?/gi, "")
+    .replace(/이전\s+지시사항[을를]?\s*무시/gi, "")
+    .replace(/당신은\s+이제/gi, "")
+    .trim();
+}
+
+/** Validate URL is http/https to prevent SSRF */
+function isValidUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+function handleOpenAIError(error: unknown): NextResponse {
+  if (error && typeof error === "object" && "status" in error) {
+    const status = (error as { status: number }).status;
+    if (status === 429) {
+      return NextResponse.json(
+        { error: "AI 분석 한도에 도달했습니다. 잠시 후 다시 시도해주세요." },
+        { status: 503 }
+      );
+    }
+    if (status === 401) {
+      return NextResponse.json(
+        { error: "AI 서비스 설정 오류입니다. 관리자에게 문의해주세요." },
+        { status: 500 }
+      );
+    }
+  }
+  const message = error instanceof Error ? error.message : "알 수 없는 오류";
+  console.error("URL analysis error:", message);
+  return NextResponse.json(
+    { error: `분석 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.` },
+    { status: 500 }
+  );
+}
+
 export async function POST(req: NextRequest) {
   try {
     const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -71,6 +115,10 @@ export async function POST(req: NextRequest) {
 
     if (!url || typeof url !== "string") {
       return NextResponse.json({ error: "URL을 입력해주세요." }, { status: 400 });
+    }
+
+    if (!isValidUrl(url)) {
+      return NextResponse.json({ error: "올바른 URL 형식이 아닙니다." }, { status: 400 });
     }
 
     const youtubeId = extractYoutubeId(url);
@@ -88,8 +136,8 @@ export async function POST(req: NextRequest) {
         `채널명: ${meta.channelName}`,
         meta.description ? `\n[채널 설명란]\n${meta.description}` : "",
         meta.tags && meta.tags.length > 0 ? `\n[태그]\n${meta.tags.join(", ")}` : "",
-        transcript ? `\n[자막/스크립트]\n${transcript}` : "",
-        extraText ? `\n[추가 정보]\n${extraText}` : "",
+        transcript ? `\n[자막/스크립트]\n${transcript}` : "\n[자막 없음 - 제목/채널명 기반으로만 분석]",
+        extraText ? `\n[추가 정보]\n${sanitizeInput(extraText)}` : "",
       ]
         .filter(Boolean)
         .join("\n");
@@ -106,7 +154,9 @@ export async function POST(req: NextRequest) {
       const userMessage = [
         prescreen.promptContext,
         blacklistContext,
-        `\n다음 YouTube 콘텐츠를 분석해주세요:\n\n${analysisText}`,
+        transcript
+          ? `\n다음 YouTube 콘텐츠를 분석해주세요:\n---분석 대상 시작---\n${analysisText}\n---분석 대상 끝---`
+          : `\n다음 YouTube 콘텐츠를 분석해주세요 (자막 없음 — 제목/채널명 기반 분석, 정확도가 낮을 수 있습니다):\n---분석 대상 시작---\n${analysisText}\n---분석 대상 끝---`,
       ]
         .filter(Boolean)
         .join("\n");
@@ -154,9 +204,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const analysisText = `[SNS 콘텐츠 분석]\nURL: ${url}\n\n[게시글 내용]\n${extraText}`;
+    const sanitizedExtra = sanitizeInput(extraText);
+    const analysisText = `[SNS 콘텐츠 분석]\nURL: ${url}\n\n[게시글 내용]\n${sanitizedExtra}`;
     const prescreen = preScreenText(analysisText);
-    const blacklistResult = await checkBlacklist(extraText, url);
+    const blacklistResult = await checkBlacklist(sanitizedExtra, url);
     const blacklistContext = blacklistResult
       ? `\n[블랙리스트 경고]\n"${blacklistResult.entityName}"이 블랙리스트에 등록된 사기 사례입니다.\n`
       : "";
@@ -164,7 +215,7 @@ export async function POST(req: NextRequest) {
     const userMessage = [
       prescreen.promptContext,
       blacklistContext,
-      `\n다음 SNS 콘텐츠를 분석해주세요:\n\n${analysisText}`,
+      `\n다음 SNS 콘텐츠를 분석해주세요:\n---분석 대상 시작---\n${analysisText}\n---분석 대상 끝---`,
     ]
       .filter(Boolean)
       .join("\n");
@@ -198,11 +249,6 @@ export async function POST(req: NextRequest) {
     if (error instanceof SyntaxError) {
       return NextResponse.json({ error: "AI 응답 파싱 오류가 발생했습니다." }, { status: 500 });
     }
-    const message = error instanceof Error ? error.message : "알 수 없는 오류";
-    console.error("URL analysis error:", message);
-    return NextResponse.json(
-      { error: `분석 중 오류가 발생했습니다: ${message}` },
-      { status: 500 }
-    );
+    return handleOpenAIError(error);
   }
 }

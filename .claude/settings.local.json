@@ -18,7 +18,8 @@
       "Bash(do:*)",
       "Bash(npx vercel:*)",
       "Bash(gh auth:*)",
-      "Bash(where gh:*)"
+      "Bash(where gh:*)",
+      "Bash(npm test:*)"
     ]
   }
 }

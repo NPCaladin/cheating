@@ -20,6 +20,17 @@ interface YoutubeMeta {
   tags?: string[];
 }
 
+/** fetch with AbortController timeout (default 8s) */
+async function fetchWithTimeout(url: string, timeoutMs = 8000): Promise<Response> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 /** Fetch via YouTube Data API v3 (requires YOUTUBE_API_KEY env var) */
 async function fetchYoutubeDataAPI(videoId: string): Promise<YoutubeMeta | null> {
   const apiKey = process.env.YOUTUBE_API_KEY;
@@ -27,7 +38,7 @@ async function fetchYoutubeDataAPI(videoId: string): Promise<YoutubeMeta | null>
 
   try {
     const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoId}&key=${apiKey}`;
-    const res = await fetch(url);
+    const res = await fetchWithTimeout(url);
     if (!res.ok) return null;
 
     const data = await res.json();
@@ -53,7 +64,7 @@ async function fetchYoutubeDataAPI(videoId: string): Promise<YoutubeMeta | null>
 /** Fetch via oEmbed (no API key required, limited fields) */
 async function fetchYoutubeOEmbed(videoId: string): Promise<YoutubeMeta> {
   const oembedUrl = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`;
-  const res = await fetch(oembedUrl);
+  const res = await fetchWithTimeout(oembedUrl);
   if (!res.ok) throw new Error("YouTube 영상 정보를 가져올 수 없습니다.");
   const data = await res.json();
   return {
