@@ -20,28 +20,20 @@ interface YoutubeMeta {
   tags?: string[];
 }
 
-/** fetch with AbortController timeout (default 8s) */
-async function fetchWithTimeout(
+/** fetch with AbortController timeout, supports custom options */
+async function fetchT(
   url: string,
-  timeoutMs = 8000,
-  headers?: Record<string, string>
+  timeoutMs: number,
+  options?: RequestInit
 ): Promise<Response> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    return await fetch(url, { signal: controller.signal, headers });
+    return await fetch(url, { ...options, signal: controller.signal });
   } finally {
     clearTimeout(timer);
   }
 }
-
-/** Browser-like headers to avoid YouTube bot detection */
-const BROWSER_HEADERS = {
-  "User-Agent":
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-  "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
-  Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-};
 
 /** Fetch via YouTube Data API v3 (requires YOUTUBE_API_KEY env var) */
 async function fetchYoutubeDataAPI(videoId: string): Promise<YoutubeMeta | null> {
@@ -50,7 +42,7 @@ async function fetchYoutubeDataAPI(videoId: string): Promise<YoutubeMeta | null>
 
   try {
     const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoId}&key=${apiKey}`;
-    const res = await fetchWithTimeout(url);
+    const res = await fetchT(url, 8000);
     if (!res.ok) return null;
 
     const data = await res.json();
@@ -76,7 +68,7 @@ async function fetchYoutubeDataAPI(videoId: string): Promise<YoutubeMeta | null>
 /** Fetch via oEmbed (no API key required, limited fields) */
 async function fetchYoutubeOEmbed(videoId: string): Promise<YoutubeMeta> {
   const oembedUrl = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`;
-  const res = await fetchWithTimeout(oembedUrl);
+  const res = await fetchT(oembedUrl, 8000);
   if (!res.ok) throw new Error("YouTube 영상 정보를 가져올 수 없습니다.");
   const data = await res.json();
   return {
@@ -97,84 +89,85 @@ export async function fetchYoutubeMeta(videoId: string): Promise<YoutubeMeta> {
 }
 
 /**
- * Extract caption text from YouTube timedtext JSON3 format.
- * YouTube auto-generated captions (ASR) and manual subtitles both use this format.
+ * Parse YouTube timedtext SRV3 XML format.
+ * Extracts text from <s> word-level elements.
  */
-function parseCaptionJson(json: { events?: Array<{ segs?: Array<{ utf8?: string }> }> }): string {
-  return (json.events ?? [])
-    .flatMap((e) => (e.segs ?? []).map((s) => s.utf8 ?? ""))
+function parseSrv3Xml(xml: string): string {
+  return [...xml.matchAll(/<s[^>]*>([^<]*)<\/s>/g)]
+    .map((m) => m[1])
     .join(" ")
+    .replace(/&amp;/g, "&")
+    .replace(/&#39;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
     .replace(/\s+/g, " ")
     .trim();
 }
 
 /**
- * Fetch transcript by scraping YouTube page for captionTracks.
- * Uses bracket-matching to extract JSON (handles nested objects & multiline).
- * Sends browser-like User-Agent to ensure captionTracks data is included.
+ * Fetch transcript via YouTube's ANDROID Innertube player endpoint.
+ * The ANDROID client returns timedtext URLs that are accessible server-side
+ * (unlike WEB client URLs which return empty responses due to bot detection).
  */
-async function fetchTranscriptDirect(videoId: string): Promise<string> {
-  const pageRes = await fetchWithTimeout(
-    `https://www.youtube.com/watch?v=${videoId}&hl=ko`,
-    12000,
-    BROWSER_HEADERS
-  );
+async function fetchTranscriptAndroid(videoId: string): Promise<string> {
+  // Step 1: Get INNERTUBE_API_KEY from page HTML
+  const pageRes = await fetchT(`https://www.youtube.com/watch?v=${videoId}`, 12000);
   if (!pageRes.ok) return "";
   const html = await pageRes.text();
 
-  // Find "captionTracks":[ in the page source
-  const ctIndex = html.indexOf('"captionTracks":[');
-  if (ctIndex === -1) return "";
+  const apiKeyMatch = html.match(/"INNERTUBE_API_KEY":"([^"]+)"/);
+  if (!apiKeyMatch) return "";
+  const apiKey = apiKeyMatch[1];
 
-  // Use bracket-matching to extract the complete JSON array
-  // (avoids regex failing on nested objects like "name":{"simpleText":"..."})
-  const arrStart = ctIndex + '"captionTracks":['.length - 1; // points to '['
-  let depth = 0;
-  let arrEnd = arrStart;
-  for (let i = arrStart; i < Math.min(arrStart + 200000, html.length); i++) {
-    const ch = html[i];
-    if (ch === "[" || ch === "{") depth++;
-    else if (ch === "]" || ch === "}") {
-      depth--;
-      if (depth === 0) { arrEnd = i; break; }
+  // Step 2: POST to /player endpoint with ANDROID client context
+  const playerRes = await fetchT(
+    `https://www.youtube.com/youtubei/v1/player?key=${apiKey}`,
+    8000,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        videoId,
+        context: { client: { clientName: "ANDROID", clientVersion: "20.10.38" } },
+      }),
     }
-  }
-  if (arrEnd === arrStart) return ""; // bracket matching failed
+  );
+  if (!playerRes.ok) return "";
 
-  const captionData = html.slice(arrStart, arrEnd + 1);
-
-  // Extract all baseUrl values (escaped JSON strings in the captionTracks array)
-  const baseUrls = [...captionData.matchAll(/"baseUrl":"(https:[^"\\]*(?:\\.[^"\\]*)*)"/g)]
-    .map((m) => m[1].replace(/\\u0026/g, "&").replace(/\\\//g, "/"));
-
-  // Extract corresponding languageCodes
-  const langs = [...captionData.matchAll(/"languageCode":"([^"]+)"/g)]
-    .map((m) => m[1]);
-
-  if (baseUrls.length === 0) return "";
-
-  // Prefer Korean track; fall back to first available
-  const koIdx = langs.findIndex((l) => l === "ko");
-  const pickedUrl = koIdx !== -1 && baseUrls[koIdx] ? baseUrls[koIdx] : baseUrls[0];
-
-  const xmlRes = await fetchWithTimeout(pickedUrl + "&fmt=json3", 8000, BROWSER_HEADERS);
-  if (!xmlRes.ok) return "";
-
-  const json = await xmlRes.json() as {
-    events?: Array<{ segs?: Array<{ utf8?: string }> }>;
+  const playerData = await playerRes.json() as {
+    captions?: {
+      playerCaptionsTracklistRenderer?: {
+        captionTracks?: Array<{ baseUrl: string; languageCode: string }>;
+      };
+    };
   };
 
-  return parseCaptionJson(json).slice(0, 6000);
+  const captionTracks =
+    playerData?.captions?.playerCaptionsTracklistRenderer?.captionTracks ?? [];
+  if (captionTracks.length === 0) return "";
+
+  // Prefer Korean track; fall back to first available
+  const koTrack =
+    captionTracks.find((t) => t.languageCode === "ko") ?? captionTracks[0];
+
+  // Step 3: Fetch timedtext (SRV3 XML format)
+  const xmlRes = await fetchT(koTrack.baseUrl, 8000);
+  if (!xmlRes.ok) return "";
+  const xml = await xmlRes.text();
+
+  if (!xml || !xml.includes("<s")) return "";
+  return parseSrv3Xml(xml).slice(0, 6000);
 }
 
 export async function fetchYoutubeTranscript(videoId: string): Promise<string> {
-  // Try direct scraping first (more reliable than youtube-transcript library)
+  // Primary: ANDROID player approach (bypasses YouTube server-side bot detection)
   try {
-    const direct = await fetchTranscriptDirect(videoId);
-    if (direct.length > 0) return direct;
+    const transcript = await fetchTranscriptAndroid(videoId);
+    if (transcript.length > 0) return transcript;
   } catch { /* fall through */ }
 
-  // Fallback to library
+  // Fallback: youtube-transcript library
   try {
     const transcript = await YoutubeTranscript.fetchTranscript(videoId, { lang: "ko" });
     if (transcript.length > 0) return transcript.map((t) => t.text).join(" ").slice(0, 5000);
