@@ -1,72 +1,414 @@
 {
-  "version": "1.0.0",
-  "lastUpdated": "2026-03-03",
-  "description": "AI 판별기 학습용 미끼 문구 데이터베이스",
+  "version": "2.0.0",
+  "lastUpdated": "2026-03-04",
+  "description": "AI 판별기 학습용 미끼 문구 데이터베이스 (200개+)",
+  "totalCount": 207,
   "categories": [
     {
       "id": "investment",
       "name": "투자형",
       "weight": 0.9,
+      "count": 50,
       "phrases": [
         {
-          "text": "원금보장",
-          "riskScore": 95,
-          "variants": ["원금 보장", "원금보장!", "원금100% 보장"],
-          "explanation": "어떤 금융 투자도 법적으로 원금을 보장할 수 없음"
+          "id": "bp-001",
+          "text": "원금 100% 보장에 연 수익률 30%",
+          "category": "investment",
+          "scamType": "주식/코인 리딩방",
+          "riskLevel": "critical",
+          "explanation": "어떤 금융 투자도 법적으로 원금을 보장할 수 없으며, 연 30% 수익률은 비현실적"
         },
         {
-          "text": "수익보장",
-          "riskScore": 95,
-          "variants": ["수익 보장", "수익률 보장", "이익 보장"],
-          "explanation": "투자 수익 보장은 자본시장법 위반"
+          "id": "bp-002",
+          "text": "VIP 회원 전용 종목 선공개, 이번 주 무조건 상한가",
+          "category": "investment",
+          "scamType": "주식 리딩방",
+          "riskLevel": "critical",
+          "explanation": "미공개 정보 이용 불공정거래이며, 주가 예측 보장은 불법"
         },
         {
-          "text": "VIP 전용",
-          "riskScore": 70,
-          "variants": ["VIP 회원 전용", "프리미엄 회원 전용", "VIP픽"],
-          "explanation": "단계적 과금 유도 패턴"
+          "id": "bp-003",
+          "text": "스테이킹 연 600% 수익, 원금 보장",
+          "category": "investment",
+          "scamType": "코인 리딩방",
+          "riskLevel": "critical",
+          "explanation": "세계 최고 펀드도 연 30% 미만, 연 600%는 폰지사기 신호"
         },
         {
-          "text": "곧 급등",
-          "riskScore": 80,
-          "variants": ["곧 급등할", "급등 예정", "조만간 폭등", "이번주 급등"],
-          "explanation": "미공개 정보 이용 선행매매 가능성"
+          "id": "bp-004",
+          "text": "AI 자동매매 승률 95%, 24시간 수익 창출",
+          "category": "investment",
+          "scamType": "AI 자동매매",
+          "riskLevel": "critical",
+          "explanation": "AI 승률 95%는 검증 불가한 허위 주장, 유사수신행위 가능성"
         },
         {
-          "text": "AI 자동매매",
-          "riskScore": 75,
-          "variants": ["AI 자동 수익", "AI가 알아서", "AI 트레이딩", "로봇 자동매매"],
-          "explanation": "AI 기술 빙자 투자 사기 증가"
+          "id": "bp-005",
+          "text": "상장 직전 코인 선점, 10배 수익 확정",
+          "category": "investment",
+          "scamType": "코인 리딩방",
+          "riskLevel": "critical",
+          "explanation": "미상장 코인 선판매는 전형적인 사기 패턴"
         },
         {
-          "text": "연 600%",
-          "riskScore": 98,
-          "variants": ["연 300%", "연 500%", "월 50%", "월 100% 수익"],
-          "explanation": "비현실적 수익률 - 세계 최고 펀드도 연 30% 미만"
+          "id": "bp-006",
+          "text": "슈퍼개미 픽, 손실보전 절대 약속",
+          "category": "investment",
+          "scamType": "주식 리딩방",
+          "riskLevel": "critical",
+          "explanation": "손실보전 약속은 자본시장법 위반, 수익 조작 가능성"
         },
         {
-          "text": "스테이킹 수익",
-          "riskScore": 72,
-          "variants": ["스테이킹 연 200%", "예치 이자", "코인 예금"],
-          "explanation": "고수익 스테이킹 빙자 가상화폐 사기"
+          "id": "bp-007",
+          "text": "FX마진 자동매매 봇 월 수익 500만원 보장",
+          "category": "investment",
+          "scamType": "FX마진 리딩방",
+          "riskLevel": "critical",
+          "explanation": "FX 자동매매 수익 보장은 불법이며 가짜 플랫폼 유도 신호"
         },
         {
-          "text": "내부자 정보",
-          "riskScore": 90,
-          "variants": ["내부 정보", "극비 정보", "선공개 정보", "미공개 정보"],
-          "explanation": "미공개정보이용 불공정거래 가능성"
+          "id": "bp-008",
+          "text": "내부자 정보로 이번 주 특정 종목 2배 확정",
+          "category": "investment",
+          "scamType": "주식 리딩방",
+          "riskLevel": "critical",
+          "explanation": "미공개 내부 정보 이용은 자본시장법상 불공정거래 범죄"
         },
         {
-          "text": "선물거래 자동화",
-          "riskScore": 80,
-          "variants": ["FX 자동화", "해외선물 시스템", "자동 트레이딩"],
-          "explanation": "FX마진/해외선물 리딩방 사기 패턴"
+          "id": "bp-009",
+          "text": "월 50% 수익, 원금 보장, 지금 바로 입금",
+          "category": "investment",
+          "scamType": "코인/주식 사기",
+          "riskLevel": "critical",
+          "explanation": "월 50% 수익은 폰지사기의 전형적 미끼 수익률"
         },
         {
-          "text": "상장 직전 코인",
-          "riskScore": 88,
-          "variants": ["상장 전 코인", "Pre-ICO", "프리세일 코인", "상장예정 토큰"],
-          "explanation": "미상장 코인 선판매 사기"
+          "id": "bp-010",
+          "text": "ChatGPT 연동 퀀트 시스템, 연 240% 수익 백테스트 완료",
+          "category": "investment",
+          "scamType": "AI 자동매매",
+          "riskLevel": "critical",
+          "explanation": "AI 기술 빙자 허위 백테스트, 실제 운용 실적과 무관"
+        },
+        {
+          "id": "bp-011",
+          "text": "해외선물 전문 트레이더 신호 복사매매, 리스크 제로",
+          "category": "investment",
+          "scamType": "FX/해외선물",
+          "riskLevel": "critical",
+          "explanation": "복사매매 가장 가짜 플랫폼 수익 조작 수법"
+        },
+        {
+          "id": "bp-012",
+          "text": "가상화폐 거래소 특별 파트너 VIP 수익률 연 400%",
+          "category": "investment",
+          "scamType": "코인 리딩방",
+          "riskLevel": "critical",
+          "explanation": "허위 거래소 파트너 주장, 가짜 앱 유도 패턴"
+        },
+        {
+          "id": "bp-013",
+          "text": "코인 출금 언제든지 가능, 원금 + 수익 즉시 인출",
+          "category": "investment",
+          "scamType": "코인 리딩방",
+          "riskLevel": "critical",
+          "explanation": "출금 가능 강조 후 실제 출금 시 추가 세금 요구하는 수법"
+        },
+        {
+          "id": "bp-014",
+          "text": "300만원으로 6개월 만에 5000만원 달성 인증",
+          "category": "investment",
+          "scamType": "FX/해외선물",
+          "riskLevel": "critical",
+          "explanation": "조작된 수익 인증샷으로 투자 유도하는 전형적 패턴"
+        },
+        {
+          "id": "bp-015",
+          "text": "딥러닝 알고리즘 수익 검증 완료, 손실 시 전액 환불",
+          "category": "investment",
+          "scamType": "AI 자동매매",
+          "riskLevel": "critical",
+          "explanation": "검증 불가 알고리즘 + 손실 환불 조건은 실현 불가 약속"
+        },
+        {
+          "id": "bp-016",
+          "text": "이번 주 급등 종목 단 10명에게만 공개",
+          "category": "investment",
+          "scamType": "주식 리딩방",
+          "riskLevel": "critical",
+          "explanation": "희소성 조작으로 즉각 결정 유도하는 심리 조작 수법"
+        },
+        {
+          "id": "bp-017",
+          "text": "코인 프리세일 선착순 참여, 상장 후 5~10배 확정",
+          "category": "investment",
+          "scamType": "코인 리딩방",
+          "riskLevel": "critical",
+          "explanation": "미상장 토큰 선판매 후 잠적하는 러그풀 사기"
+        },
+        {
+          "id": "bp-018",
+          "text": "해외 규제 우회, 국내 세금 없이 수익 극대화",
+          "category": "investment",
+          "scamType": "FX마진 리딩방",
+          "riskLevel": "critical",
+          "explanation": "조세 회피 권유는 범죄이며 미등록 해외 브로커 신호"
+        },
+        {
+          "id": "bp-019",
+          "text": "수익 인증 계좌 공개, 이미 1,000명 수익 달성",
+          "category": "investment",
+          "scamType": "주식/코인 리딩방",
+          "riskLevel": "high",
+          "explanation": "조작된 수익 인증으로 신뢰 형성 후 유료 가입 유도"
+        },
+        {
+          "id": "bp-020",
+          "text": "무료 체험방 입장, VIP 업그레이드 시 1억 달성",
+          "category": "investment",
+          "scamType": "주식 리딩방",
+          "riskLevel": "high",
+          "explanation": "무료 미끼로 진입 후 단계적 유료 전환 패턴"
+        },
+        {
+          "id": "bp-021",
+          "text": "토큰 에어드롭 100만원 상당, 지금 지갑 연결",
+          "category": "investment",
+          "scamType": "코인 피싱",
+          "riskLevel": "critical",
+          "explanation": "지갑 연결 요구는 개인 키 탈취 및 자산 전액 탈취 위험"
+        },
+        {
+          "id": "bp-022",
+          "text": "비트코인 반감기 직전 상승 확정, 지금이 마지막 기회",
+          "category": "investment",
+          "scamType": "코인 리딩방",
+          "riskLevel": "high",
+          "explanation": "시장 이벤트 악용한 긴급성 조작으로 즉각 결정 유도"
+        },
+        {
+          "id": "bp-023",
+          "text": "전문 트레이더 5년 운용 성과 연평균 180%",
+          "category": "investment",
+          "scamType": "FX/해외선물",
+          "riskLevel": "critical",
+          "explanation": "5년 연평균 180%는 물리적으로 불가능한 수익률"
+        },
+        {
+          "id": "bp-024",
+          "text": "키움증권·삼성증권 연동 자동매매 시스템",
+          "category": "investment",
+          "scamType": "AI 자동매매",
+          "riskLevel": "high",
+          "explanation": "실제 증권사 이름 도용으로 신뢰도 허위 조작"
+        },
+        {
+          "id": "bp-025",
+          "text": "로맨스 스캠 없는 순수 투자, 함께 부자 됩시다",
+          "category": "investment",
+          "scamType": "코인/주식 사기",
+          "riskLevel": "critical",
+          "explanation": "로맨스 스캠이나 피그 부처링 접근 시 자주 사용되는 역설적 표현"
+        },
+        {
+          "id": "bp-026",
+          "text": "VIP 전용 프라이빗 펀드 연 수익률 35%",
+          "category": "investment",
+          "scamType": "유사수신",
+          "riskLevel": "critical",
+          "explanation": "유사수신행위 전형 패턴, 금융감독원 미등록 투자상품"
+        },
+        {
+          "id": "bp-027",
+          "text": "워런 버핏도 추천한 AI 투자 시스템 (영상 공유)",
+          "category": "investment",
+          "scamType": "AI 자동매매",
+          "riskLevel": "critical",
+          "explanation": "딥페이크 영상으로 유명 투자자를 사칭하는 신종 사기"
+        },
+        {
+          "id": "bp-028",
+          "text": "세금 납부 후 즉시 출금 가능, 30% 세금만 먼저",
+          "category": "investment",
+          "scamType": "코인/FX 사기",
+          "riskLevel": "critical",
+          "explanation": "출금 전 세금 선납 요구는 추가 편취의 전형적 수법"
+        },
+        {
+          "id": "bp-029",
+          "text": "해외 거래소 바이낸스 특별 계정, 출금 보장",
+          "category": "investment",
+          "scamType": "코인 리딩방",
+          "riskLevel": "critical",
+          "explanation": "유명 거래소 사칭 가짜 플랫폼 유도 패턴"
+        },
+        {
+          "id": "bp-030",
+          "text": "1천만원 투자, 매월 50만원 이자 지급 보장",
+          "category": "investment",
+          "scamType": "유사수신",
+          "riskLevel": "critical",
+          "explanation": "월 5% 이자 지급 보장은 유사수신행위 법 위반"
+        },
+        {
+          "id": "bp-031",
+          "text": "곧 급등할 종목 미리 선점, 지금이 기회",
+          "category": "investment",
+          "scamType": "주식 리딩방",
+          "riskLevel": "high",
+          "explanation": "선행매매 유도 미끼 문구"
+        },
+        {
+          "id": "bp-032",
+          "text": "주식 단기간 300% 수익 인증 스크린샷 공유",
+          "category": "investment",
+          "scamType": "주식 리딩방",
+          "riskLevel": "high",
+          "explanation": "포토샵 조작된 수익 인증으로 신뢰 구축"
+        },
+        {
+          "id": "bp-033",
+          "text": "코인 선물 레버리지 100배, 소액으로 대박",
+          "category": "investment",
+          "scamType": "FX/코인 선물",
+          "riskLevel": "critical",
+          "explanation": "고레버리지 투자는 전액 손실 위험이 극도로 높음"
+        },
+        {
+          "id": "bp-034",
+          "text": "스마트 컨트랙트 자동 수익 배분, 믿고 맡기세요",
+          "category": "investment",
+          "scamType": "코인 DeFi 사기",
+          "riskLevel": "critical",
+          "explanation": "검증되지 않은 스마트컨트랙트에 자금 위탁은 러그풀 위험"
+        },
+        {
+          "id": "bp-035",
+          "text": "국내 최초 AI 퀀트 헤지펀드 일반 투자자 모집",
+          "category": "investment",
+          "scamType": "AI 자동매매",
+          "riskLevel": "critical",
+          "explanation": "미등록 사모펀드 모집은 자본시장법 위반"
+        },
+        {
+          "id": "bp-036",
+          "text": "선물거래 계좌 대리 운영, 손실 나면 배상",
+          "category": "investment",
+          "scamType": "FX/해외선물",
+          "riskLevel": "critical",
+          "explanation": "계좌 대리 운영 후 원격 접근으로 자금 탈취 위험"
+        },
+        {
+          "id": "bp-037",
+          "text": "이 코인 백서 보셨나요? 3개월 내 100배 확실",
+          "category": "investment",
+          "scamType": "코인 리딩방",
+          "riskLevel": "high",
+          "explanation": "코인 백서 내용 과장으로 투자 유도하는 사기"
+        },
+        {
+          "id": "bp-038",
+          "text": "텔레그램 VIP방 한 달 수익 월 600만원 증거",
+          "category": "investment",
+          "scamType": "주식/코인 리딩방",
+          "riskLevel": "high",
+          "explanation": "텔레그램 VIP방 수익 조작 화면 공유 패턴"
+        },
+        {
+          "id": "bp-039",
+          "text": "NFT 민팅 선착순, 상장 후 최소 5배 이상",
+          "category": "investment",
+          "scamType": "NFT 사기",
+          "riskLevel": "high",
+          "explanation": "NFT 민팅 사기로 수익 후 잠적하는 러그풀 패턴"
+        },
+        {
+          "id": "bp-040",
+          "text": "미국 나스닥 상장 예정 기업 프리IPO 투자",
+          "category": "investment",
+          "scamType": "주식 사기",
+          "riskLevel": "critical",
+          "explanation": "허위 상장 예정 주식 판매 사기"
+        },
+        {
+          "id": "bp-041",
+          "text": "로보어드바이저 연 수익률 45%, 최소 투자금 500만원",
+          "category": "investment",
+          "scamType": "AI 자동매매",
+          "riskLevel": "critical",
+          "explanation": "금융위원회 미인가 로보어드바이저 불법 모집"
+        },
+        {
+          "id": "bp-042",
+          "text": "달러 인버스 ETF 단기 급등, 지금 매수 타이밍",
+          "category": "investment",
+          "scamType": "주식 리딩방",
+          "riskLevel": "high",
+          "explanation": "특정 종목 매수 유도를 통한 선행매매 수법"
+        },
+        {
+          "id": "bp-043",
+          "text": "전 금융감독원 출신 전문가 운영 리딩방",
+          "category": "investment",
+          "scamType": "주식 리딩방",
+          "riskLevel": "high",
+          "explanation": "허위 경력을 내세워 신뢰도를 조작하는 수법"
+        },
+        {
+          "id": "bp-044",
+          "text": "해외 파생상품 거래 합법적으로 세금 없이",
+          "category": "investment",
+          "scamType": "FX마진",
+          "riskLevel": "high",
+          "explanation": "조세 회피 권유는 탈세 방조이며 불법 거래 신호"
+        },
+        {
+          "id": "bp-045",
+          "text": "수익금 비트코인으로 지급, 추적 불가",
+          "category": "investment",
+          "scamType": "코인 사기",
+          "riskLevel": "critical",
+          "explanation": "추적 불가 코인 지급은 사기 도주 후 대비 수법"
+        },
+        {
+          "id": "bp-046",
+          "text": "이번 달 마지막 모집, 다음 달엔 문 닫음",
+          "category": "investment",
+          "scamType": "주식/코인 리딩방",
+          "riskLevel": "high",
+          "explanation": "긴급성 조작으로 즉각 결정 유도, 검토 시간 차단"
+        },
+        {
+          "id": "bp-047",
+          "text": "주식 비밀 계좌 공개, 1억 달성 증명",
+          "category": "investment",
+          "scamType": "주식 리딩방",
+          "riskLevel": "high",
+          "explanation": "검증 불가 계좌 공개로 신뢰 조작"
+        },
+        {
+          "id": "bp-048",
+          "text": "코인 노드 운영 수익 매달 지급, 초기 입금 필요",
+          "category": "investment",
+          "scamType": "코인 유사수신",
+          "riskLevel": "critical",
+          "explanation": "노드 운영 빙자 투자금 모집 사기"
+        },
+        {
+          "id": "bp-049",
+          "text": "P2P 투자 연 수익률 20%, 원금 보장 협약",
+          "category": "investment",
+          "scamType": "유사수신/P2P 사기",
+          "riskLevel": "critical",
+          "explanation": "원금 보장 P2P는 불법, 실제 허위 대출 연계 사기"
+        },
+        {
+          "id": "bp-050",
+          "text": "1000명 한정 프리미엄 투자클럽, 지금 선착순 마감",
+          "category": "investment",
+          "scamType": "주식/코인 리딩방",
+          "riskLevel": "high",
+          "explanation": "한정 멤버십 조작으로 고가 가입비 유도"
         }
       ]
     },
@@ -74,251 +416,655 @@
       "id": "education",
       "name": "강연/교육형",
       "weight": 0.85,
+      "count": 40,
       "phrases": [
         {
-          "text": "월 1억 자동수익",
-          "riskScore": 97,
-          "variants": ["월 1억", "자동으로 1억", "시스템으로 월 1억"],
-          "explanation": "비현실적 수익 과장"
+          "id": "bp-051",
+          "text": "월 1억 자동수익 시스템, 저도 3년 만에 달성했습니다",
+          "category": "education",
+          "scamType": "성공팔이",
+          "riskLevel": "critical",
+          "explanation": "비현실적 수익 과장 + 공감 유도 성공팔이 전형 문구"
         },
         {
-          "text": "인생을 바꾸는",
-          "riskScore": 55,
-          "variants": ["인생 바꾸기", "삶을 바꾸는 강의", "인생역전"],
-          "explanation": "성공팔이 강연 전형적 표현"
+          "id": "bp-052",
+          "text": "이미 3,000명이 월 300 달성, 당신만 모르는 비법",
+          "category": "education",
+          "scamType": "부업 강의",
+          "riskLevel": "critical",
+          "explanation": "사회적 증거 조작으로 결정 유도, 수치는 검증 불가"
         },
         {
-          "text": "경제적 자유",
-          "riskScore": 60,
-          "variants": ["파이어족", "경제적 독립", "조기 은퇴", "파이낸셜 프리덤"],
-          "explanation": "자기계발 사기 빈번 사용 표현"
+          "id": "bp-053",
+          "text": "인생을 바꾸는 단 하나의 강의, 지금 신청하면 50% 할인",
+          "category": "education",
+          "scamType": "성공팔이",
+          "riskLevel": "high",
+          "explanation": "과장된 가치 주장 + 할인 압박으로 충동 구매 유도"
         },
         {
-          "text": "무자본 창업",
-          "riskScore": 72,
-          "variants": ["자본금 0원", "돈 없이 창업", "무자본으로 시작"],
-          "explanation": "현실적이지 않은 창업 약속"
+          "id": "bp-054",
+          "text": "6개월이면 개발자 취업 보장, 연봉 5,000만원+",
+          "category": "education",
+          "scamType": "코딩 부트캠프",
+          "riskLevel": "high",
+          "explanation": "현실과 동떨어진 취업 보장, 연봉 과장 광고"
         },
         {
-          "text": "강의만 들으면",
-          "riskScore": 78,
-          "variants": ["강의만 완강하면", "수강 후 바로", "듣기만 해도"],
-          "explanation": "성과 보장 허위 표현"
+          "id": "bp-055",
+          "text": "국가공인 준비 중인 자격증, 가장 빠르게 취득하세요",
+          "category": "education",
+          "scamType": "민간자격증 사기",
+          "riskLevel": "critical",
+          "explanation": "'국가공인 준비 중'은 현재 민간자격에 불과, 오해 유발"
         },
         {
-          "text": "수강생 90% 성공",
-          "riskScore": 82,
-          "variants": ["수강생 95% 취업", "합격률 100%", "성공률 90%"],
-          "explanation": "조작된 성공 통계"
+          "id": "bp-056",
+          "text": "AI 시대 필수 자격증으로 월 1,000만원 컨설턴트",
+          "category": "education",
+          "scamType": "민간자격증 사기",
+          "riskLevel": "critical",
+          "explanation": "AI 트렌드 편승한 민간자격증 수익 허위 과장"
         },
         {
-          "text": "국가공인",
-          "riskScore": 75,
-          "variants": ["국가 공인 준비 중", "정부 인증", "교육부 인가"],
-          "explanation": "공인 자격 허위 표시 - Q-NET에서 확인 필요"
+          "id": "bp-057",
+          "text": "람보르기니 타는 유튜버의 실제 수익 강의",
+          "category": "education",
+          "scamType": "성공팔이",
+          "riskLevel": "high",
+          "explanation": "과시적 소비 이미지로 성공 신뢰도 조작"
         },
         {
-          "text": "취업 보장",
-          "riskScore": 85,
-          "variants": ["취업 100% 보장", "취업 안 되면 환불", "취업 보장 서비스"],
-          "explanation": "법적으로 취업 보장 불가 - 조건 확인 필요"
+          "id": "bp-058",
+          "text": "수강생 95% 취업 성공, 취업 안 되면 전액 환불",
+          "category": "education",
+          "scamType": "코딩 부트캠프",
+          "riskLevel": "high",
+          "explanation": "취업률 기준 불명확, 환불 조건이 사실상 불가능"
         },
         {
-          "text": "비전공자도 6개월",
-          "riskScore": 70,
-          "variants": ["6개월이면 개발자", "비전공자 취업 성공", "3개월 완성"],
-          "explanation": "부트캠프 과장 광고 전형적 표현"
+          "id": "bp-059",
+          "text": "나도 처음엔 빚 5천만원, 지금은 월 2천만원",
+          "category": "education",
+          "scamType": "성공팔이",
+          "riskLevel": "high",
+          "explanation": "감정적 공감 서사로 신뢰 형성, 검증 불가"
         },
         {
-          "text": "나도 처음엔 평범했다",
-          "riskScore": 65,
-          "variants": ["저도 처음엔", "흙수저 출신", "빈손으로 시작"],
-          "explanation": "성공팔이 서사 패턴"
+          "id": "bp-060",
+          "text": "경제적 자유를 얻은 37명의 비결 공개 강의",
+          "category": "education",
+          "scamType": "성공팔이",
+          "riskLevel": "high",
+          "explanation": "구체적 숫자로 신뢰도 조작, 실제 검증 불가"
+        },
+        {
+          "id": "bp-061",
+          "text": "ISA 계좌로 수강료 0원, 국비지원 100% 환급",
+          "category": "education",
+          "scamType": "코딩 부트캠프",
+          "riskLevel": "high",
+          "explanation": "ISA 대출 편법 이용 유도, 실제 수강료 부담 은폐"
+        },
+        {
+          "id": "bp-062",
+          "text": "제주도 원격 근무하며 월 1,000 버는 법 공개",
+          "category": "education",
+          "scamType": "성공팔이",
+          "riskLevel": "high",
+          "explanation": "라이프스타일 판매로 고가 코칭 프로그램 유도"
+        },
+        {
+          "id": "bp-063",
+          "text": "VIP 1:1 코칭 단 5자리, 수강료 500만원",
+          "category": "education",
+          "scamType": "성공팔이",
+          "riskLevel": "high",
+          "explanation": "희소성 조작 + 고가 코칭으로 충동 결정 유도"
+        },
+        {
+          "id": "bp-064",
+          "text": "네카라쿠배 취업자 다수 배출, 수료 후 취업 100%",
+          "category": "education",
+          "scamType": "코딩 부트캠프",
+          "riskLevel": "high",
+          "explanation": "IT 대기업 취업 100% 주장은 허위 광고"
+        },
+        {
+          "id": "bp-065",
+          "text": "블로그 글 하나로 10만원, GPT로 자동화 가능",
+          "category": "education",
+          "scamType": "부업 강의",
+          "riskLevel": "high",
+          "explanation": "AI 부업 자동화 과장, 실제 수익 불가 구조 은폐"
+        },
+        {
+          "id": "bp-066",
+          "text": "ESG 전문가 자격으로 대기업 컨설팅, 건당 100만원",
+          "category": "education",
+          "scamType": "민간자격증 사기",
+          "riskLevel": "high",
+          "explanation": "ESG 민간자격증 실제 취업 효용 극히 낮음"
+        },
+        {
+          "id": "bp-067",
+          "text": "10억 달성한 흙수저의 비결, 이 강의 하나로 충분",
+          "category": "education",
+          "scamType": "성공팔이",
+          "riskLevel": "high",
+          "explanation": "계층 이동 서사로 감정 자극, 고가 강의 판매"
+        },
+        {
+          "id": "bp-068",
+          "text": "유튜브 알고리즘 비법, 6주 만에 구독자 1만 달성",
+          "category": "education",
+          "scamType": "부업 강의",
+          "riskLevel": "medium",
+          "explanation": "알고리즘 비법 과장, 실제 성과는 개인 편차 극심"
+        },
+        {
+          "id": "bp-069",
+          "text": "전자책 한 권 만들어 자는 동안 수익, 평생 자동화",
+          "category": "education",
+          "scamType": "부업 강의",
+          "riskLevel": "medium",
+          "explanation": "자동화 수익 과장, 초기 노력 및 마케팅 비용 은폐"
+        },
+        {
+          "id": "bp-070",
+          "text": "수강생 후기 100% 5점, 환불 요청 없음",
+          "category": "education",
+          "scamType": "성공팔이/부업 강의",
+          "riskLevel": "high",
+          "explanation": "100% 긍정 후기는 조작 가능성, 부정 후기 삭제 신호"
+        },
+        {
+          "id": "bp-071",
+          "text": "5일 만에 취득 가능한 심리상담사 자격증",
+          "category": "education",
+          "scamType": "민간자격증 사기",
+          "riskLevel": "high",
+          "explanation": "5일 취득 민간자격증은 실제 전문성 없음"
+        },
+        {
+          "id": "bp-072",
+          "text": "강의 수강료 300만원, 첫 달에 회수 가능합니다",
+          "category": "education",
+          "scamType": "부업 강의",
+          "riskLevel": "critical",
+          "explanation": "수강료 첫 달 회수 보장은 허위 수익 약속"
+        },
+        {
+          "id": "bp-073",
+          "text": "인플루언서 1억 팔로워 만드는 법, 나도 됐으니 당신도",
+          "category": "education",
+          "scamType": "성공팔이",
+          "riskLevel": "medium",
+          "explanation": "생존 편향 이용한 성공 과장, 실패 사례 은폐"
+        },
+        {
+          "id": "bp-074",
+          "text": "국비지원 코딩 과정, 취업 보장 계약서 작성 가능",
+          "category": "education",
+          "scamType": "코딩 부트캠프",
+          "riskLevel": "high",
+          "explanation": "취업 보장 계약서 조건이 사실상 불이행 가능"
+        },
+        {
+          "id": "bp-075",
+          "text": "메타버스 전문가 자격증으로 강사 활동 월 500만원",
+          "category": "education",
+          "scamType": "민간자격증 사기",
+          "riskLevel": "high",
+          "explanation": "메타버스 민간자격증 실제 강사 수요 없음"
+        },
+        {
+          "id": "bp-076",
+          "text": "부자들만 아는 돈의 법칙, 지금 공개합니다",
+          "category": "education",
+          "scamType": "성공팔이",
+          "riskLevel": "medium",
+          "explanation": "비밀 정보 프레이밍으로 구매 욕구 자극"
+        },
+        {
+          "id": "bp-077",
+          "text": "SNS 팔로워 10만 만드는 6주 완성 강의",
+          "category": "education",
+          "scamType": "부업 강의",
+          "riskLevel": "medium",
+          "explanation": "SNS 성장 과장, 실제 결과 보장 불가"
+        },
+        {
+          "id": "bp-078",
+          "text": "ChatGPT로 자동화 부업, 하루 30분으로 월 200만원",
+          "category": "education",
+          "scamType": "부업 강의",
+          "riskLevel": "high",
+          "explanation": "AI 자동화 부업 수익 과장, 실제 초기 투자 은폐"
+        },
+        {
+          "id": "bp-079",
+          "text": "수강료 환급 챌린지, 목표 달성 시 전액 돌려드림",
+          "category": "education",
+          "scamType": "성공팔이",
+          "riskLevel": "medium",
+          "explanation": "환급 조건이 불명확하거나 달성 불가 수준으로 설정"
+        },
+        {
+          "id": "bp-080",
+          "text": "탄소중립 전문가 자격증, 정부 정책 수혜 직종",
+          "category": "education",
+          "scamType": "민간자격증 사기",
+          "riskLevel": "medium",
+          "explanation": "정부 정책 연계 주장으로 취업 수요 과장"
+        },
+        {
+          "id": "bp-081",
+          "text": "현직 개발자 멘토링 포함, 포트폴리오 완성 보장",
+          "category": "education",
+          "scamType": "코딩 부트캠프",
+          "riskLevel": "medium",
+          "explanation": "멘토 자격 및 포트폴리오 품질 검증 불가"
+        },
+        {
+          "id": "bp-082",
+          "text": "학자금 대출로 강의 결제 가능, 나중에 갚으면 돼요",
+          "category": "education",
+          "scamType": "부업 강의",
+          "riskLevel": "critical",
+          "explanation": "학자금 대출 편법 이용 유도는 부채 위험 은폐"
+        },
+        {
+          "id": "bp-083",
+          "text": "온라인 100% 합격 보장 민간자격증 시험",
+          "category": "education",
+          "scamType": "민간자격증 사기",
+          "riskLevel": "high",
+          "explanation": "온라인 100% 합격은 자격증의 실제 가치를 의미 없게 함"
+        },
+        {
+          "id": "bp-084",
+          "text": "10년 노하우 집약 강의, 딱 100명만 받습니다",
+          "category": "education",
+          "scamType": "성공팔이",
+          "riskLevel": "high",
+          "explanation": "인위적 희소성으로 즉각 결정 유도"
+        },
+        {
+          "id": "bp-085",
+          "text": "비전공자 3개월 만에 개발자 전환, 평균 연봉 4500",
+          "category": "education",
+          "scamType": "코딩 부트캠프",
+          "riskLevel": "high",
+          "explanation": "취업 기간·직군 조건 숨긴 허위 연봉 광고"
+        },
+        {
+          "id": "bp-086",
+          "text": "강사 직접 운영 중인 사업 수익 공개 (월 3000만원)",
+          "category": "education",
+          "scamType": "성공팔이",
+          "riskLevel": "high",
+          "explanation": "검증 불가 사업 수익 공개로 신뢰 조작"
+        },
+        {
+          "id": "bp-087",
+          "text": "수강료 500만원, 첫 달부터 수익으로 회수 보장",
+          "category": "education",
+          "scamType": "부업 강의",
+          "riskLevel": "critical",
+          "explanation": "수강료 즉각 회수 보장은 법적으로 허용 불가한 약속"
+        },
+        {
+          "id": "bp-088",
+          "text": "그룹 코칭 + 디스코드 커뮤니티, 월 20만원 멤버십",
+          "category": "education",
+          "scamType": "성공팔이",
+          "riskLevel": "medium",
+          "explanation": "커뮤니티 추가 과금 구조, 실질적 가치 미검증"
+        },
+        {
+          "id": "bp-089",
+          "text": "강의 수강 후 취업 보장 계약서 드립니다",
+          "category": "education",
+          "scamType": "코딩 부트캠프",
+          "riskLevel": "high",
+          "explanation": "계약서 조건이 비현실적이어서 실질적 보장 없음"
+        },
+        {
+          "id": "bp-090",
+          "text": "노동 없이 자산이 자라는 법, 성공자의 공통 비밀",
+          "category": "education",
+          "scamType": "성공팔이",
+          "riskLevel": "medium",
+          "explanation": "불로소득 판타지 조작으로 고가 강의 구매 유도"
         }
       ]
     },
     {
-      "id": "side-job",
+      "id": "side-business",
       "name": "부업형",
       "weight": 0.85,
+      "count": 40,
       "phrases": [
         {
-          "text": "하루 30분",
-          "riskScore": 68,
-          "variants": ["하루 1시간", "하루 10분", "매일 30분으로"],
-          "explanation": "비현실적 투입 시간 대비 수익 약속"
+          "id": "bp-091",
+          "text": "10초에 5천원, 하루 10분으로 월 150만원 가능",
+          "category": "side-business",
+          "scamType": "팀미션 사기",
+          "riskLevel": "critical",
+          "explanation": "어떤 합법적 서비스도 이 단가를 지급할 수 없음"
         },
         {
-          "text": "재택근무로 월 300",
-          "riskScore": 75,
-          "variants": ["집에서 월 300", "재택으로 고수익", "집에서 일하며 수익"],
-          "explanation": "재택 부업 과대 광고"
+          "id": "bp-092",
+          "text": "좋아요 1개 1만원, 오늘 신청 마감",
+          "category": "side-business",
+          "scamType": "팀미션 사기",
+          "riskLevel": "critical",
+          "explanation": "SNS 좋아요 고단가 지급 미끼 사기"
         },
         {
-          "text": "10초에 5천원",
-          "riskScore": 99,
-          "variants": ["1분에 만원", "버튼 하나에 수천원", "클릭 한번에"],
-          "explanation": "명백한 사기 문구 - 어떤 정상 서비스도 이런 구조 없음"
+          "id": "bp-093",
+          "text": "스마트스토어 대신 운영, 월 500만원 순수익 보장",
+          "category": "side-business",
+          "scamType": "스마트스토어 사기",
+          "riskLevel": "critical",
+          "explanation": "대리 운영 수익 보장 후 운영비 선납 편취 수법"
         },
         {
-          "text": "좋아요만 눌러도",
-          "riskScore": 95,
-          "variants": ["좋아요 누르면 돈", "SNS 좋아요 알바", "팔로우만 해도"],
-          "explanation": "SNS 부업 사기 전형적 패턴"
+          "id": "bp-094",
+          "text": "아마존 FBA로 월 1,000만원, 6개월 만에 성공 가능",
+          "category": "side-business",
+          "scamType": "해외구매대행 사기",
+          "riskLevel": "critical",
+          "explanation": "아마존 FBA 수익 극도로 과장, 초기 비용 및 실패율 은폐"
         },
         {
-          "text": "누구나 할 수 있는",
-          "riskScore": 50,
-          "variants": ["누구든 가능한", "아무나 할 수 있는", "특별한 기술 필요 없는"],
-          "explanation": "진입장벽 낮춰 대규모 모집 유도"
+          "id": "bp-095",
+          "text": "재택 가능 부업, 하루 30분으로 월 300만원",
+          "category": "side-business",
+          "scamType": "부업 강의",
+          "riskLevel": "critical",
+          "explanation": "시간 대비 수익 비현실적 과장"
         },
         {
-          "text": "스마트스토어 대리 운영",
-          "riskScore": 73,
-          "variants": ["스토어 대신 운영", "쇼핑몰 위탁 운영", "내 대신 운영"],
-          "explanation": "스마트스토어 사기 빈번 문구"
+          "id": "bp-096",
+          "text": "앱 다운로드 1건에 2만원, 무제한 수익 가능",
+          "category": "side-business",
+          "scamType": "팀미션 사기",
+          "riskLevel": "critical",
+          "explanation": "앱 설치 건당 2만원 지급은 사기성 허위 광고"
         },
         {
-          "text": "아마존으로 월 1000",
-          "riskScore": 78,
-          "variants": ["아마존 FBA 수익", "해외 셀러 수익", "글로벌 마켓 수익"],
-          "explanation": "해외구매대행/셀러 사기 패턴"
+          "id": "bp-097",
+          "text": "쿠팡 파트너스 자동화, 하루 1시간으로 월 200",
+          "category": "side-business",
+          "scamType": "부업 강의",
+          "riskLevel": "high",
+          "explanation": "쿠팡 파트너스 수익 과장, 실제 수입은 수천원 수준"
         },
         {
-          "text": "팔로워 1만명",
-          "riskScore": 65,
-          "variants": ["팔로워 늘리기", "계정 키우기 비법", "인플루언서 만들기"],
-          "explanation": "가짜 팔로워 판매 또는 사기성 강의"
-        }
-      ]
-    },
-    {
-      "id": "real-estate",
-      "name": "부동산형",
-      "weight": 0.8,
-      "phrases": [
-        {
-          "text": "소액 투자",
-          "riskScore": 55,
-          "variants": ["소액으로 부동산", "100만원으로 부동산", "적은 돈으로 투자"],
-          "explanation": "소액 투자 빙자 기획부동산 사기"
+          "id": "bp-098",
+          "text": "유튜브 구독 1건에 3천원, 오늘 10건 가능",
+          "category": "side-business",
+          "scamType": "팀미션 사기",
+          "riskLevel": "critical",
+          "explanation": "유튜브 구독 건당 지급은 사기 미끼 전형 패턴"
         },
         {
-          "text": "개발 호재 확정",
-          "riskScore": 82,
-          "variants": ["개발 확정 지역", "GTX 확정", "재개발 확정"],
-          "explanation": "확정되지 않은 개발 계획 과장"
+          "id": "bp-099",
+          "text": "중국 직소싱 독점 루트, 스마트스토어 첫 달 수익",
+          "category": "side-business",
+          "scamType": "스마트스토어 사기",
+          "riskLevel": "high",
+          "explanation": "독점 소싱 루트 허위 주장, 상품 선납 유도"
         },
         {
-          "text": "갭투자 비법",
-          "riskScore": 70,
-          "variants": ["갭투자 노하우", "전세 끼고 투자", "갭투자 강의"],
-          "explanation": "전세사기 연루 가능성"
+          "id": "bp-100",
+          "text": "선입금 10만원, 미션 완수 시 15만원 환급",
+          "category": "side-business",
+          "scamType": "보상 플랫폼 사기",
+          "riskLevel": "critical",
+          "explanation": "선입금 후 미션 완수를 어렵게 하여 환급 거부"
         },
         {
-          "text": "전문가만 아는",
-          "riskScore": 75,
-          "variants": ["부동산 비밀", "전문가 비법", "업계 내부자 정보"],
-          "explanation": "검증 불가 전문성 주장"
-        }
-      ]
-    },
-    {
-      "id": "certificate",
-      "name": "자격증형",
-      "weight": 0.75,
-      "phrases": [
-        {
-          "text": "수료만 하면",
-          "riskScore": 65,
-          "variants": ["과정만 완료하면", "수강 완료 시", "이수하면 바로"],
-          "explanation": "자격증 취득 후 수익 보장 허위 표현"
+          "id": "bp-101",
+          "text": "네이버 상위 노출 비법 강의, 수강 후 즉시 적용",
+          "category": "side-business",
+          "scamType": "부업 강의",
+          "riskLevel": "medium",
+          "explanation": "SEO 비법 강의 과장, 네이버 알고리즘 지속 변경"
         },
         {
-          "text": "AI 자격증 월 1000",
-          "riskScore": 90,
-          "variants": ["자격증 하나로 고수익", "자격증 취득 후 월 1천", "자격증으로 수익"],
-          "explanation": "자격증 과대 광고"
+          "id": "bp-102",
+          "text": "가짜 리뷰 작성 건당 5만원, 하루 10건 가능",
+          "category": "side-business",
+          "scamType": "팀미션 사기",
+          "riskLevel": "critical",
+          "explanation": "허위 리뷰 작성은 불법이며 사기성 미션 미끼"
         },
         {
-          "text": "ESG 자격증",
-          "riskScore": 60,
-          "variants": ["ESG 강사 자격", "탄소중립 자격증", "ESG 전문가"],
-          "explanation": "난립하는 민간 자격증 (192개+)"
-        }
-      ]
-    },
-    {
-      "id": "gambling",
-      "name": "도박형",
-      "weight": 0.95,
-      "phrases": [
-        {
-          "text": "적중률 95%",
-          "riskScore": 98,
-          "variants": ["적중률 100%", "승률 95%", "예측 적중률 90%"],
-          "explanation": "어떤 예측도 고적중률 보장 불가"
+          "id": "bp-103",
+          "text": "무재고 쇼핑몰로 월 500, 재고 없이 창업",
+          "category": "side-business",
+          "scamType": "스마트스토어 사기",
+          "riskLevel": "high",
+          "explanation": "드롭쉬핑 과장, 실제 수수료·반품 비용 은폐"
         },
         {
-          "text": "전액 환불",
-          "riskScore": 80,
-          "variants": ["전액 환불 보장", "틀리면 환불", "미적중 시 환불"],
-          "explanation": "환불 조건 불명확한 도박 픽스터"
+          "id": "bp-104",
+          "text": "텔레그램 VIP 부업방, 오늘만 무료 입장",
+          "category": "side-business",
+          "scamType": "팀미션 사기",
+          "riskLevel": "high",
+          "explanation": "텔레그램 VIP방 진입 후 선입금 요구 패턴"
         },
         {
-          "text": "AI 분석 예측",
-          "riskScore": 88,
-          "variants": ["AI 로또 예측", "AI 스포츠 분석", "AI 경마 예측"],
-          "explanation": "AI 빙자 도박 사기"
+          "id": "bp-105",
+          "text": "아마존 코리아 공식 파트너사 교육 프로그램",
+          "category": "side-business",
+          "scamType": "해외구매대행 사기",
+          "riskLevel": "critical",
+          "explanation": "아마존 공식 파트너 허위 주장으로 신뢰 조작"
         },
         {
-          "text": "이번 주 당첨 번호",
-          "riskScore": 99,
-          "variants": ["로또 당첨 번호 공개", "이번 주 번호 예측", "이번 회차 픽"],
-          "explanation": "로또는 무작위 추첨으로 예측 불가"
-        }
-      ]
-    },
-    {
-      "id": "experiential",
-      "name": "체험단/보상형",
-      "weight": 0.88,
-      "phrases": [
-        {
-          "text": "체험단 참가",
-          "riskScore": 72,
-          "variants": ["체험단 신청", "체험단 모집", "체험단 이벤트", "체험단 행사", "체험단만 해도"],
-          "explanation": "쿠팡/네이버 등 유명 브랜드 사칭 후 카카오톡으로 유도, 개인정보 탈취 또는 수수료 사기"
+          "id": "bp-106",
+          "text": "팔로워 1만명 만드는 강의 + SNS 계정 매매 방법",
+          "category": "side-business",
+          "scamType": "스마트스토어/SNS 사기",
+          "riskLevel": "high",
+          "explanation": "가짜 팔로워 판매 또는 계정 어뷰징 권유"
         },
         {
-          "text": "현금 지급",
-          "riskScore": 78,
-          "variants": ["현금 증정", "현금을 드립니다", "현금 수령", "참가만 해도 현금", "현금 지급!", "시작만해도 현금"],
-          "explanation": "단순 참여에 현금 지급 약속 — 추후 개인정보 수집 또는 추가 비용 요구"
+          "id": "bp-107",
+          "text": "쇼핑몰 위탁 운영 수수료 20%, 나머지 전부 귀하",
+          "category": "side-business",
+          "scamType": "스마트스토어 사기",
+          "riskLevel": "high",
+          "explanation": "위탁 운영비 선납 후 실적 미이행 잠적 패턴"
         },
         {
-          "text": "0원 체험",
-          "riskScore": 68,
-          "variants": ["0원 제공", "무료 체험 물품", "체험 물품 0원", "마련물품 무료", "마련물품 0원"],
-          "explanation": "무료 제품 미끼로 개인정보 탈취 유도"
+          "id": "bp-108",
+          "text": "포인트 미션 완수 시 현금 10만원, 지금 신청",
+          "category": "side-business",
+          "scamType": "보상 플랫폼 사기",
+          "riskLevel": "high",
+          "explanation": "포인트 현금 전환 조건 숨긴 보상형 플랫폼 사기"
         },
         {
-          "text": "카카오톡 채널",
-          "riskScore": 75,
-          "variants": ["카카오 ID추가", "카카오톡 ID", "카카오 채널상담", "카톡 ID추가", "카톡 ID", "오픈채팅방 입장", "채널상담 바로가기"],
-          "explanation": "공식 플랫폼이 아닌 개인 메신저로 유도 — 추후 추적 불가"
+          "id": "bp-109",
+          "text": "상품 주문 미션 완수 후 전액 환급 + 수수료",
+          "category": "side-business",
+          "scamType": "팀미션 사기",
+          "riskLevel": "critical",
+          "explanation": "구매 후 환급 약속 후 잠적하는 구매 대행 사기"
         },
         {
-          "text": "부업 알바",
-          "riskScore": 65,
-          "variants": ["부업알바", "부업알바가능", "부업 알바 가능", "알바 가능", "부업 가능"],
-          "explanation": "SNS 부업/체험단 사기의 진입 문구"
+          "id": "bp-110",
+          "text": "AI 자동화 쇼핑몰, 주문·결제·배송 모두 자동",
+          "category": "side-business",
+          "scamType": "스마트스토어 사기",
+          "riskLevel": "high",
+          "explanation": "AI 쇼핑몰 자동화 과장, 실제 수작업 필요"
         },
         {
-          "text": "제휴 담당",
-          "riskScore": 70,
-          "variants": ["제휴사 담당", "제휴담당자", "담당 박", "담당자입니다", "제휴사 체험단"],
-          "explanation": "유명 기업 제휴 담당자로 위장 — 실제 해당 기업과 무관"
+          "id": "bp-111",
+          "text": "이베이 셀러 3개월 만에 월 300, 수강생 성과 인증",
+          "category": "side-business",
+          "scamType": "해외구매대행 사기",
+          "riskLevel": "high",
+          "explanation": "이베이 셀러 수익 과장, 수수료·반품 비용 은폐"
+        },
+        {
+          "id": "bp-112",
+          "text": "GPT로 블로그 자동화, 하루 10개 포스팅으로 월 100",
+          "category": "side-business",
+          "scamType": "부업 강의",
+          "riskLevel": "high",
+          "explanation": "AI 블로그 자동화 수익 과장, 애드센스 정책 위반 위험"
+        },
+        {
+          "id": "bp-113",
+          "text": "이미 200명이 이 부업으로 월 500 달성",
+          "category": "side-business",
+          "scamType": "팀미션/부업 사기",
+          "riskLevel": "high",
+          "explanation": "조작된 사회적 증거로 참여 유도"
+        },
+        {
+          "id": "bp-114",
+          "text": "크라우드 소싱 데이터 라벨링, 건당 500원 무한정",
+          "category": "side-business",
+          "scamType": "보상 플랫폼 사기",
+          "riskLevel": "medium",
+          "explanation": "데이터 라벨링 단가 과장, 실제 수락 건수 제한"
+        },
+        {
+          "id": "bp-115",
+          "text": "걷기만 해도 코인 적립, 상장 후 10배 예정",
+          "category": "side-business",
+          "scamType": "보상 플랫폼 사기",
+          "riskLevel": "high",
+          "explanation": "걷기 앱 코인 수익화 과장, 상장 보장 불가"
+        },
+        {
+          "id": "bp-116",
+          "text": "스마트폰만 있으면 주부도 월 200, 지금 시작",
+          "category": "side-business",
+          "scamType": "팀미션/부업 사기",
+          "riskLevel": "high",
+          "explanation": "주부 타깃 진입장벽 낮추기 사기 문구"
+        },
+        {
+          "id": "bp-117",
+          "text": "출석 체크 + 퀴즈 풀면 매달 현금 10만원 지급",
+          "category": "side-business",
+          "scamType": "보상 플랫폼 사기",
+          "riskLevel": "high",
+          "explanation": "실제 지급 전 출금 조건 까다롭게 설정 후 잠적"
+        },
+        {
+          "id": "bp-118",
+          "text": "리뷰 하나 작성에 3만원, 하루 5개 가능",
+          "category": "side-business",
+          "scamType": "팀미션 사기",
+          "riskLevel": "critical",
+          "explanation": "허위 리뷰 불법 + 사기성 미션 미끼"
+        },
+        {
+          "id": "bp-119",
+          "text": "드롭쉬핑 자동화로 자는 동안 주문 접수",
+          "category": "side-business",
+          "scamType": "스마트스토어 사기",
+          "riskLevel": "medium",
+          "explanation": "드롭쉬핑 수익성 과장, 실패율 은폐"
+        },
+        {
+          "id": "bp-120",
+          "text": "SNS 계정 대행 관리, 건당 5만원 월 100건 보장",
+          "category": "side-business",
+          "scamType": "SNS 부업 사기",
+          "riskLevel": "high",
+          "explanation": "월 100건 SNS 계정 관리 건단가 허위 과장"
+        },
+        {
+          "id": "bp-121",
+          "text": "텔레그램 팀원 5명 모으면 수당 50만원 지급",
+          "category": "side-business",
+          "scamType": "팀미션 사기",
+          "riskLevel": "critical",
+          "explanation": "하위 모집 수당은 불법 다단계 구조 신호"
+        },
+        {
+          "id": "bp-122",
+          "text": "100일 챌린지 완료 시 입금액의 150% 환급",
+          "category": "side-business",
+          "scamType": "보상 플랫폼 사기",
+          "riskLevel": "critical",
+          "explanation": "100일 미션 완수 조건 까다롭게 하여 환급 거부"
+        },
+        {
+          "id": "bp-123",
+          "text": "유명 브랜드 체험단 모집, 무료 제품 + 현금 5만원",
+          "category": "side-business",
+          "scamType": "체험단 사기",
+          "riskLevel": "high",
+          "explanation": "브랜드 사칭 체험단 사기, 카카오톡으로 개인정보 수집"
+        },
+        {
+          "id": "bp-124",
+          "text": "부업 첫날부터 수익 발생, 실패 사례 없음",
+          "category": "side-business",
+          "scamType": "부업 사기",
+          "riskLevel": "critical",
+          "explanation": "첫날 수익 보장은 허위, 실패 사례 없음은 불가능"
+        },
+        {
+          "id": "bp-125",
+          "text": "중국 도매 직구 독점 계약, 마진 300% 보장",
+          "category": "side-business",
+          "scamType": "스마트스토어 사기",
+          "riskLevel": "high",
+          "explanation": "독점 계약 허위 주장, 선납 후 품질 불량 발생"
+        },
+        {
+          "id": "bp-126",
+          "text": "오늘 신청 시 추가 수당 2만원, 지금 바로",
+          "category": "side-business",
+          "scamType": "팀미션 사기",
+          "riskLevel": "high",
+          "explanation": "즉각 결정 유도 긴급성 조작 패턴"
+        },
+        {
+          "id": "bp-127",
+          "text": "실물 없이 판매하는 디지털 상품으로 자동 수익",
+          "category": "side-business",
+          "scamType": "부업 강의",
+          "riskLevel": "medium",
+          "explanation": "디지털 상품 수익 과장, 초기 판매 채널 구축 어려움 은폐"
+        },
+        {
+          "id": "bp-128",
+          "text": "쿠팡 체험단 담당자입니다, 카카오톡 ID 추가해주세요",
+          "category": "side-business",
+          "scamType": "체험단 사기",
+          "riskLevel": "critical",
+          "explanation": "쿠팡 직원 사칭 체험단 사기, 개인정보 수집 후 사기"
+        },
+        {
+          "id": "bp-129",
+          "text": "아마존 FBA 재고 선납 시 30% 할인, 내일까지",
+          "category": "side-business",
+          "scamType": "해외구매대행 사기",
+          "riskLevel": "critical",
+          "explanation": "재고 선납 후 미배송 또는 품질 불량 사기"
+        },
+        {
+          "id": "bp-130",
+          "text": "셀러 자동화 솔루션, 월 구독료 50만원 → 수익 500만원",
+          "category": "side-business",
+          "scamType": "스마트스토어 사기",
+          "riskLevel": "high",
+          "explanation": "자동화 솔루션 과금 후 실제 수익 미발생"
         }
       ]
     },
@@ -326,30 +1072,647 @@
       "id": "multi-level",
       "name": "다단계형",
       "weight": 0.88,
+      "count": 30,
       "phrases": [
         {
-          "text": "사람 데려오면",
-          "riskScore": 90,
-          "variants": ["지인 소개하면", "추천인 등록하면", "회원 모집하면"],
-          "explanation": "다단계 피라미드 구조 신호"
+          "id": "bp-131",
+          "text": "5명만 모으면 월 500만원, 패시브 인컴 구축 가능",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "critical",
+          "explanation": "피라미드 구조 직접 표현, 방문판매법 위반"
         },
         {
-          "text": "패시브 인컴",
-          "riskScore": 65,
-          "variants": ["자동 수익", "수동 소득", "자동화 수익 시스템"],
-          "explanation": "다단계/투자 사기 빈번 사용 표현"
+          "id": "bp-132",
+          "text": "우리 제품 쓰면서 사람 소개하면 수익, 리스크 제로",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "critical",
+          "explanation": "다단계 구조 전형 문구, 고가 제품 의무 구매 은폐"
         },
         {
-          "text": "네트워크 비즈니스",
-          "riskScore": 72,
-          "variants": ["네트워크 마케팅", "MLM", "리셀러 비즈니스"],
-          "explanation": "다단계 완곡 표현"
+          "id": "bp-133",
+          "text": "후원수당으로 매월 자동 수익, 지인만 소개하면 돼",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "critical",
+          "explanation": "후원수당 과장, 실제 수익은 하위 회원 모집에 의존"
         },
         {
-          "text": "5명만 모으면",
-          "riskScore": 88,
-          "variants": ["10명 모으면", "회원 3명이면", "팀원 모집 시"],
-          "explanation": "피라미드 구조 직접 표현"
+          "id": "bp-134",
+          "text": "네트워크 비즈니스 기회, 글로벌 상장 기업 파트너",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "high",
+          "explanation": "MLM 완곡 표현 + 허위 상장 기업 파트너 주장"
+        },
+        {
+          "id": "bp-135",
+          "text": "암웨이·뉴스킨처럼 합법적인 네트워크 비즈니스",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "high",
+          "explanation": "합법 기업 비교로 신뢰 조작, 실제는 불법 구조"
+        },
+        {
+          "id": "bp-136",
+          "text": "월 의무 구매 없음, 자유롭게 판매만 하면 돼",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "high",
+          "explanation": "의무 구매 없다고 하지만 실제 등록·유지 조건 있음"
+        },
+        {
+          "id": "bp-137",
+          "text": "10명만 추천하면 은퇴 가능, 패시브 인컴 평생 지속",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "critical",
+          "explanation": "무한 모집 기반 수익 구조는 수학적으로 지속 불가"
+        },
+        {
+          "id": "bp-138",
+          "text": "제품 효과 놀라움, 이 좋은 걸 왜 혼자 쓰세요",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "medium",
+          "explanation": "제품 과대광고 + 모집 유도 결합 패턴"
+        },
+        {
+          "id": "bp-139",
+          "text": "AI 플랫폼 구독권 판매 + 하위 회원 수당 구조",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "critical",
+          "explanation": "디지털 다단계 신종, 공정거래법 위반"
+        },
+        {
+          "id": "bp-140",
+          "text": "코인 채굴 권한 판매 + 지인 모집 수익 공유",
+          "category": "multi-level",
+          "scamType": "다단계/코인 사기",
+          "riskLevel": "critical",
+          "explanation": "코인 채굴 권한 판매 + MLM 결합 사기"
+        },
+        {
+          "id": "bp-141",
+          "text": "미국 본사 MLM 회사, 한국 진출 초기 선점 기회",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "high",
+          "explanation": "초기 진입 선점 압박으로 즉각 가입 유도"
+        },
+        {
+          "id": "bp-142",
+          "text": "건강기능식품 판매 + 후원수당, 월 300만원 가능",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "high",
+          "explanation": "건강식품 다단계 전형 문구, 실제 수익 소수에 집중"
+        },
+        {
+          "id": "bp-143",
+          "text": "이 사업 알리기만 해도 수익, 영업 필요 없어요",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "high",
+          "explanation": "모집 활동을 단순화하여 부담감 낮추는 사기 전략"
+        },
+        {
+          "id": "bp-144",
+          "text": "줌 설명회 참석 후 결정, 3일 안에 등록 시 할인",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "high",
+          "explanation": "온라인 설명회 후 즉각 결정 압박 패턴"
+        },
+        {
+          "id": "bp-145",
+          "text": "가족에게 좋은 것 알려주는 것이 왜 나쁜가요",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "medium",
+          "explanation": "죄책감 조작으로 지인 모집 저항 낮추는 심리 수법"
+        },
+        {
+          "id": "bp-146",
+          "text": "등급 올리면 수익률 상승, 골드 등급 도달 시 월 500",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "high",
+          "explanation": "등급제 MLM 수익 구조, 소수만 달성 가능"
+        },
+        {
+          "id": "bp-147",
+          "text": "창업 없이 비즈니스, 제품 구매부터 시작하세요",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "medium",
+          "explanation": "제품 의무 구매가 실질적 가입비 역할"
+        },
+        {
+          "id": "bp-148",
+          "text": "10년 후 은퇴 계획 완성, 지금 사업 시작이 답",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "medium",
+          "explanation": "장기 미래 불안 자극으로 즉각 가입 유도"
+        },
+        {
+          "id": "bp-149",
+          "text": "이미 우리 회사 상위 0.1%는 월 1억 이상",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "high",
+          "explanation": "상위 소수 성과로 일반화 오류 유도"
+        },
+        {
+          "id": "bp-150",
+          "text": "리셀러로 시작, 마스터 등급 도달 시 수동수익",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "high",
+          "explanation": "리셀러 완곡 표현 MLM 구조"
+        },
+        {
+          "id": "bp-151",
+          "text": "지인 3명이면 월 투자금 회수 가능, 바이럴로 확장",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "critical",
+          "explanation": "투자금 회수를 위한 하위 모집 강요 구조"
+        },
+        {
+          "id": "bp-152",
+          "text": "교육비 명목 가입, 학습 후 사업 기회 연결",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "high",
+          "explanation": "교육비 명목 불법 다단계 가입비 수취"
+        },
+        {
+          "id": "bp-153",
+          "text": "건강 챙기면서 돈도 버는 구조, 혼자만 쓰면 손해",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "medium",
+          "explanation": "건강 명분으로 제품 구매 유도 + 모집 구조"
+        },
+        {
+          "id": "bp-154",
+          "text": "전 세계 100개국 사업 중, 한국 독점 계약 체결",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "high",
+          "explanation": "글로벌 규모 허위 과장으로 신뢰 조작"
+        },
+        {
+          "id": "bp-155",
+          "text": "30분 설명만 들어봐요, 결정은 나중에 해도 돼",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "medium",
+          "explanation": "설명회 진입 유도 후 심리적 압박으로 가입 전환"
+        },
+        {
+          "id": "bp-156",
+          "text": "MLM 아니에요, 직접 판매 수익만으로 먹고삽니다",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "high",
+          "explanation": "MLM 부정 후 실제는 하위 모집 수익 의존 구조"
+        },
+        {
+          "id": "bp-157",
+          "text": "제품 판매 수익 50%, 팀 수익 추가로 무한 확장",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "critical",
+          "explanation": "수익 배분 과장, 하위 팀 모집에 의존한 불법 구조"
+        },
+        {
+          "id": "bp-158",
+          "text": "공정거래위원회 등록 합법 다단계, 안심하세요",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "high",
+          "explanation": "FTC 등록이 수익성 보장은 아님, 실제 등록 여부 확인 필요"
+        },
+        {
+          "id": "bp-159",
+          "text": "투자 없이 시작, 제품 구매는 개인 선택",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "medium",
+          "explanation": "의무 구매 없다고 하지만 등급 유지 위해 실질적 필요"
+        },
+        {
+          "id": "bp-160",
+          "text": "이 기회 놓치면 후회, 지인이 먼저 시작하면 손해",
+          "category": "multi-level",
+          "scamType": "다단계",
+          "riskLevel": "high",
+          "explanation": "경쟁 심리 자극으로 즉각 가입 유도"
+        }
+      ]
+    },
+    {
+      "id": "real-estate",
+      "name": "부동산형",
+      "weight": 0.8,
+      "count": 20,
+      "phrases": [
+        {
+          "id": "bp-161",
+          "text": "GTX 역세권 저평가 토지, 지금 사면 3배 확정",
+          "category": "real-estate",
+          "scamType": "기획부동산",
+          "riskLevel": "critical",
+          "explanation": "GTX 호재 과장 기획부동산 사기, 확정되지 않은 개발계획"
+        },
+        {
+          "id": "bp-162",
+          "text": "재건축 확정 아파트 급매물, 오늘만 이 가격",
+          "category": "real-estate",
+          "scamType": "부동산 사기",
+          "riskLevel": "critical",
+          "explanation": "재건축 확정 허위 주장, 긴급성 조작 판매 압박"
+        },
+        {
+          "id": "bp-163",
+          "text": "개발 호재 확정 지역 토지 지분, 100만원으로 투자",
+          "category": "real-estate",
+          "scamType": "기획부동산",
+          "riskLevel": "critical",
+          "explanation": "토지 지분 쪼개기 기획부동산 사기"
+        },
+        {
+          "id": "bp-164",
+          "text": "부동산 전문가만 아는 NPL 경매 비법 강의",
+          "category": "real-estate",
+          "scamType": "부동산 강의 사기",
+          "riskLevel": "high",
+          "explanation": "NPL 경매 사기성 강의, 실제 손실 위험 은폐"
+        },
+        {
+          "id": "bp-165",
+          "text": "토지 수용 보상금 10배, 지금 선점해야 합니다",
+          "category": "real-estate",
+          "scamType": "기획부동산",
+          "riskLevel": "critical",
+          "explanation": "토지 수용 보상 과장, 실제 수용 여부 불확실"
+        },
+        {
+          "id": "bp-166",
+          "text": "전세 레버리지 갭투자, 소액으로 시작 월세 수익",
+          "category": "real-estate",
+          "scamType": "부동산 강의 사기",
+          "riskLevel": "high",
+          "explanation": "갭투자 리스크 은폐, 전세사기 연루 가능성"
+        },
+        {
+          "id": "bp-167",
+          "text": "건설사 내부 정보 입수, 분양가 확정 전 선점",
+          "category": "real-estate",
+          "scamType": "기획부동산",
+          "riskLevel": "critical",
+          "explanation": "내부 정보 주장은 불공정거래 또는 허위 주장"
+        },
+        {
+          "id": "bp-168",
+          "text": "미분양 아파트 30% 할인 특별 분양, 오늘 계약",
+          "category": "real-estate",
+          "scamType": "부동산 사기",
+          "riskLevel": "high",
+          "explanation": "미분양 조건 은폐, 계약금 편취 후 잠적 가능성"
+        },
+        {
+          "id": "bp-169",
+          "text": "임야·전답 개발 가능 토지, 공시지가 대비 3배 예정",
+          "category": "real-estate",
+          "scamType": "기획부동산",
+          "riskLevel": "critical",
+          "explanation": "임야·전답의 개발 가능성 허위 과장"
+        },
+        {
+          "id": "bp-170",
+          "text": "1억으로 10억 만드는 부동산 강의, 수강생 성공 인증",
+          "category": "real-estate",
+          "scamType": "부동산 강의 사기",
+          "riskLevel": "high",
+          "explanation": "수익률 10배 과장 광고, 성공 사례 선택적 공개"
+        },
+        {
+          "id": "bp-171",
+          "text": "공인중개사 자격 없이 매물 소개, 사례비만",
+          "category": "real-estate",
+          "scamType": "부동산 사기",
+          "riskLevel": "critical",
+          "explanation": "무자격 부동산 중개는 공인중개사법 위반"
+        },
+        {
+          "id": "bp-172",
+          "text": "신도시 확정 예정 지역 선투자, 조합원 모집",
+          "category": "real-estate",
+          "scamType": "기획부동산",
+          "riskLevel": "critical",
+          "explanation": "미확정 신도시 투자 유도 사기"
+        },
+        {
+          "id": "bp-173",
+          "text": "전세보증보험 가입 매물, 역전세 걱정 없음",
+          "category": "real-estate",
+          "scamType": "전세 사기",
+          "riskLevel": "high",
+          "explanation": "보증보험 악용 역전세 사기 신종 수법"
+        },
+        {
+          "id": "bp-174",
+          "text": "이 땅 지금 아니면 없습니다, 내일 계약금 납부",
+          "category": "real-estate",
+          "scamType": "기획부동산",
+          "riskLevel": "critical",
+          "explanation": "긴급성 조작으로 검토 없이 계약 유도"
+        },
+        {
+          "id": "bp-175",
+          "text": "도심 재개발 구역 빌라 매입, 입주권 전매 가능",
+          "category": "real-estate",
+          "scamType": "부동산 사기",
+          "riskLevel": "high",
+          "explanation": "재개발 진행 상황 과장, 입주권 전매 조건 은폐"
+        },
+        {
+          "id": "bp-176",
+          "text": "소액 공동 투자 부동산, 수익 분기별 지급",
+          "category": "real-estate",
+          "scamType": "유사수신/부동산 사기",
+          "riskLevel": "critical",
+          "explanation": "부동산 투자금 공동 모집은 유사수신행위 위반 가능"
+        },
+        {
+          "id": "bp-177",
+          "text": "귀농·귀촌 추천 지역, 펜션 부지 투자로 노후 준비",
+          "category": "real-estate",
+          "scamType": "기획부동산",
+          "riskLevel": "high",
+          "explanation": "귀농·귀촌 토지 수익성 과장 기획부동산"
+        },
+        {
+          "id": "bp-178",
+          "text": "오피스텔 확정 수익률 8%, 공실 위험 없음",
+          "category": "real-estate",
+          "scamType": "부동산 사기",
+          "riskLevel": "high",
+          "explanation": "확정 수익률 보장은 유사수신행위, 공실 위험 은폐"
+        },
+        {
+          "id": "bp-179",
+          "text": "세금 없이 부동산 수익 극대화, 절세 비법 강의",
+          "category": "real-estate",
+          "scamType": "부동산 강의 사기",
+          "riskLevel": "high",
+          "explanation": "불법 절세 방법 권유는 탈세 방조"
+        },
+        {
+          "id": "bp-180",
+          "text": "부동산 경매 입찰 대리, 낙찰 보장 수수료 500만원",
+          "category": "real-estate",
+          "scamType": "부동산 사기",
+          "riskLevel": "critical",
+          "explanation": "경매 낙찰 보장 불가, 수수료 편취 후 대리 미이행"
+        }
+      ]
+    },
+    {
+      "id": "gambling",
+      "name": "도박형",
+      "weight": 0.95,
+      "count": 20,
+      "phrases": [
+        {
+          "id": "bp-181",
+          "text": "AI 스포츠 분석 적중률 95%, 틀리면 전액 환불",
+          "category": "gambling",
+          "scamType": "픽스터 사기",
+          "riskLevel": "critical",
+          "explanation": "어떤 스포츠 분석도 95% 적중은 불가능"
+        },
+        {
+          "id": "bp-182",
+          "text": "이번 주 로또 당첨 번호 공개, 구독료 월 10만원",
+          "category": "gambling",
+          "scamType": "로또 사기",
+          "riskLevel": "critical",
+          "explanation": "로또 번호 예측은 통계적으로 완전 불가능"
+        },
+        {
+          "id": "bp-183",
+          "text": "경마 내부자 정보 입수, 오늘 확실한 말 알려드림",
+          "category": "gambling",
+          "scamType": "경마 픽스터",
+          "riskLevel": "critical",
+          "explanation": "경마 내부자 정보 판매는 사기죄 해당"
+        },
+        {
+          "id": "bp-184",
+          "text": "배당률 10배 보장 분석픽, VIP 월정액 50만원",
+          "category": "gambling",
+          "scamType": "픽스터 사기",
+          "riskLevel": "critical",
+          "explanation": "배당률 보장 불가, 유료 픽스터 전형 사기"
+        },
+        {
+          "id": "bp-185",
+          "text": "오늘 경기 결과 미리 알고 있음, 지금 입금하면",
+          "category": "gambling",
+          "scamType": "픽스터 사기",
+          "riskLevel": "critical",
+          "explanation": "승부 조작 가담 주장은 범죄, 실제로는 허위"
+        },
+        {
+          "id": "bp-186",
+          "text": "합법 해외 카지노 초대, 수익 국내 계좌로 송금",
+          "category": "gambling",
+          "scamType": "불법 도박 유도",
+          "riskLevel": "critical",
+          "explanation": "불법 해외 도박 유도, 수익 출금 시 추가 입금 요구"
+        },
+        {
+          "id": "bp-187",
+          "text": "10연속 적중 인증, 다음 경기도 확실합니다",
+          "category": "gambling",
+          "scamType": "픽스터 사기",
+          "riskLevel": "critical",
+          "explanation": "과거 적중 조작 인증으로 신뢰 구축 후 사기"
+        },
+        {
+          "id": "bp-188",
+          "text": "사설토토 먹튀 없는 믿을 수 있는 사이트 추천",
+          "category": "gambling",
+          "scamType": "불법 도박 유도",
+          "riskLevel": "critical",
+          "explanation": "사설토토는 모두 불법, 추천 사이트도 먹튀 위험"
+        },
+        {
+          "id": "bp-189",
+          "text": "바카라 필승 전략 강의, 카지노 이기는 법",
+          "category": "gambling",
+          "scamType": "도박 강의 사기",
+          "riskLevel": "critical",
+          "explanation": "카지노 필승 전략은 존재하지 않음, 사기성 강의"
+        },
+        {
+          "id": "bp-190",
+          "text": "스포츠토토 환급률 보장, 손실 나면 보전해 드림",
+          "category": "gambling",
+          "scamType": "픽스터 사기",
+          "riskLevel": "critical",
+          "explanation": "토토 환급률 보장 불가, 손실 보전 약속 후 잠적"
+        },
+        {
+          "id": "bp-191",
+          "text": "AI 로또 번호 예측 앱, 3개월 만에 1등 당첨",
+          "category": "gambling",
+          "scamType": "로또 사기",
+          "riskLevel": "critical",
+          "explanation": "AI 로또 예측은 물리적 불가능, 당첨 인증 조작"
+        },
+        {
+          "id": "bp-192",
+          "text": "VIP 픽 월정액 구독, 첫 달 수익으로 회수 가능",
+          "category": "gambling",
+          "scamType": "픽스터 사기",
+          "riskLevel": "critical",
+          "explanation": "픽스터 구독료 회수 보장은 불가능한 약속"
+        },
+        {
+          "id": "bp-193",
+          "text": "선발 라인업 내부 정보로 승리팀 예측 100%",
+          "category": "gambling",
+          "scamType": "픽스터 사기",
+          "riskLevel": "critical",
+          "explanation": "선발 라인업 내부 정보 허위 주장, 100% 예측 불가"
+        },
+        {
+          "id": "bp-194",
+          "text": "토큰 베팅으로 수익 현금화, 해외 계좌 출금",
+          "category": "gambling",
+          "scamType": "불법 도박/코인 사기",
+          "riskLevel": "critical",
+          "explanation": "불법 도박 + 코인 결합 사기, 출금 전 추가 입금 요구"
+        },
+        {
+          "id": "bp-195",
+          "text": "카지노 데이터 분석 AI 봇, 블랙잭 승률 70%",
+          "category": "gambling",
+          "scamType": "도박 사기",
+          "riskLevel": "critical",
+          "explanation": "블랙잭 기본 전략 초과 승률 보장 불가"
+        },
+        {
+          "id": "bp-196",
+          "text": "당첨금 즉시 지급, 먹튀 제로 보장 토토 사이트",
+          "category": "gambling",
+          "scamType": "불법 도박 사이트",
+          "riskLevel": "critical",
+          "explanation": "사설토토 먹튀 위험 높음, '보장' 주장은 허위"
+        },
+        {
+          "id": "bp-197",
+          "text": "복권 1등 당첨 조합 수학적으로 계산 완료",
+          "category": "gambling",
+          "scamType": "로또 사기",
+          "riskLevel": "critical",
+          "explanation": "복권은 무작위 추첨, 수학적 계산으로 예측 불가"
+        },
+        {
+          "id": "bp-198",
+          "text": "스포츠 베팅 자동화 봇, 매달 200만원 수익",
+          "category": "gambling",
+          "scamType": "픽스터/도박 사기",
+          "riskLevel": "critical",
+          "explanation": "베팅 자동화 봇 수익 보장은 허위, 불법 도박 연루"
+        },
+        {
+          "id": "bp-199",
+          "text": "입금 즉시 200% 보너스, 지금 충전하면 혜택",
+          "category": "gambling",
+          "scamType": "불법 도박 사이트",
+          "riskLevel": "critical",
+          "explanation": "보너스 미끼로 충전 유도, 출금 조건 까다롭게 설정"
+        },
+        {
+          "id": "bp-200",
+          "text": "프로 분석가 독점 픽, 이번 주말 빅매치 확실",
+          "category": "gambling",
+          "scamType": "픽스터 사기",
+          "riskLevel": "critical",
+          "explanation": "스포츠 결과 예측 확실성 주장은 사기성 표현"
+        }
+      ]
+    },
+    {
+      "id": "extra",
+      "name": "복합/기타형",
+      "weight": 0.87,
+      "count": 7,
+      "phrases": [
+        {
+          "id": "bp-201",
+          "text": "카카오 담당자입니다, 체험단 참여 가능하신가요",
+          "category": "extra",
+          "scamType": "체험단 사기",
+          "riskLevel": "critical",
+          "explanation": "유명 기업 직원 사칭, 개인정보 수집 또는 선입금 편취"
+        },
+        {
+          "id": "bp-202",
+          "text": "지금 등록하시면 50% 할인, 오늘 자정 마감",
+          "category": "extra",
+          "scamType": "공통 긴급성 조작",
+          "riskLevel": "high",
+          "explanation": "자정 마감 긴급성 조작은 충동 구매 유도 전형 수법"
+        },
+        {
+          "id": "bp-203",
+          "text": "정부 지원 사업 선정, 지원금 1,000만원 신청 가능",
+          "category": "extra",
+          "scamType": "정부 지원금 사기",
+          "riskLevel": "critical",
+          "explanation": "정부 지원금 사칭 사기, 수수료 명목 선입금 요구"
+        },
+        {
+          "id": "bp-204",
+          "text": "비공개 세미나 초대, 소수 정예 10명만",
+          "category": "extra",
+          "scamType": "공통 희소성 조작",
+          "riskLevel": "high",
+          "explanation": "VIP 느낌 조성으로 고가 프로그램 구매 유도"
+        },
+        {
+          "id": "bp-205",
+          "text": "해외 거주자 대상 투자 비자 취득 지원, 선납금 필요",
+          "category": "extra",
+          "scamType": "비자/이민 사기",
+          "riskLevel": "critical",
+          "explanation": "투자 비자 허위 지원, 선납금 편취 후 잠적"
+        },
+        {
+          "id": "bp-206",
+          "text": "SNS 좋아요·공유만으로 참여 가능한 경품 이벤트",
+          "category": "extra",
+          "scamType": "피싱/개인정보 수집",
+          "riskLevel": "medium",
+          "explanation": "개인정보 수집 목적 이벤트 또는 스팸 문자 발송 악용"
+        },
+        {
+          "id": "bp-207",
+          "text": "지금 바로 신청하지 않으면 이 기회는 영원히 없습니다",
+          "category": "extra",
+          "scamType": "공통 긴급성 조작",
+          "riskLevel": "high",
+          "explanation": "극단적 긴급성 조작으로 냉철한 판단 차단"
         }
       ]
     }
@@ -396,6 +1759,34 @@
       "conditions": ["0원", "현금"],
       "bonusRiskScore": 18,
       "note": "무료 제품과 현금을 동시 약속 — 비용 없이 수익만 강조하는 사기 패턴"
+    },
+    {
+      "id": "guarantee-plus-high-rate",
+      "description": "보장 + 고수익률 조합",
+      "conditions": ["보장", "300%"],
+      "bonusRiskScore": 25,
+      "note": "수익 보장과 비현실적 고수익률이 함께 등장하면 최고 위험"
+    },
+    {
+      "id": "ai-plus-automation",
+      "description": "AI + 자동화 + 수익 조합",
+      "conditions": ["AI", "자동", "수익"],
+      "bonusRiskScore": 15,
+      "note": "AI 자동화 수익 삼중 조합은 사기 가능성 극히 높음"
+    },
+    {
+      "id": "multi-level-recruit",
+      "description": "지인 모집 + 수당 조합",
+      "conditions": ["소개", "수당"],
+      "bonusRiskScore": 20,
+      "note": "지인 모집 + 수당 지급은 불법 다단계 신호"
+    },
+    {
+      "id": "urgency-limited",
+      "description": "오늘 마감 + 선착순 조합",
+      "conditions": ["오늘", "선착순"],
+      "bonusRiskScore": 12,
+      "note": "긴급성과 희소성 이중 조작으로 즉각 결정 강요"
     }
   ]
 }
