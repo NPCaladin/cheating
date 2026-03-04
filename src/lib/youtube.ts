@@ -160,14 +160,41 @@ async function fetchTranscriptAndroid(videoId: string): Promise<string> {
   return parseSrv3Xml(xml).slice(0, 6000);
 }
 
+/**
+ * Fetch transcript via the Vercel Python serverless function (/api/transcript).
+ * Python's urllib3 TLS fingerprint bypasses YouTube's cloud-IP bot detection
+ * that blocks Node.js requests. Only available when VERCEL_URL env var is set.
+ */
+async function fetchTranscriptPythonApi(videoId: string): Promise<string> {
+  const vercelUrl = process.env.VERCEL_URL;
+  if (!vercelUrl) return "";
+
+  const res = await fetchT(
+    `https://${vercelUrl}/api/transcript?id=${videoId}`,
+    15000
+  );
+  if (!res.ok) return "";
+
+  const data = await res.json() as { transcript?: string };
+  return data.transcript ?? "";
+}
+
 export async function fetchYoutubeTranscript(videoId: string): Promise<string> {
-  // Primary: ANDROID player approach (bypasses YouTube server-side bot detection)
+  // On Vercel: use Python function (different TLS fingerprint bypasses bot detection)
+  if (process.env.VERCEL) {
+    try {
+      const transcript = await fetchTranscriptPythonApi(videoId);
+      if (transcript.length > 0) return transcript;
+    } catch { /* fall through */ }
+  }
+
+  // Local / fallback: ANDROID player approach
   try {
     const transcript = await fetchTranscriptAndroid(videoId);
     if (transcript.length > 0) return transcript;
   } catch { /* fall through */ }
 
-  // Fallback: youtube-transcript library
+  // Last resort: youtube-transcript library
   try {
     const transcript = await YoutubeTranscript.fetchTranscript(videoId, { lang: "ko" });
     if (transcript.length > 0) return transcript.map((t) => t.text).join(" ").slice(0, 5000);
