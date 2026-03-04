@@ -21,15 +21,27 @@ interface YoutubeMeta {
 }
 
 /** fetch with AbortController timeout (default 8s) */
-async function fetchWithTimeout(url: string, timeoutMs = 8000): Promise<Response> {
+async function fetchWithTimeout(
+  url: string,
+  timeoutMs = 8000,
+  headers?: Record<string, string>
+): Promise<Response> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    return await fetch(url, { signal: controller.signal });
+    return await fetch(url, { signal: controller.signal, headers });
   } finally {
     clearTimeout(timer);
   }
 }
+
+/** Browser-like headers to avoid YouTube bot detection */
+const BROWSER_HEADERS = {
+  "User-Agent":
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+  "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+  Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+};
 
 /** Fetch via YouTube Data API v3 (requires YOUTUBE_API_KEY env var) */
 async function fetchYoutubeDataAPI(videoId: string): Promise<YoutubeMeta | null> {
@@ -84,43 +96,75 @@ export async function fetchYoutubeMeta(videoId: string): Promise<YoutubeMeta> {
   return fetchYoutubeOEmbed(videoId);
 }
 
-/** Fetch transcript by scraping YouTube page for captionTracks, then fetching timedtext XML */
+/**
+ * Extract caption text from YouTube timedtext JSON3 format.
+ * YouTube auto-generated captions (ASR) and manual subtitles both use this format.
+ */
+function parseCaptionJson(json: { events?: Array<{ segs?: Array<{ utf8?: string }> }> }): string {
+  return (json.events ?? [])
+    .flatMap((e) => (e.segs ?? []).map((s) => s.utf8 ?? ""))
+    .join(" ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/**
+ * Fetch transcript by scraping YouTube page for captionTracks.
+ * Uses bracket-matching to extract JSON (handles nested objects & multiline).
+ * Sends browser-like User-Agent to ensure captionTracks data is included.
+ */
 async function fetchTranscriptDirect(videoId: string): Promise<string> {
   const pageRes = await fetchWithTimeout(
-    `https://www.youtube.com/watch?v=${videoId}`,
-    10000
+    `https://www.youtube.com/watch?v=${videoId}&hl=ko`,
+    12000,
+    BROWSER_HEADERS
   );
   if (!pageRes.ok) return "";
   const html = await pageRes.text();
 
-  const match = html.match(/"captionTracks":\[(\{.*?\}(?:,\{.*?\})*)\]/);
-  if (!match) return "";
+  // Find "captionTracks":[ in the page source
+  const ctIndex = html.indexOf('"captionTracks":[');
+  if (ctIndex === -1) return "";
 
-  // Find Korean track first, then any track
-  const tracks = match[1].matchAll(/"baseUrl":"(https:[^"]+)","name"[^}]*?"languageCode":"([^"]+)"/g);
-  let bestUrl = "";
-  let fallbackUrl = "";
-  for (const t of tracks) {
-    const url = t[1].replace(/\\u0026/g, "&");
-    if (t[2] === "ko") { bestUrl = url; break; }
-    if (!fallbackUrl) fallbackUrl = url;
+  // Use bracket-matching to extract the complete JSON array
+  // (avoids regex failing on nested objects like "name":{"simpleText":"..."})
+  const arrStart = ctIndex + '"captionTracks":['.length - 1; // points to '['
+  let depth = 0;
+  let arrEnd = arrStart;
+  for (let i = arrStart; i < Math.min(arrStart + 200000, html.length); i++) {
+    const ch = html[i];
+    if (ch === "[" || ch === "{") depth++;
+    else if (ch === "]" || ch === "}") {
+      depth--;
+      if (depth === 0) { arrEnd = i; break; }
+    }
   }
-  const captionUrl = bestUrl || fallbackUrl;
-  if (!captionUrl) return "";
+  if (arrEnd === arrStart) return ""; // bracket matching failed
 
-  const xmlRes = await fetchWithTimeout(captionUrl + "&fmt=json3", 8000);
+  const captionData = html.slice(arrStart, arrEnd + 1);
+
+  // Extract all baseUrl values (escaped JSON strings in the captionTracks array)
+  const baseUrls = [...captionData.matchAll(/"baseUrl":"(https:[^"\\]*(?:\\.[^"\\]*)*)"/g)]
+    .map((m) => m[1].replace(/\\u0026/g, "&").replace(/\\\//g, "/"));
+
+  // Extract corresponding languageCodes
+  const langs = [...captionData.matchAll(/"languageCode":"([^"]+)"/g)]
+    .map((m) => m[1]);
+
+  if (baseUrls.length === 0) return "";
+
+  // Prefer Korean track; fall back to first available
+  const koIdx = langs.findIndex((l) => l === "ko");
+  const pickedUrl = koIdx !== -1 && baseUrls[koIdx] ? baseUrls[koIdx] : baseUrls[0];
+
+  const xmlRes = await fetchWithTimeout(pickedUrl + "&fmt=json3", 8000, BROWSER_HEADERS);
   if (!xmlRes.ok) return "";
 
   const json = await xmlRes.json() as {
     events?: Array<{ segs?: Array<{ utf8?: string }> }>;
   };
-  const text = (json.events ?? [])
-    .flatMap((e) => (e.segs ?? []).map((s) => s.utf8 ?? ""))
-    .join(" ")
-    .replace(/\s+/g, " ")
-    .trim();
 
-  return text.slice(0, 5000);
+  return parseCaptionJson(json).slice(0, 6000);
 }
 
 export async function fetchYoutubeTranscript(videoId: string): Promise<string> {
