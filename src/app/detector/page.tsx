@@ -1,0 +1,424 @@
+"use client";
+
+import { useState } from "react";
+import {
+  Search, AlertTriangle, ShieldCheck, Shield, ShieldAlert,
+  Zap, ChevronDown, ChevronUp, ExternalLink, Youtube, Instagram, FileText, Link2
+} from "lucide-react";
+
+type InputMode = "text" | "youtube" | "sns";
+
+interface DetectionResult {
+  riskScore: number;
+  riskLevel: "safe" | "low" | "medium" | "high" | "critical";
+  verdict: string;
+  summary: string;
+  matchedScamTypes: Array<{ type: string; similarity: "high" | "medium" | "low"; reason: string }>;
+  detectedSignals: Array<{ signal: string; evidence: string; severity: "critical" | "high" | "medium" | "low" }>;
+  safeAspects: string[];
+  recommendation: string;
+  reportTo: string[];
+  meta?: {
+    type: "youtube" | "sns";
+    title?: string;
+    channelName?: string;
+    thumbnail?: string;
+    hasTranscript?: boolean;
+    videoId?: string;
+    url?: string;
+  };
+}
+
+const EXAMPLE_TEXTS = [
+  { label: "주식 리딩방", text: "VIP 회원 전용 종목 선공개! 이번 주 급등 예정 종목 5개를 미리 알려드립니다. 원금 보장에 월 30% 수익률 달성! 지금 입장하면 첫 달 무료. 선착순 10명만 받습니다." },
+  { label: "성공팔이 강연", text: "저도 처음엔 빈손이었습니다. 하지만 이 하나의 방법으로 월 1억 자동수익 시스템을 만들었어요. 경제적 자유를 원하신다면 지금 신청하세요. 오늘 자정까지 얼리버드 할인 70%." },
+  { label: "코인 사기", text: "AI 자동매매 코인 시스템 연 600% 수익! 스테이킹으로 매달 50% 이자 지급. 상장 직전 코인 선점 기회. 내부자 정보로 VIP 회원만 공개." },
+];
+
+const riskConfig = {
+  safe:     { color: "text-green-400",  bg: "bg-green-400/10",  border: "border-green-400/30",  icon: ShieldCheck,   barColor: "bg-green-400" },
+  low:      { color: "text-blue-400",   bg: "bg-blue-400/10",   border: "border-blue-400/30",   icon: Shield,        barColor: "bg-blue-400" },
+  medium:   { color: "text-amber-400",  bg: "bg-amber-400/10",  border: "border-amber-400/30",  icon: ShieldAlert,   barColor: "bg-amber-400" },
+  high:     { color: "text-orange-400", bg: "bg-orange-400/10", border: "border-orange-400/30", icon: AlertTriangle, barColor: "bg-orange-400" },
+  critical: { color: "text-red-400",    bg: "bg-red-400/10",    border: "border-red-400/30",    icon: AlertTriangle, barColor: "bg-red-400" },
+};
+
+const severityColors = {
+  critical: "text-red-400 bg-red-400/10 border-red-400/30",
+  high:     "text-orange-400 bg-orange-400/10 border-orange-400/30",
+  medium:   "text-amber-400 bg-amber-400/10 border-amber-400/30",
+  low:      "text-blue-400 bg-blue-400/10 border-blue-400/30",
+};
+
+const similarityColors = { high: "text-red-400", medium: "text-amber-400", low: "text-blue-400" };
+
+const tabs: { id: InputMode; label: string; icon: React.ElementType; desc: string }[] = [
+  { id: "text",    label: "텍스트",   icon: FileText,   desc: "광고 문구, 강의 소개, 카톡 메시지 등 텍스트를 직접 붙여넣기" },
+  { id: "youtube", label: "YouTube", icon: Youtube,    desc: "YouTube 또는 Shorts URL을 붙여넣으면 제목·채널·자막 자동 분석" },
+  { id: "sns",     label: "SNS/기타", icon: Instagram,  desc: "인스타그램, 틱톡 등 SNS URL + 게시글 캡션 붙여넣기" },
+];
+
+function ResultPanel({ result }: { result: DetectionResult }) {
+  const [showDetails, setShowDetails] = useState(true);
+  const config = riskConfig[result.riskLevel];
+  const RiskIcon = config.icon;
+
+  return (
+    <div className={`rounded-2xl border ${config.border} ${config.bg} overflow-hidden`}>
+      {/* YouTube 썸네일 미리보기 */}
+      {result.meta?.type === "youtube" && result.meta.thumbnail && (
+        <div className="relative">
+          <img src={result.meta.thumbnail} alt={result.meta.title} className="w-full h-40 object-cover opacity-60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0d1117] to-transparent" />
+          <div className="absolute bottom-3 left-4 right-4">
+            <p className="text-[#e6edf3] text-sm font-medium line-clamp-1">{result.meta.title}</p>
+            <p className="text-[#8b949e] text-xs">{result.meta.channelName}</p>
+            {result.meta.hasTranscript !== undefined && (
+              <span className={`text-xs px-1.5 py-0.5 rounded mt-1 inline-block ${result.meta.hasTranscript ? "bg-green-400/20 text-green-400" : "bg-[#30363d] text-[#8b949e]"}`}>
+                {result.meta.hasTranscript ? "자막 분석 완료" : "자막 없음 (제목/채널만 분석)"}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Score header */}
+      <div className="p-6 sm:p-8">
+        <div className="flex items-start gap-4 mb-6">
+          <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${config.bg} border ${config.border} shrink-0`}>
+            <RiskIcon size={24} className={config.color} />
+          </div>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1">
+              <span className={`text-2xl font-bold ${config.color}`}>{result.verdict}</span>
+              <span className={`text-xs px-2 py-0.5 rounded-full border ${config.border} ${config.color}`}>
+                위험도 {result.riskScore}/100
+              </span>
+            </div>
+            <p className="text-[#8b949e] text-sm leading-relaxed">{result.summary}</p>
+          </div>
+        </div>
+
+        {/* Risk bar */}
+        <div className="mb-2">
+          <div className="flex justify-between text-xs text-[#8b949e] mb-1.5">
+            <span>안전</span><span>극도 위험</span>
+          </div>
+          <div className="h-2.5 bg-[#0d1117] rounded-full overflow-hidden">
+            <div className={`h-full ${config.barColor} rounded-full transition-all duration-700`} style={{ width: `${result.riskScore}%` }} />
+          </div>
+        </div>
+
+        {/* Recommendation */}
+        <div className="mt-5 p-4 rounded-xl bg-[#0d1117]/60 border border-[#21262d]">
+          <p className="text-xs text-[#8b949e] font-medium mb-1">권고사항</p>
+          <p className="text-[#e6edf3] text-sm">{result.recommendation}</p>
+        </div>
+
+        {result.reportTo.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {result.reportTo.map((org) => (
+              <span key={org} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-red-400/10 border border-red-400/20 text-red-400 text-xs">
+                <ExternalLink size={10} />{org}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Details toggle */}
+      <div className="border-t border-[#30363d]/30">
+        <button
+          onClick={() => setShowDetails(!showDetails)}
+          className="w-full flex items-center justify-between px-6 py-3 text-[#8b949e] text-xs hover:text-[#e6edf3] transition-colors"
+        >
+          <span>상세 분석 결과</span>
+          {showDetails ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+        </button>
+
+        {showDetails && (
+          <div className="px-6 pb-6 space-y-5">
+            {result.detectedSignals.length > 0 && (
+              <div>
+                <h3 className="text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-3">
+                  감지된 위험 신호 ({result.detectedSignals.length}개)
+                </h3>
+                <div className="space-y-2">
+                  {result.detectedSignals.map((signal, i) => (
+                    <div key={i} className={`p-3 rounded-xl border ${severityColors[signal.severity]}`}>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-medium text-xs">{signal.signal}</span>
+                        <span className="text-xs opacity-60">
+                          {signal.severity === "critical" ? "극도 위험" : signal.severity === "high" ? "높은 위험" : signal.severity === "medium" ? "주의" : "참고"}
+                        </span>
+                      </div>
+                      <p className="text-[#8b949e] text-xs">{signal.evidence}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {result.matchedScamTypes.length > 0 && (
+              <div>
+                <h3 className="text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-3">유사 사기 유형</h3>
+                <div className="space-y-2">
+                  {result.matchedScamTypes.map((scam, i) => (
+                    <div key={i} className="p-3 rounded-xl bg-[#0d1117] border border-[#21262d]">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-[#e6edf3] text-xs font-medium">{scam.type}</span>
+                        <span className={`text-xs font-medium ${similarityColors[scam.similarity]}`}>
+                          {scam.similarity === "high" ? "높음" : scam.similarity === "medium" ? "중간" : "낮음"}
+                        </span>
+                      </div>
+                      <p className="text-[#8b949e] text-xs">{scam.reason}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {result.safeAspects.length > 0 && (
+              <div>
+                <h3 className="text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-3">안전 요소</h3>
+                <div className="space-y-1.5">
+                  {result.safeAspects.map((aspect, i) => (
+                    <div key={i} className="flex items-start gap-2 text-xs text-[#8b949e]">
+                      <span className="text-green-400 mt-0.5">✓</span>{aspect}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default function DetectorPage() {
+  const [mode, setMode] = useState<InputMode>("text");
+  const [text, setText] = useState("");
+  const [url, setUrl] = useState("");
+  const [extraText, setExtraText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<DetectionResult | null>(null);
+  const [error, setError] = useState("");
+
+  const reset = () => { setResult(null); setError(""); };
+
+  const analyzeText = async () => {
+    if (!text.trim()) return;
+    setLoading(true); reset();
+    try {
+      const res = await fetch("/api/detect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+      const data = await res.json();
+      if (!res.ok) { setError(data.error || "분석 중 오류가 발생했습니다."); return; }
+      setResult(data);
+    } catch { setError("네트워크 오류가 발생했습니다."); }
+    finally { setLoading(false); }
+  };
+
+  const analyzeUrl = async () => {
+    if (!url.trim()) return;
+    setLoading(true); reset();
+    try {
+      const res = await fetch("/api/analyze-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url, extraText }),
+      });
+      const data = await res.json();
+      if (!res.ok) { setError(data.error || "분석 중 오류가 발생했습니다."); return; }
+      setResult(data);
+    } catch { setError("네트워크 오류가 발생했습니다."); }
+    finally { setLoading(false); }
+  };
+
+  const canSubmit = mode === "text" ? !!text.trim() : !!url.trim();
+
+  return (
+    <div className="min-h-screen px-4 sm:px-6 py-10">
+      <div className="max-w-3xl mx-auto">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#f0a500]/10 border border-[#f0a500]/20 text-[#f0a500] text-xs font-medium mb-4">
+            <Zap size={11} />
+            AI POWERED DETECTOR
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#e6edf3] mb-2">사기 판별기</h1>
+          <p className="text-[#8b949e] text-sm">
+            텍스트, YouTube 링크, SNS 게시글을 AI가 즉시 분석합니다.
+          </p>
+        </div>
+
+        {/* Mode tabs */}
+        <div className="flex gap-1 p-1 rounded-xl bg-[#161b22] border border-[#30363d] mb-4">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => { setMode(tab.id); reset(); }}
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-medium transition-all ${
+                  mode === tab.id
+                    ? "bg-[#f0a500] text-[#0d1117]"
+                    : "text-[#8b949e] hover:text-[#e6edf3]"
+                }`}
+              >
+                <Icon size={13} />
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Tab description */}
+        <p className="text-[#8b949e] text-xs mb-4 px-1">
+          {tabs.find((t) => t.id === mode)?.desc}
+        </p>
+
+        {/* Input area */}
+        <div className="rounded-2xl border border-[#30363d] bg-[#161b22] p-4 sm:p-6 mb-4">
+
+          {/* TEXT MODE */}
+          {mode === "text" && (
+            <>
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-[#8b949e] text-xs font-medium">분석할 텍스트</label>
+                <span className="text-[#8b949e] text-xs font-mono">{text.length}/5000</span>
+              </div>
+              <textarea
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="광고 문구, 강의 소개글, 카카오톡 메시지, 투자 제안 내용을 붙여넣으세요..."
+                className="w-full h-40 bg-[#0d1117] border border-[#30363d] rounded-xl px-4 py-3 text-[#e6edf3] text-sm placeholder-[#8b949e]/50 focus:outline-none focus:border-[#f0a500]/50 resize-none"
+                maxLength={5000}
+              />
+              <div className="mt-3 flex flex-wrap gap-2">
+                <span className="text-[#8b949e] text-xs self-center">예시:</span>
+                {EXAMPLE_TEXTS.map((ex) => (
+                  <button
+                    key={ex.label}
+                    onClick={() => setText(ex.text)}
+                    className="px-2.5 py-1 rounded-lg bg-[#21262d] text-[#8b949e] text-xs hover:text-[#e6edf3] hover:bg-[#30363d] transition-colors border border-[#30363d]"
+                  >
+                    {ex.label}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+
+          {/* YOUTUBE MODE */}
+          {mode === "youtube" && (
+            <>
+              <div className="mb-3">
+                <label className="text-[#8b949e] text-xs font-medium block mb-2">YouTube URL</label>
+                <div className="relative">
+                  <Link2 size={13} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8b949e]" />
+                  <input
+                    type="url"
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                    placeholder="https://www.youtube.com/watch?v=... 또는 youtu.be/..."
+                    className="w-full pl-9 pr-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-xl text-[#e6edf3] text-sm placeholder-[#8b949e]/50 focus:outline-none focus:border-[#f0a500]/50"
+                  />
+                </div>
+              </div>
+              <div className="rounded-lg bg-[#0d1117]/60 border border-[#21262d] p-3 flex gap-2">
+                <Youtube size={13} className="text-red-400 shrink-0 mt-0.5" />
+                <p className="text-[#8b949e] text-xs">
+                  영상 제목, 채널명, 자막(자동 생성 포함)을 자동으로 추출해 분석합니다.
+                  Shorts URL도 지원합니다.
+                </p>
+              </div>
+            </>
+          )}
+
+          {/* SNS MODE */}
+          {mode === "sns" && (
+            <>
+              <div className="mb-3">
+                <label className="text-[#8b949e] text-xs font-medium block mb-2">SNS URL</label>
+                <div className="relative">
+                  <Link2 size={13} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8b949e]" />
+                  <input
+                    type="url"
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                    placeholder="https://www.instagram.com/p/... 또는 tiktok.com/..."
+                    className="w-full pl-9 pr-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-xl text-[#e6edf3] text-sm placeholder-[#8b949e]/50 focus:outline-none focus:border-[#f0a500]/50"
+                  />
+                </div>
+              </div>
+              <div className="mb-3">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-[#8b949e] text-xs font-medium">게시글 캡션/설명 <span className="text-red-400">*</span></label>
+                  <span className="text-[#8b949e] text-xs font-mono">{extraText.length}/3000</span>
+                </div>
+                <textarea
+                  value={extraText}
+                  onChange={(e) => setExtraText(e.target.value)}
+                  placeholder="인스타그램/틱톡 게시글의 캡션이나 설명을 복사해서 붙여넣으세요..."
+                  className="w-full h-32 bg-[#0d1117] border border-[#30363d] rounded-xl px-4 py-3 text-[#e6edf3] text-sm placeholder-[#8b949e]/50 focus:outline-none focus:border-[#f0a500]/50 resize-none"
+                  maxLength={3000}
+                />
+              </div>
+              <div className="rounded-lg bg-[#0d1117]/60 border border-[#21262d] p-3 flex gap-2">
+                <Instagram size={13} className="text-pink-400 shrink-0 mt-0.5" />
+                <p className="text-[#8b949e] text-xs">
+                  Instagram/TikTok은 API 정책상 자동 추출이 불가합니다.
+                  게시글 캡션을 직접 복사해 붙여넣으면 URL과 함께 분석합니다.
+                </p>
+              </div>
+            </>
+          )}
+
+          {/* Submit button */}
+          <div className="mt-4 flex justify-end">
+            <button
+              onClick={mode === "text" ? analyzeText : analyzeUrl}
+              disabled={!canSubmit || loading}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#f0a500] text-[#0d1117] font-semibold text-sm hover:bg-[#f0a500]/90 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-[#0d1117]/30 border-t-[#0d1117] rounded-full animate-spin" />
+                  {mode === "youtube" ? "자막 추출 중..." : "분석 중..."}
+                </>
+              ) : (
+                <>
+                  <Search size={15} />
+                  사기 여부 분석하기
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Error */}
+        {error && (
+          <div className="rounded-xl border border-red-400/30 bg-red-400/10 p-4 mb-4 flex gap-3">
+            <AlertTriangle size={16} className="text-red-400 shrink-0 mt-0.5" />
+            <p className="text-red-400 text-sm">{error}</p>
+          </div>
+        )}
+
+        {/* Result */}
+        {result && <ResultPanel result={result} />}
+
+        {/* Disclaimer */}
+        <div className="mt-6 flex gap-2 text-[#8b949e] text-xs">
+          <AlertTriangle size={13} className="text-amber-400 shrink-0 mt-0.5" />
+          <p>AI 판별 결과는 참고용이며 법적 효력이 없습니다. 실제 피해 시 경찰(182), 금감원(1332), 소비자원(1372)에 신고하세요.</p>
+        </div>
+      </div>
+    </div>
+  );
+}

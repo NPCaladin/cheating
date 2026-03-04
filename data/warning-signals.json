@@ -1,0 +1,287 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-03-03",
+  "description": "사기 판별 위험 신호 체크리스트 데이터",
+  "signals": [
+    {
+      "id": "income-guarantee",
+      "rank": 1,
+      "name": "수익 보장",
+      "category": "financial",
+      "riskLevel": "critical",
+      "riskScore": 95,
+      "description": "특정 금액의 수익을 보장한다고 약속하는 행위",
+      "examples": [
+        "월 500만원 보장",
+        "원금 보장",
+        "수익률 보장",
+        "손실 시 보상"
+      ],
+      "explanation": "정상적인 투자나 강의는 절대 수익을 보장하지 않음. 자본시장법상 원금보장·수익보장 약속은 위법.",
+      "relatedScamTypes": ["stock-leading", "coin-leading", "fx-leading", "ai-trading"],
+      "checkQuestion": "이 서비스/강의가 특정 수익이나 결과를 보장하나요?"
+    },
+    {
+      "id": "unrealistic-returns",
+      "rank": 2,
+      "name": "비현실적 수익률",
+      "category": "financial",
+      "riskLevel": "critical",
+      "riskScore": 90,
+      "description": "일반적인 시장 수익률을 월등히 초과하는 수익 주장",
+      "examples": [
+        "연 600% 수익",
+        "월 50% 수익",
+        "300% 달성",
+        "매달 두 배"
+      ],
+      "explanation": "세계 최고 투자자 워렌 버핏의 연평균 수익률은 약 20%. 연 50%+를 주장하면 사기 가능성 매우 높음.",
+      "relatedScamTypes": ["stock-leading", "coin-leading", "fx-leading"],
+      "checkQuestion": "제시된 수익률이 연 30%를 초과하나요?"
+    },
+    {
+      "id": "instant-decision",
+      "rank": 3,
+      "name": "즉석 결정 강요",
+      "category": "pressure",
+      "riskLevel": "high",
+      "riskScore": 80,
+      "description": "충분한 검토 시간 없이 즉각적인 결정을 강요하는 행위",
+      "examples": [
+        "오늘만 할인",
+        "5명 선착순",
+        "내일이면 기회 없음",
+        "지금 결제해야 혜택 적용",
+        "조기마감",
+        "혜택인원수 충족시",
+        "빠른참여 바랍니다",
+        "마감전까지"
+      ],
+      "explanation": "사기는 피해자가 냉정하게 생각할 시간을 주지 않음. '지금 결정해야 한다'는 압박은 검토 기회를 없애려는 술책.",
+      "relatedScamTypes": ["success-selling", "online-side-job", "private-certificate"],
+      "checkQuestion": "충분한 시간을 두고 검토할 수 있게 해주나요?"
+    },
+    {
+      "id": "small-success-trap",
+      "rank": 4,
+      "name": "초기 소액 성공 체험",
+      "category": "manipulation",
+      "riskLevel": "high",
+      "riskScore": 85,
+      "description": "처음에는 실제로 소액 수익을 지급해 신뢰를 쌓은 후 대규모 투자를 유도",
+      "examples": [
+        "첫 주에 5만원 실제 수령",
+        "초기 소액 투자 수익 정상 지급",
+        "3번 미션 정상 완료 후 큰 금액 투입 유도"
+      ],
+      "explanation": "폰지사기의 고전적 패턴. 초기 성공 경험이 오히려 더 큰 피해로 이어짐.",
+      "relatedScamTypes": ["team-mission", "coin-leading", "fx-leading", "reward-platform"],
+      "checkQuestion": "처음엔 정상적으로 수익이 지급됐지만, 큰 금액 투입 후 문제가 생겼나요?"
+    },
+    {
+      "id": "upselling",
+      "rank": 5,
+      "name": "단계적 업셀링",
+      "category": "manipulation",
+      "riskLevel": "high",
+      "riskScore": 75,
+      "description": "무료 콘텐츠로 유입 후 점진적으로 고가 상품으로 유도",
+      "examples": [
+        "무료 웨비나 → 99만원 강의",
+        "저가 입문 과정 → 고가 마스터 코칭",
+        "기본 회원 → VIP 프리미엄"
+      ],
+      "explanation": "업셀링 자체는 사기가 아니지만, 각 단계의 가치 대비 가격이 터무니없거나 압박이 심하면 위험.",
+      "relatedScamTypes": ["success-selling", "online-side-job", "stock-leading"],
+      "checkQuestion": "처음 결제한 것보다 점점 더 큰 금액의 구매를 권유하나요?"
+    },
+    {
+      "id": "unverifiable-credentials",
+      "rank": 6,
+      "name": "자격/이력 검증 불가",
+      "category": "credibility",
+      "riskLevel": "high",
+      "riskScore": 72,
+      "description": "강사나 운영자의 경력 및 자격을 독립적으로 검증할 수 없음",
+      "examples": [
+        "검증 불가한 수익 인증샷",
+        "사업자등록증 미공개",
+        "실명 비공개",
+        "조작된 언론 보도"
+      ],
+      "explanation": "정당한 전문가라면 실명, 자격증, 사업 실적을 공개적으로 검증받을 수 있어야 함.",
+      "relatedScamTypes": ["success-selling", "real-estate-lecture", "private-certificate"],
+      "checkQuestion": "운영자/강사의 실명과 자격을 독립적인 경로로 확인할 수 있나요?"
+    },
+    {
+      "id": "fake-reviews",
+      "rank": 7,
+      "name": "후기/댓글 조작",
+      "category": "credibility",
+      "riskLevel": "medium",
+      "riskScore": 65,
+      "description": "부정적 후기 삭제, 가짜 성공 사례 생성, 댓글 알바 동원",
+      "examples": [
+        "부정적 유튜브 댓글 삭제",
+        "가짜 수강생 후기",
+        "조작된 SNS 리뷰",
+        "환불 요청 후기 숨기기"
+      ],
+      "explanation": "진정한 후기가 있다면 부정적 의견도 함께 존재함. 100% 긍정 후기는 조작 의심.",
+      "relatedScamTypes": ["success-selling", "online-side-job", "coding-bootcamp"],
+      "checkQuestion": "부정적인 후기나 환불 사례를 찾을 수 있나요?"
+    },
+    {
+      "id": "unclear-refund",
+      "rank": 8,
+      "name": "환불 규정 불명확",
+      "category": "contract",
+      "riskLevel": "high",
+      "riskScore": 78,
+      "description": "환불이 불가능하거나 환불 조건이 매우 까다롭게 설정됨",
+      "examples": [
+        "계약서 없는 구두 약속",
+        "7일 이내 전액 환불 (기간 지나면 환불 불가)",
+        "수강 1회 이후 환불 불가",
+        "환불 신청 무시"
+      ],
+      "explanation": "전자상거래법상 디지털 콘텐츠도 청약 철회 권리 있음. 과도한 환불 제한은 위법 가능성.",
+      "relatedScamTypes": ["success-selling", "online-side-job", "reward-platform"],
+      "checkQuestion": "결제 전에 환불 정책을 서면으로 확인했나요?"
+    },
+    {
+      "id": "recruitment-income",
+      "rank": 9,
+      "name": "다단계 구조",
+      "category": "structure",
+      "riskLevel": "critical",
+      "riskScore": 88,
+      "description": "새로운 회원 모집을 통해 추가 수익을 얻는 구조",
+      "examples": [
+        "사람 데려오면 추가 수익",
+        "추천인 등록 시 커미션",
+        "팀원 수에 따른 수당",
+        "하위 회원 매출의 일부 지급"
+      ],
+      "explanation": "수익이 신규 회원 모집에 의존하는 구조는 불법 다단계 가능성. 공정거래위원회 신고 대상.",
+      "relatedScamTypes": ["multi-level", "coin-leading", "ai-trading"],
+      "checkQuestion": "지인을 데려오면 추가 수익이 생기는 구조인가요?"
+    },
+    {
+      "id": "withdrawal-block",
+      "rank": 10,
+      "name": "출금 차단/추가 입금 요구",
+      "category": "financial",
+      "riskLevel": "critical",
+      "riskScore": 98,
+      "description": "수익 출금 시 수수료·세금·위약금 명목으로 추가 입금 요구",
+      "examples": [
+        "출금 전 세금 납부 요구",
+        "해제 수수료 입금 요구",
+        "보안 인증비 요구",
+        "위약금 선납 요구"
+      ],
+      "explanation": "이미 발생한 수익을 출금하는 데 추가 비용이 필요한 정상적인 금융기관은 없음. 명백한 사기 신호.",
+      "relatedScamTypes": ["coin-leading", "fx-leading", "team-mission"],
+      "checkQuestion": "수익을 인출하려 할 때 추가 입금을 요구받았나요?"
+    },
+    {
+      "id": "external-channel-redirect",
+      "rank": 11,
+      "name": "외부 메신저 유도",
+      "category": "contact",
+      "riskLevel": "high",
+      "riskScore": 82,
+      "description": "공식 채널이 아닌 카카오톡, 텔레그램 등 개인 메신저로 접촉 유도",
+      "examples": [
+        "카카오톡 ID",
+        "카카오 채널상담",
+        "카카오 ID추가",
+        "텔레그램 ID",
+        "텔레그램 채널",
+        "오픈채팅방",
+        "채널상담",
+        "카톡 ID"
+      ],
+      "explanation": "사기범은 추적과 신고를 피하기 위해 공식 플랫폼 외부의 개인 메신저로 유도함. 정상 기업은 공식 고객센터를 통해 연락함.",
+      "relatedScamTypes": ["team-mission", "reward-platform", "online-side-job"],
+      "checkQuestion": "카카오톡 ID나 텔레그램으로 직접 연락하라고 안내하나요?"
+    },
+    {
+      "id": "brand-impersonation",
+      "rank": 12,
+      "name": "유명 브랜드 사칭",
+      "category": "credibility",
+      "riskLevel": "critical",
+      "riskScore": 88,
+      "description": "쿠팡, 네이버, 배달의민족 등 유명 기업을 사칭하여 신뢰를 조작",
+      "examples": [
+        "쿠팡 제휴",
+        "쿠팡 담당",
+        "네이버 체험단",
+        "배달의민족 제휴",
+        "카카오 공식",
+        "삼성 체험단",
+        "LG 체험단"
+      ],
+      "explanation": "정상 기업은 문자/카카오톡으로 개인에게 먼저 연락하지 않으며, 외부 메신저 ID를 알려달라고 하지 않음. 기업 공식 앱/사이트에서 동일 이벤트 확인 불가 시 사기.",
+      "relatedScamTypes": ["team-mission", "reward-platform"],
+      "checkQuestion": "해당 기업의 공식 웹사이트나 앱에서 동일한 이벤트를 직접 확인할 수 있나요?"
+    },
+    {
+      "id": "text-obfuscation",
+      "rank": 13,
+      "name": "문자 우회 패턴",
+      "category": "evasion",
+      "riskLevel": "high",
+      "riskScore": 75,
+      "description": "자동 필터링을 피하기 위해 문자 사이에 특수문자·점·공백을 삽입",
+      "examples": [
+        "카·카·오",
+        "제·휴·사",
+        "이·벤·트",
+        "카 카 오 톡",
+        "텔·레·그·램"
+      ],
+      "explanation": "스팸 탐지 시스템을 우회하려는 의도적 행위. 정상 기업의 공식 메시지에는 이런 패턴이 없음.",
+      "relatedScamTypes": ["team-mission", "reward-platform", "online-side-job"],
+      "checkQuestion": "메시지에 글자 사이에 점이나 특수문자가 삽입되어 있나요?"
+    }
+  ],
+  "riskLevels": {
+    "critical": {
+      "label": "극도 위험",
+      "color": "#dc2626",
+      "minScore": 88,
+      "action": "즉시 중단하고 경찰에 신고하세요"
+    },
+    "high": {
+      "label": "높은 위험",
+      "color": "#ea580c",
+      "minScore": 70,
+      "action": "결제 전 반드시 소비자원에 문의하세요"
+    },
+    "medium": {
+      "label": "주의 필요",
+      "color": "#ca8a04",
+      "minScore": 50,
+      "action": "계약서를 꼼꼼히 확인하고 추가 조사하세요"
+    },
+    "low": {
+      "label": "낮은 위험",
+      "color": "#16a34a",
+      "minScore": 0,
+      "action": "기본적인 주의사항을 확인하세요"
+    }
+  },
+  "scoringGuide": {
+    "description": "총 위험 점수 계산 방법",
+    "method": "체크된 신호들의 riskScore 평균 + 해당되는 신호 수에 따른 가중치",
+    "thresholds": {
+      "immediate_danger": 85,
+      "high_risk": 65,
+      "medium_risk": 45,
+      "low_risk": 0
+    }
+  }
+}

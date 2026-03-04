@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:m.blog.naver.com)",
+      "WebFetch(domain:blog.naver.com)",
+      "WebSearch",
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(cp:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "WebFetch(domain:www.youtube.com)",
+      "Bash(node:*)",
+      "Bash(npx tsx:*)",
+      "Bash(netstat:*)",
+      "Bash(taskkill:*)",
+      "Bash(cmd.exe:*)",
+      "Bash(powershell.exe:*)",
+      "Bash(do:*)",
+      "Bash(npx vercel:*)",
+      "Bash(gh auth:*)",
+      "Bash(where gh:*)"
+    ]
+  }
+}
