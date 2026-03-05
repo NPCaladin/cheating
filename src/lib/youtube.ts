@@ -174,41 +174,68 @@ async function fetchTranscriptAndroid(videoId: string): Promise<string> {
   return parseTimedtextXml(xml).slice(0, 6000);
 }
 
-/**
- * Fetch transcript via the Vercel Edge Function (/api/transcript).
- * Edge functions run on Cloudflare's network (not AWS Lambda), so YouTube
- * is less likely to block them. Only called when VERCEL_URL env var is set.
- */
-async function fetchTranscriptEdge(videoId: string): Promise<string> {
-  const vercelUrl = process.env.VERCEL_URL;
-  if (!vercelUrl) return "";
+async function _supadataRequest(url: string, apiKey: string, lang?: string): Promise<string> {
+  const params = new URLSearchParams({ url, text: "true" });
+  if (lang) params.set("lang", lang);
 
   const res = await fetchT(
-    `https://${vercelUrl}/api/transcript?id=${videoId}`,
-    20000
+    `https://api.supadata.ai/v1/youtube/transcript?${params}`,
+    15000,
+    { headers: { "x-api-key": apiKey } }
   );
+
+  if (res.status === 202) {
+    const { jobId } = await res.json() as { jobId: string };
+    return await _pollSupadataJob(jobId, apiKey);
+  }
   if (!res.ok) return "";
 
-  const data = await res.json() as { transcript?: string };
-  return data.transcript ?? "";
+  const data = await res.json() as { content: string };
+  return (data.content || "").slice(0, 6000);
+}
+
+async function _pollSupadataJob(jobId: string, apiKey: string): Promise<string> {
+  for (let i = 0; i < 12; i++) {
+    await new Promise(r => setTimeout(r, 5000));
+    const res = await fetchT(
+      `https://api.supadata.ai/v1/youtube/transcript/${jobId}`,
+      10000,
+      { headers: { "x-api-key": apiKey } }
+    );
+    if (!res.ok) return "";
+    const data = await res.json() as { status: string; content?: string };
+    if (data.status === "completed" && data.content) return data.content.slice(0, 6000);
+    if (data.status === "failed") return "";
+  }
+  return "";
+}
+
+async function fetchTranscriptSupadata(videoId: string): Promise<string> {
+  const apiKey = process.env.SUPADATA_API_KEY;
+  if (!apiKey) return "";
+
+  const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+
+  const transcript = await _supadataRequest(videoUrl, apiKey, "ko");
+  if (transcript) return transcript;
+
+  return await _supadataRequest(videoUrl, apiKey) || "";
 }
 
 export async function fetchYoutubeTranscript(videoId: string): Promise<string> {
-  // On Vercel: delegate to Edge Function (Cloudflare IP, not AWS Lambda IP)
-  if (process.env.VERCEL) {
-    try {
-      const transcript = await fetchTranscriptEdge(videoId);
-      if (transcript.length > 0) return transcript;
-    } catch { /* fall through */ }
-  }
+  // 1순위: Supadata.ai API (Vercel/로컬 모두 작동)
+  try {
+    const transcript = await fetchTranscriptSupadata(videoId);
+    if (transcript.length > 0) return transcript;
+  } catch { /* fall through */ }
 
-  // Local / fallback: ANDROID player approach
+  // 2순위: ANDROID Innertube (로컬 fallback)
   try {
     const transcript = await fetchTranscriptAndroid(videoId);
     if (transcript.length > 0) return transcript;
   } catch { /* fall through */ }
 
-  // Last resort: youtube-transcript library
+  // 3순위: youtube-transcript 라이브러리
   try {
     const transcript = await YoutubeTranscript.fetchTranscript(videoId, { lang: "ko" });
     if (transcript.length > 0) return transcript.map((t) => t.text).join(" ").slice(0, 5000);

@@ -463,6 +463,7 @@ export async function POST(req: NextRequest) {
         fetchYoutubeMeta(youtubeId),
         fetchYoutubeTranscript(youtubeId),
       ]);
+      console.log(`[analyze-url] videoId=${youtubeId} transcript=${transcript.length}chars`);
 
       const analysisText = [
         `[YouTube 영상 분석]`,
