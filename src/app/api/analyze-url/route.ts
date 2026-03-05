@@ -6,7 +6,7 @@ import { checkBlacklist } from "@/lib/blacklist";
 import { logAnalysis } from "@/lib/log-analysis";
 import { callGemini } from "@/lib/gemini";
 
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 const BASE_SYSTEM_PROMPT = `당신은 단순 AI가 아닌, 금융감독원/공정위 수준의 사기 분석 전문가입니다.
 ChatGPT나 Gemini 같은 범용 AI보다 훨씬 구체적이고 날카로운 분석을 제공해야 합니다.

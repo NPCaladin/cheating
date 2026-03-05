@@ -5,6 +5,8 @@ import { checkBlacklist } from "@/lib/blacklist";
 import { logAnalysis } from "@/lib/log-analysis";
 import { callGemini } from "@/lib/gemini";
 
+export const maxDuration = 120;
+
 const BASE_SYSTEM_PROMPT = `당신은 한국의 사기 강연·교육·투자 서비스를 판별하는 전문 AI 분석관입니다.
 금융감독원·공정거래위원회 수준의 상세 분석, 한국 법령 위반 검토, 심리 조작 기법 분석을 수행합니다.
 
