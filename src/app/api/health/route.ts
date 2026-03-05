@@ -6,7 +6,7 @@ export async function GET() {
     status: "ok",
     timestamp: new Date().toISOString(),
     services: {
-      openai: !!process.env.OPENAI_API_KEY,
+      gemini: !!process.env.GEMINI_API_KEY,
       youtube: !!process.env.YOUTUBE_API_KEY,
       supabase: isSupabaseConfigured(),
     },

@@ -54,7 +54,7 @@ export default function PrivacyPage() {
                   <td className="border border-[#30363d] px-3 py-2">쿠키, 광고 식별자</td>
                 </tr>
                 <tr>
-                  <td className="border border-[#30363d] px-3 py-2">OpenAI</td>
+                  <td className="border border-[#30363d] px-3 py-2">Google (Gemini)</td>
                   <td className="border border-[#30363d] px-3 py-2">AI 사기 분석</td>
                   <td className="border border-[#30363d] px-3 py-2">분석 요청 텍스트</td>
                 </tr>

@@ -1,10 +1,10 @@
-import OpenAI from "openai";
 import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { extractYoutubeId, fetchYoutubeMeta, fetchYoutubeTranscript } from "@/lib/youtube";
 import { preScreenText } from "@/lib/rule-engine";
 import { checkBlacklist } from "@/lib/blacklist";
 import { logAnalysis } from "@/lib/log-analysis";
+import { callGemini } from "@/lib/gemini";
 
 export const maxDuration = 60;
 
@@ -157,282 +157,7 @@ ChatGPT나 Gemini 같은 범용 AI보다 훨씬 구체적이고 날카로운 분
 - transcriptAnalysis: 자막이 있을 경우 반드시 5개 이상의 문제 발언을 원문 인용하여 분석. 자막 없으면 빈 배열
 - 자막 없이 분석 시: analysisConfidence를 반드시 "medium" 이하로 설정하고 confidenceReason에 명시
 
-순수 JSON만 응답하세요. 마크다운 코드블록이나 다른 텍스트를 절대 포함하지 마세요.
-
-## YouTube 콘텐츠 판별 예시 (Few-shot)
-
----
-
-[예시 1 - YouTube 성공팔이/투자 채널 / medium]
-입력:
-"""
-[YouTube 영상 분석]
-제목: 19살 고등학생이 게임으로 5,000만원 번 방법 ㄷㄷ
-채널명: 돈 버는 사람들
-
-[채널 설명란]
-이 채널은 20대 이하 청년 창업, 부업, 수익화 방법을 공유합니다. 매주 실제 수익 인증 영상 업로드.
-
-[자막/스크립트]
-안녕하세요 저는 고등학교 3학년인데요. FC온라인 게임 강사로 활동하면서 누적 수익이 5천만원이 됐어요. 숨고나 크몽 같은 플랫폼에서 수강생 모집하고 디스코드로 레슨해요. 받은 금액만큼의 가치를 제공해야 한다는 생각으로 일해요. 현재 다른 강사들도 관리하고 있어요.
-"""
-
-분석:
-{
-  "riskScore": 28,
-  "riskLevel": "low",
-  "verdict": "주의",
-  "summary": "이 채널은 10~20대 청년을 타겟으로 수익화 성공 사례를 콘텐츠로 삼는 교육/인플루언서형 채널로 보입니다. 출연자는 게임 코칭이라는 실제 시장이 존재하는 서비스를 제공하고 있으며, 숨고·크몽 같은 공인 플랫폼을 이용한다는 점에서 사기 가능성은 낮습니다. 그러나 '19살이 5,000만원 벌었다'는 제목은 클릭베이트 과장 전략을 사용하여 비현실적 기대감을 유발할 수 있으며, 이 채널이 향후 고가 강의나 코칭 프로그램 판매로 연결될 가능성을 배제할 수 없습니다. 자막에서 수익 구조는 명확하게 설명되고 있으나, 누적 수익의 정확한 인증은 영상에서 확인되지 않았습니다. 시청 자체는 무방하지만, 채널에서 유료 프로그램을 판매할 경우 꼼꼼한 검증이 필요합니다.",
-  "matchedScamTypes": [
-    {
-      "type": "성공팔이 (자기계발 강연)",
-      "similarity": "low",
-      "reason": "청소년의 성공 스토리를 통해 관심을 끄는 콘텐츠 방식이 성공팔이 패턴과 부분적으로 유사하나, 현재 영상에서는 고가 코칭 업셀링이나 수익 보장 등의 직접적 사기 요소가 확인되지 않습니다."
-    }
-  ],
-  "detectedSignals": [
-    {
-      "signal": "클릭베이트 제목 전략",
-      "evidence": "19살 고등학생이 게임으로 5,000만원 번 방법 ㄷㄷ",
-      "severity": "low",
-      "explanation": "극단적 사례를 전면에 내세워 클릭을 유도하는 제목 전략입니다. 이것이 곧 사기라는 의미는 아니지만, 시청자가 비현실적 기대감을 갖게 될 수 있습니다."
-    },
-    {
-      "signal": "수익 인증 미확인",
-      "evidence": "누적 수익이 5천만원이 됐어요 (자막 발언)",
-      "severity": "medium",
-      "explanation": "5,000만원이라는 구체적 수치를 주장하지만 통장 내역 등 직접적 인증은 확인되지 않았습니다. 허위 또는 과장 가능성을 배제할 수 없습니다."
-    },
-    {
-      "signal": "타겟 심리 공략 (청소년 성공 서사)",
-      "evidence": "19살 고등학생, 5,000만원",
-      "severity": "low",
-      "explanation": "또래 청소년의 성공 사례는 10~20대 시청자에게 강한 동기 유발 요소로 작용하며, 이후 유료 서비스 판매 시 강력한 영향력을 행사할 수 있습니다."
-    },
-    {
-      "signal": "에이전시 운영 주장 (검증 필요)",
-      "evidence": "현재 다른 강사들도 관리하고 있어요",
-      "severity": "low",
-      "explanation": "고등학생 신분의 에이전시 운영은 검증이 어렵습니다. 실제 운영 규모와 전문성 여부를 확인하기 어렵습니다."
-    }
-  ],
-  "safeAspects": [
-    "숨고, 크몽 등 공인된 프리랜서 플랫폼을 통해 수강생 모집 — 사기 피해 발생 시 플랫폼의 분쟁 해결 절차 이용 가능",
-    "게임 코칭은 실제 시장이 존재하는 합법적 서비스 모델",
-    "영상에서 수익 보장이나 즉각적 결제 요구가 없음",
-    "'받은 금액만큼의 가치를 제공해야 한다'는 서비스 마인드 표현 — 일반적 사기꾼의 패턴과 차이"
-  ],
-  "recommendation": "이 영상 자체는 큰 위험이 없으나, '나도 게임만 하면 저렇게 벌 수 있다'는 비현실적 기대를 갖지 않도록 주의하세요. 출연자는 중학교부터 4년 이상 게임 실력과 강의 역량을 쌓았다는 점을 간과하지 마세요. 해당 채널이 유료 강의나 코칭 프로그램을 판매할 경우, 반드시 사업자등록 확인과 환불 규정을 검토한 후 결제하세요.",
-  "reportTo": [],
-  "legalAnalysis": {
-    "violationRisk": "low",
-    "applicableLaws": [
-      "표시·광고의 공정화에 관한 법률 제3조: 향후 유료 서비스 판매 시 수익 과장 광고는 위반 대상이 될 수 있습니다.",
-      "전자상거래 등에서의 소비자보호에 관한 법률 제17조: 유료 강의 판매 시 7일 이내 청약 철회권이 보장되어야 합니다."
-    ],
-    "explanation": "현재 영상에서는 명확한 법적 위반 요소가 확인되지 않습니다. 다만 유료 서비스 판매로 연결될 경우 수익 인증 방식과 환불 정책을 꼼꼼히 확인해야 합니다."
-  },
-  "psychologyTactics": [
-    {
-      "tactic": "또래 효과 (Peer Influence) + 사회적 증거",
-      "description": "같은 나이대의 성공 사례를 보여줌으로써 '나도 할 수 있다'는 강한 동기 유발 효과를 냅니다. 유명인보다 또래의 성공이 더 현실적이고 달성 가능한 것처럼 느껴집니다.",
-      "evidence": "19살 고등학생이 게임으로 5,000만원"
-    },
-    {
-      "tactic": "호기심 갭 (Curiosity Gap)",
-      "description": "성공의 '방법'을 제목에 암시하되 공개하지 않음으로써 클릭을 유도하는 콘텐츠 마케팅 기법입니다. 이 자체가 위험한 것은 아니나 과장 정보 전달의 통로가 될 수 있습니다.",
-      "evidence": "게임으로 5,000만원 번 방법 ㄷㄷ"
-    },
-    {
-      "tactic": "수익 과장 제목 (Income Porn)",
-      "description": "구체적인 고액 수익을 제목에 전면 배치하여 경제적 욕구를 자극하는 기법으로, YouTube 수익화 채널에서 광범위하게 사용됩니다.",
-      "evidence": "5,000만원"
-    }
-  ],
-  "verificationChecklist": [
-    {
-      "item": "채널 운영자 사업자등록 확인",
-      "method": "채널에서 유료 서비스 판매 시 사업자등록번호 요구 → 국세청 홈택스 hometax.go.kr에서 조회",
-      "priority": "medium"
-    },
-    {
-      "item": "숨고/크몽 프로필 실제 확인",
-      "method": "soomgo.com 또는 kmong.com에서 해당 강사 검색 → 리뷰 수, 평점, 판매 이력 확인",
-      "priority": "medium"
-    },
-    {
-      "item": "유사 채널 사기 피해 사례 검색",
-      "method": "구글에서 채널명 + '사기' 또는 '환불' 검색, 한국소비자원 consumer.go.kr에서 업체 조회",
-      "priority": "low"
-    }
-  ],
-  "reportingGuide": {
-    "primaryAgency": "한국소비자원",
-    "phone": "1372",
-    "website": "https://www.consumer.go.kr",
-    "steps": [
-      "1단계: 유료 서비스 관련 피해 발생 시 증거(결제 내역, 서비스 약속 내용) 저장",
-      "2단계: 한국소비자원 1372 또는 consumer.go.kr에서 피해 구제 신청",
-      "3단계: 명백한 사기로 판단되면 경찰청 사이버수사대 ecrm.cyber.go.kr에 신고"
-    ]
-  },
-  "transcriptAnalysis": [
-    {
-      "quote": "누적 수익이 5천만원이 됐어요",
-      "timestamp": "초반부",
-      "issue": "고등학생 신분에서 누적 5천만원이라는 구체적 수치를 제시하지만, 통장 내역 등 객관적 증빙이 영상에서 확인되지 않습니다. 시청자에게 비현실적 기대감을 심어줄 수 있는 미검증 발언입니다.",
-      "scamPattern": "성공팔이 (자기계발 강연)",
-      "severity": "medium"
-    },
-    {
-      "quote": "현재 다른 강사들도 관리하고 있어요",
-      "timestamp": "후반부",
-      "issue": "에이전시 운영을 주장하지만 사업자등록 여부나 실제 관리 규모를 확인할 수 없습니다. 과장된 전문성 주장은 향후 고가 코칭 판매의 신뢰도 장치로 활용될 수 있습니다.",
-      "scamPattern": "고액 온라인 부업 강의",
-      "severity": "low"
-    }
-  ],
-  "analysisConfidence": "high",
-  "confidenceReason": "자막이 제공되어 실제 발언 내용을 직접 분석할 수 있었고, 채널 설명과 제목 전략도 명확하게 파악되었습니다."
-}
-
----
-
-[예시 2 - YouTube 주식/투자 채널 / critical]
-입력:
-"""
-[YouTube 영상 분석]
-제목: 이번 주 무조건 오르는 종목 3개 공개 (선착순 VIP 입장 링크 아래)
-채널명: 주식부자연구소
-
-[채널 설명란]
-전직 증권사 애널리스트 출신. 매주 급등 예정 종목 선공개. VIP 채널 월 39만원. 무료 체험 링크 ↓
-
-[자막 없음 - 제목/채널명 기반으로만 분석]
-"""
-
-분석:
-{
-  "riskScore": 92,
-  "riskLevel": "critical",
-  "verdict": "극도 위험",
-  "summary": "금융당국에 미등록된 불법 투자자문업을 운영하는 전형적인 주식 리딩방 채널입니다. '무조건 오르는 종목'이라는 제목은 자본시장법상 허위 과장 광고 금지 조항을 정면으로 위반하며, VIP 유료 채널로의 유도는 미등록 투자자문업 운영에 해당합니다. '전직 증권사 애널리스트 출신'이라는 채널 설명은 검증 불가능한 권위 주장으로, 실제 금융투자업 등록 없이 유료 종목 추천을 하면 5년 이하 징역에 처할 수 있습니다. 이 채널을 통해 투자 결정을 내리는 것은 매우 위험하며, 유료 채널 가입은 절대 해서는 안 됩니다.",
-  "matchedScamTypes": [
-    {
-      "type": "주식 리딩방/유료 종목 추천",
-      "similarity": "high",
-      "reason": "급등 예정 종목 선공개, 월 39만원 VIP 채널, 무료 체험 후 유료 전환 구조가 주식 리딩방의 핵심 3요소를 모두 충족합니다. 특히 '무조건 오르는 종목'이라는 표현은 수익 보장 표현으로 자본시장법을 위반합니다."
-    }
-  ],
-  "detectedSignals": [
-    {
-      "signal": "수익 보장성 표현",
-      "evidence": "무조건 오르는 종목 3개 공개",
-      "severity": "critical",
-      "explanation": "주식 시장에서 '무조건 오르는 종목'은 존재하지 않으며, 이는 자본시장법상 허위 과장 광고에 해당합니다. 미등록 투자자문업자가 수익을 보장하는 것은 형사 처벌 대상입니다."
-    },
-    {
-      "signal": "미공개 정보 이용 암시",
-      "evidence": "급등 예정 종목 선공개",
-      "severity": "critical",
-      "explanation": "사전에 급등 여부를 알 수 있다는 것은 내부 정보 불법 이용이나 시세 조종 가담을 암시하며, 자본시장법 제174조 위반 혐의가 있습니다."
-    },
-    {
-      "signal": "미등록 투자자문업 운영",
-      "evidence": "VIP 채널 월 39만원",
-      "severity": "critical",
-      "explanation": "금융당국 등록 없이 유료로 투자 종목을 추천하는 것은 자본시장법 제17조 위반으로 5년 이하 징역 또는 2억원 이하 벌금에 해당합니다."
-    },
-    {
-      "signal": "검증 불가능한 권위 주장",
-      "evidence": "전직 증권사 애널리스트 출신",
-      "severity": "high",
-      "explanation": "'전직'이라는 표현은 현재 자격이 없음을 의미하며, 실제 경력도 검증할 수 없습니다. 합법적 투자자문사는 반드시 금융위원회 등록번호를 공개해야 합니다."
-    },
-    {
-      "signal": "단계적 업셀링 구조",
-      "evidence": "무료 체험 링크 ↓",
-      "severity": "high",
-      "explanation": "무료 체험으로 초기 신뢰를 구축한 후 월 39만원 유료 서비스로 전환하는 전형적인 업셀링 깔때기 구조입니다."
-    },
-    {
-      "signal": "즉석 결정 강요",
-      "evidence": "선착순 VIP 입장 링크",
-      "severity": "high",
-      "explanation": "선착순이라는 인위적 희소성으로 냉정한 판단을 방해하는 FOMO 전략입니다."
-    }
-  ],
-  "safeAspects": [],
-  "recommendation": "이 채널의 어떤 유료 서비스에도 가입하지 마세요. 금융감독원 금융소비자정보포털(fine.fss.or.kr)에서 '주식부자연구소'의 투자자문업 등록 여부를 먼저 확인하세요. 이미 가입하여 피해를 입었다면 입금 내역과 채팅 기록을 보관하고 즉시 금융감독원(1332)과 경찰청 사이버수사대(182)에 신고하세요.",
-  "reportTo": ["금융감독원 1332", "경찰청 사이버수사대 182"],
-  "legalAnalysis": {
-    "violationRisk": "high",
-    "applicableLaws": [
-      "자본시장과 금융투자업에 관한 법률 제17조 (투자자문업 등록 의무): 금융당국 등록 없이 유료로 투자 종목을 추천하면 5년 이하 징역 또는 2억원 이하 벌금.",
-      "자본시장법 제174조 (미공개중요정보 이용행위 금지): '급등 예정 종목 선공개'는 미공개정보 이용 거래 혐의 대상.",
-      "표시·광고의 공정화에 관한 법률 제3조: '무조건 오르는 종목' 표현은 허위·과장 광고로 공정거래위원회 시정명령 대상."
-    ],
-    "explanation": "이 채널은 자본시장법의 다수 조항을 위반하고 있습니다. 특히 미등록 투자자문업 운영은 가장 명백한 위반이며, 실제 이 유형의 운영자들이 매년 금융감독원과 검찰의 수사를 받고 있습니다. 피해자도 금감원을 통해 민사 손해배상 청구가 가능합니다."
-  },
-  "psychologyTactics": [
-    {
-      "tactic": "FOMO (놓칠 것에 대한 두려움)",
-      "description": "선착순 VIP 입장이라는 표현으로 '지금 당장 가입하지 않으면 수익 기회를 놓친다'는 심리적 압박을 가하여 냉정한 검토를 방해합니다.",
-      "evidence": "선착순 VIP 입장 링크"
-    },
-    {
-      "tactic": "권위 효과 (Authority Bias)",
-      "description": "전직 증권사 애널리스트라는 검증 불가능한 전문가 타이틀로 신뢰를 구축하고, 비전문가인 시청자가 '전문가'의 말을 따르도록 심리적 의존감을 형성합니다.",
-      "evidence": "전직 증권사 애널리스트 출신"
-    },
-    {
-      "tactic": "내부자 정보 암시 (Insider Knowledge Illusion)",
-      "description": "'선공개', '예정 종목' 등의 표현으로 일반 투자자는 알 수 없는 정보를 갖고 있다는 착각을 심어줘 독점적 이익에 대한 기대를 자극합니다.",
-      "evidence": "급등 예정 종목 선공개, 무조건 오르는 종목"
-    },
-    {
-      "tactic": "상호성 원리 (Reciprocity)",
-      "description": "무료 체험을 먼저 제공하여 심리적 부채감을 형성하고, 이후 유료 전환을 거부하기 어렵게 만드는 기법입니다.",
-      "evidence": "무료 체험 링크 ↓"
-    }
-  ],
-  "verificationChecklist": [
-    {
-      "item": "투자자문업 등록 여부 (최우선 확인)",
-      "method": "금융감독원 금융소비자정보포털 fine.fss.or.kr → '금융회사 조회' → '투자자문·일임업자' → 채널명/운영자명 검색",
-      "priority": "high"
-    },
-    {
-      "item": "금융위원회 제재·경고 이력 확인",
-      "method": "금융위원회 공식 사이트 fsc.go.kr → '보도자료' → 불법금융 관련 공지 검색",
-      "priority": "high"
-    },
-    {
-      "item": "피해 사례 검색",
-      "method": "네이버·구글에서 '주식부자연구소 사기', '주식부자연구소 환불' 검색 / 더치트 thecheat.co.kr에서 운영자 연락처 조회",
-      "priority": "high"
-    },
-    {
-      "item": "사업자등록 확인",
-      "method": "사업자등록번호 요구 → 국세청 홈택스 hometax.go.kr에서 조회 (제공 거부 시 즉시 사기 의심)",
-      "priority": "high"
-    }
-  ],
-  "reportingGuide": {
-    "primaryAgency": "금융감독원",
-    "phone": "1332",
-    "website": "https://www.fss.or.kr/fss/main/main.do",
-    "steps": [
-      "1단계 증거 수집: 채널 링크, VIP 채팅 내용, 종목 추천 화면, 입금 내역 스크린샷 저장 및 클라우드 백업",
-      "2단계 금감원 신고: fss.or.kr → '불법금융신고센터' 또는 ☎1332 → 채널 URL 및 운영자 정보 제출",
-      "3단계 수사 의뢰: 경찰청 사이버수사대 ecrm.cyber.go.kr 또는 ☎182 → 피해 금액과 증거 제출",
-      "4단계 피해 회복: 금융감독원 분쟁조정위원회 또는 민사 소액심판 청구 (3,000만원 이하)"
-    ]
-  },
-  "transcriptAnalysis": [],
-  "analysisConfidence": "medium",
-  "confidenceReason": "자막이 없어 실제 영상 내용을 분석하지 못했으나, 제목과 채널 설명만으로도 명백한 위험 패턴이 확인되어 중간 신뢰도로 판정합니다."
-}`;
+순수 JSON만 응답하세요. 마크다운 코드블록이나 다른 텍스트를 절대 포함하지 마세요.`;
 
 /** Sanitize user input to prevent prompt injection */
 function sanitizeInput(text: string): string {
@@ -454,26 +179,19 @@ function isValidUrl(url: string): boolean {
   }
 }
 
-function handleOpenAIError(error: unknown): NextResponse {
-  if (error && typeof error === "object" && "status" in error) {
-    const status = (error as { status: number }).status;
-    if (status === 429) {
-      return NextResponse.json(
-        { error: "AI 분석 한도에 도달했습니다. 잠시 후 다시 시도해주세요." },
-        { status: 503 }
-      );
-    }
-    if (status === 401) {
-      return NextResponse.json(
-        { error: "AI 서비스 설정 오류입니다. 관리자에게 문의해주세요." },
-        { status: 500 }
-      );
-    }
-  }
+function handleApiError(error: unknown): NextResponse {
   const message = error instanceof Error ? error.message : "알 수 없는 오류";
   console.error("URL analysis error:", message);
+
+  if (message.includes("429") || message.includes("quota") || message.includes("rate")) {
+    return NextResponse.json(
+      { error: "AI 분석 한도에 도달했습니다. 잠시 후 다시 시도해주세요." },
+      { status: 503 }
+    );
+  }
+
   return NextResponse.json(
-    { error: `분석 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.` },
+    { error: "분석 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요." },
     { status: 500 }
   );
 }
@@ -486,7 +204,6 @@ function hashIp(req: NextRequest): string {
 
 export async function POST(req: NextRequest) {
   try {
-    const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const ipHash = hashIp(req);
     const { url, extraText } = await req.json();
 
@@ -539,20 +256,16 @@ export async function POST(req: NextRequest) {
         .filter(Boolean)
         .join("\n");
 
-      const completion = await client.chat.completions.create({
-        model: "gpt-4o",
-        max_tokens: 8192,
-        response_format: { type: "json_object" },
-        messages: [
-          { role: "system", content: BASE_SYSTEM_PROMPT },
-          { role: "user", content: userMessage },
-        ],
-      });
-
-      const content = completion.choices[0].message.content;
-      if (!content) throw new Error("Empty response");
-
-      const result = JSON.parse(content);
+      const geminiRes = await callGemini(BASE_SYSTEM_PROMPT, userMessage, 16384);
+      let result;
+      try {
+        result = JSON.parse(geminiRes.content);
+      } catch (parseErr) {
+        console.error("[analyze-url] YouTube JSON parse error. Content length:", geminiRes.content.length);
+        console.error("[analyze-url] First 500 chars:", geminiRes.content.substring(0, 500));
+        console.error("[analyze-url] Last 200 chars:", geminiRes.content.substring(geminiRes.content.length - 200));
+        throw parseErr;
+      }
       result._prescreen = {
         riskScore: prescreen.riskScore,
         matchedPhrases: prescreen.matchedPhrases.map((p) => p.text),
@@ -607,20 +320,16 @@ export async function POST(req: NextRequest) {
       .filter(Boolean)
       .join("\n");
 
-    const completion = await client.chat.completions.create({
-      model: "gpt-4o",
-      max_tokens: 4096,
-      response_format: { type: "json_object" },
-      messages: [
-        { role: "system", content: BASE_SYSTEM_PROMPT },
-        { role: "user", content: userMessage },
-      ],
-    });
-
-    const content = completion.choices[0].message.content;
-    if (!content) throw new Error("Empty response");
-
-    const result = JSON.parse(content);
+    const geminiRes = await callGemini(BASE_SYSTEM_PROMPT, userMessage, 16384);
+    let result;
+    try {
+      result = JSON.parse(geminiRes.content);
+    } catch (parseErr) {
+      console.error("[analyze-url] SNS JSON parse error. Content length:", geminiRes.content.length);
+      console.error("[analyze-url] First 500 chars:", geminiRes.content.substring(0, 500));
+      console.error("[analyze-url] Last 200 chars:", geminiRes.content.substring(geminiRes.content.length - 200));
+      throw parseErr;
+    }
     result._prescreen = {
       riskScore: prescreen.riskScore,
       matchedPhrases: prescreen.matchedPhrases.map((p) => p.text),
@@ -645,6 +354,6 @@ export async function POST(req: NextRequest) {
     if (error instanceof SyntaxError) {
       return NextResponse.json({ error: "AI 응답 파싱 오류가 발생했습니다." }, { status: 500 });
     }
-    return handleOpenAIError(error);
+    return handleApiError(error);
   }
 }
