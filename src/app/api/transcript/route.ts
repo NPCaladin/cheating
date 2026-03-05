@@ -14,8 +14,22 @@ async function fetchT(
   }
 }
 
-function parseSrv3Xml(xml: string): string {
-  return [...xml.matchAll(/<s[^>]*>([^<]*)<\/s>/g)]
+function parseTimedtextXml(xml: string): string {
+  // SRV3 format: <s> word-level elements
+  if (xml.includes("<s")) {
+    return [...xml.matchAll(/<s[^>]*>([^<]*)<\/s>/g)]
+      .map((m) => m[1])
+      .join(" ")
+      .replace(/&amp;/g, "&")
+      .replace(/&#39;/g, "'")
+      .replace(/&quot;/g, '"')
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+  // Format 3: <p> paragraph elements
+  return [...xml.matchAll(/<p[^>]*>([^<]*)<\/p>/g)]
     .map((m) => m[1])
     .join(" ")
     .replace(/&amp;/g, "&")
@@ -74,8 +88,8 @@ async function fetchTranscriptAndroid(videoId: string): Promise<string> {
   if (!xmlRes.ok) return "";
   const xml = await xmlRes.text();
 
-  if (!xml || !xml.includes("<s")) return "";
-  return parseSrv3Xml(xml).slice(0, 6000);
+  if (!xml || (!xml.includes("<s") && !xml.includes("<p"))) return "";
+  return parseTimedtextXml(xml).slice(0, 6000);
 }
 
 export async function GET(request: Request) {
