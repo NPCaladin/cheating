@@ -39,6 +39,7 @@ export default function Footer() {
                 { href: "/detector", label: "AI 사기 판별기" },
                 { href: "/types", label: "사기 유형 백과" },
                 { href: "/report", label: "피해 사례 제보" },
+                { href: "/about", label: "서비스 소개" },
               ].map((link) => (
                 <li key={link.href}>
                   <Link
@@ -74,13 +75,19 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-[#21262d] flex flex-col sm:flex-row justify-between items-center gap-2">
+        <div className="mt-8 pt-6 border-t border-[#21262d] flex flex-col sm:flex-row justify-between items-center gap-3">
           <p className="text-[#8b949e] text-xs">
             © 2026 사기감별사. 공익 목적으로 제공되는 서비스입니다.
           </p>
-          <p className="text-[#8b949e] text-xs">
-            데이터 출처: 한국소비자원, 금융감독원, 경찰청 공식 자료
-          </p>
+          <div className="flex items-center gap-3 text-xs">
+            <Link href="/privacy" className="text-[#8b949e] hover:text-[#f0a500] transition-colors">
+              개인정보처리방침
+            </Link>
+            <span className="text-[#30363d]">|</span>
+            <Link href="/terms" className="text-[#8b949e] hover:text-[#f0a500] transition-colors">
+              이용약관
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
