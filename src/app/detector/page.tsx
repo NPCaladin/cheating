@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Search, AlertTriangle, ShieldCheck, Shield, ShieldAlert,
   Zap, ChevronDown, ChevronUp, ExternalLink, Youtube, Instagram,
   FileText, Link2, Scale, Brain, ListChecks, Phone, Target,
-  CheckCircle2, Circle, ArrowRight
+  CheckCircle2, Circle, ArrowRight, Quote, Clock, Loader2
 } from "lucide-react";
 
 type InputMode = "text" | "youtube" | "sns";
@@ -52,6 +52,13 @@ interface DetectionResult {
   };
   analysisConfidence?: "high" | "medium" | "low";
   confidenceReason?: string;
+  transcriptAnalysis?: Array<{
+    quote: string;
+    timestamp: string;
+    issue: string;
+    scamPattern: string;
+    severity: "critical" | "high" | "medium" | "low";
+  }>;
   meta?: {
     type: "youtube" | "sns";
     title?: string;
@@ -111,6 +118,24 @@ const tabs: { id: InputMode; label: string; icon: React.ElementType; desc: strin
   { id: "sns",     label: "SNS/기타", icon: Instagram,  desc: "인스타그램, 틱톡 등 SNS URL + 게시글 캡션 붙여넣기" },
 ];
 
+const ANALYSIS_STAGES = [
+  { message: "URL 정보 수집 중...", duration: 2000 },
+  { message: "자막 데이터 추출 중...", duration: 2000 },
+  { message: "사기 유형 DB(207개 패턴) 매칭 중...", duration: 3000 },
+  { message: "금융감독원 블랙리스트 대조 중...", duration: 3000 },
+  { message: "법적 판례 및 관련 법규 분석 중...", duration: 4000 },
+  { message: "심리 조작 기법 패턴 분석 중...", duration: 4000 },
+  { message: "전문가 수준 종합 리포트 생성 중...", duration: 4000 },
+  { message: "최종 검증 및 신뢰도 평가 중...", duration: 999999 },
+];
+
+const severityLabels = {
+  critical: "극도 위험",
+  high: "높은 위험",
+  medium: "주의",
+  low: "참고",
+};
+
 function SectionHeader({ icon: Icon, title, badge }: { icon: React.ElementType; title: string; badge?: string }) {
   return (
     <div className="flex items-center gap-2 mb-3">
@@ -146,6 +171,17 @@ function ResultPanel({ result }: { result: DetectionResult }) {
           </div>
         </div>
       )}
+
+      {/* Report header */}
+      <div className="px-6 sm:px-8 pt-6 sm:pt-8 pb-0">
+        <div className="flex items-center justify-between mb-1">
+          <h2 className="text-xs font-bold text-[#8b949e] uppercase tracking-widest">AI 전문가 분석 리포트</h2>
+          <span className="text-[10px] text-[#8b949e]/60 font-mono">
+            {new Date().toLocaleDateString("ko-KR")} {new Date().toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })} | v2.0
+          </span>
+        </div>
+        <div className="h-px bg-gradient-to-r from-[#f0a500]/40 via-[#30363d] to-transparent mb-0" />
+      </div>
 
       {/* Score header */}
       <div className="p-6 sm:p-8">
@@ -240,6 +276,38 @@ function ResultPanel({ result }: { result: DetectionResult }) {
                       ))}
                     </div>
                   )}
+                </div>
+              </div>
+            )}
+
+            {/* Transcript Analysis */}
+            {result.transcriptAnalysis && result.transcriptAnalysis.length > 0 && (
+              <div>
+                <SectionHeader icon={Quote} title="자막 원문 인용 분석" badge={`${result.transcriptAnalysis.length}건`} />
+                <div className="space-y-3">
+                  {result.transcriptAnalysis.map((item, i) => (
+                    <div key={i} className={`rounded-xl border overflow-hidden ${severityColors[item.severity]}`}>
+                      <div className="p-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className={`text-xs px-1.5 py-0.5 rounded border border-current/30 font-medium ${severityColors[item.severity].split(" ")[0]}`}>
+                            {severityLabels[item.severity]}
+                          </span>
+                          <span className="text-[#8b949e] text-xs flex items-center gap-1">
+                            <Clock size={10} />
+                            {item.timestamp}
+                          </span>
+                        </div>
+                        <blockquote className="border-l-2 border-[#f0a500]/50 pl-3 py-1 mb-3">
+                          <p className="text-[#e6edf3] text-sm font-medium italic leading-relaxed">"{item.quote}"</p>
+                        </blockquote>
+                        <p className="text-[#8b949e] text-xs leading-relaxed mb-2">{item.issue}</p>
+                        <div className="flex items-center gap-1.5">
+                          <Target size={10} className="text-[#f0a500]" />
+                          <span className="text-[#f0a500] text-xs font-medium">{item.scamPattern}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
@@ -398,8 +466,29 @@ export default function DetectorPage() {
   const [url, setUrl] = useState("");
   const [extraText, setExtraText] = useState("");
   const [loading, setLoading] = useState(false);
+  const [analysisStage, setAnalysisStage] = useState(0);
   const [result, setResult] = useState<DetectionResult | null>(null);
   const [error, setError] = useState("");
+  const stageTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (loading) {
+      setAnalysisStage(0);
+      let currentStage = 0;
+      const advanceStage = () => {
+        if (currentStage < ANALYSIS_STAGES.length - 1) {
+          currentStage++;
+          setAnalysisStage(currentStage);
+          stageTimerRef.current = setTimeout(advanceStage, ANALYSIS_STAGES[currentStage].duration);
+        }
+      };
+      stageTimerRef.current = setTimeout(advanceStage, ANALYSIS_STAGES[0].duration);
+      return () => { if (stageTimerRef.current) clearTimeout(stageTimerRef.current); };
+    } else {
+      setAnalysisStage(0);
+      if (stageTimerRef.current) clearTimeout(stageTimerRef.current);
+    }
+  }, [loading]);
 
   const reset = () => { setResult(null); setError(""); };
 
@@ -597,6 +686,39 @@ export default function DetectorPage() {
             </button>
           </div>
         </div>
+
+        {/* Loading panel */}
+        {loading && (
+          <div className="rounded-2xl border border-[#30363d] bg-[#161b22] p-6 mb-4 overflow-hidden">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-semibold text-[#e6edf3]">분석 진행 중</h3>
+              <span className="text-xs text-[#8b949e] font-mono">단계 {analysisStage + 1} / {ANALYSIS_STAGES.length}</span>
+            </div>
+            {/* Progress bar */}
+            <div className="h-1.5 bg-[#0d1117] rounded-full overflow-hidden mb-5">
+              <div
+                className="h-full bg-[#f0a500] rounded-full transition-all duration-500"
+                style={{ width: `${((analysisStage + 1) / ANALYSIS_STAGES.length) * 100}%` }}
+              />
+            </div>
+            <div className="space-y-2">
+              {ANALYSIS_STAGES.map((stage, i) => (
+                <div key={i} className={`flex items-center gap-3 py-1.5 transition-all duration-300 ${i > analysisStage ? "opacity-30" : ""}`}>
+                  {i < analysisStage ? (
+                    <CheckCircle2 size={15} className="text-green-400 shrink-0" />
+                  ) : i === analysisStage ? (
+                    <Loader2 size={15} className="text-[#f0a500] shrink-0 animate-spin" />
+                  ) : (
+                    <Circle size={15} className="text-[#30363d] shrink-0" />
+                  )}
+                  <span className={`text-xs ${i === analysisStage ? "text-[#e6edf3] font-semibold" : i < analysisStage ? "text-green-400/80" : "text-[#8b949e]"}`}>
+                    {stage.message}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Error */}
         {error && (
