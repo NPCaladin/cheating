@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSupabaseClient, isSupabaseConfigured } from "@/lib/supabase";
+import { getAdminClient, isAdminDbConfigured } from "@/lib/supabase-admin";
 
 interface ReportPayload {
   scamType: string;
@@ -24,11 +24,11 @@ export async function POST(req: NextRequest) {
     }
 
     // If Supabase is not configured, return success without saving
-    if (!isSupabaseConfigured()) {
+    if (!isAdminDbConfigured()) {
       return NextResponse.json({ success: true, saved: false, message: "제보가 접수되었습니다. (DB 미연결 — 로컬 처리)" });
     }
 
-    const supabase = getSupabaseClient()!;
+    const supabase = getAdminClient()!;
 
     // Insert into reports table
     const { data: reportData, error: reportError } = await supabase
