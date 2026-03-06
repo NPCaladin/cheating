@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ShieldAlert, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
 const reportLinks = [
   { name: "경찰청 사이버수사대", href: "https://ecrm.police.go.kr", tel: "182" },
@@ -15,10 +16,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2.5 mb-3">
-              <div className="w-7 h-7 rounded-md bg-[#f0a500]/10 border border-[#f0a500]/30 flex items-center justify-center">
-                <ShieldAlert size={14} className="text-[#f0a500]" />
-              </div>
+            <div className="flex items-center gap-2 mb-3">
+              <Image
+                src="/logo.png"
+                alt="사기감별사 로고"
+                width={28}
+                height={28}
+                className="rounded-md"
+              />
               <span className="font-bold text-sm">사기<span className="text-[#f0a500]">감별사</span></span>
             </div>
             <p className="text-[#8b949e] text-xs leading-relaxed">

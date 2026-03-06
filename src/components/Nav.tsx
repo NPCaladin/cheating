@@ -1,8 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShieldAlert, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
 const navItems = [
@@ -19,10 +20,14 @@ export default function Nav() {
     <nav className="relative z-50 border-b border-[#30363d] bg-[#0d1117]/80 backdrop-blur-md sticky top-0">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-[#f0a500]/10 border border-[#f0a500]/30 flex items-center justify-center group-hover:bg-[#f0a500]/20 transition-colors">
-            <ShieldAlert size={16} className="text-[#f0a500]" />
-          </div>
+        <Link href="/" className="flex items-center gap-2 group">
+          <Image
+            src="/logo.png"
+            alt="사기감별사 로고"
+            width={36}
+            height={36}
+            className="rounded-lg group-hover:brightness-110 transition"
+          />
           <span className="font-bold text-base tracking-tight">
             사기<span className="text-[#f0a500]">감별사</span>
           </span>
