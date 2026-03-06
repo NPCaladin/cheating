@@ -28,7 +28,7 @@ export default function Nav() {
             height={44}
             className="rounded-lg group-hover:brightness-110 transition"
           />
-          <span className="font-bold text-base tracking-tight">
+          <span className="font-extrabold text-xl tracking-tight">
             사기<span className="text-[#f0a500]">감별사</span>
           </span>
         </Link>
