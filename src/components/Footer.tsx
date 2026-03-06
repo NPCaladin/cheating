@@ -20,8 +20,8 @@ export default function Footer() {
               <Image
                 src="/logo.png"
                 alt="사기감별사 로고"
-                width={28}
-                height={28}
+                width={36}
+                height={36}
                 className="rounded-md"
               />
               <span className="font-bold text-sm">사기<span className="text-[#f0a500]">감별사</span></span>

@@ -24,8 +24,8 @@ export default function Nav() {
           <Image
             src="/logo.png"
             alt="사기감별사 로고"
-            width={36}
-            height={36}
+            width={44}
+            height={44}
             className="rounded-lg group-hover:brightness-110 transition"
           />
           <span className="font-bold text-base tracking-tight">
