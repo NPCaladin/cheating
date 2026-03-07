@@ -54,10 +54,17 @@ export interface MatchedSignal {
   matchedExample: string;
 }
 
+export interface MatchedUrl {
+  url: string;
+  reason: string;
+  riskType: "shortened" | "impersonation" | "suspicious-tld" | "brand-fake";
+}
+
 export interface PreScreenResult {
   riskScore: number;
   matchedPhrases: MatchedPhrase[];
   matchedSignals: MatchedSignal[];
+  matchedUrls: MatchedUrl[];
   combinationBonuses: { id: string; description: string; bonus: number }[];
   shouldCallGPT: boolean;
   promptContext: string;
@@ -172,6 +179,79 @@ export function evaluateCombinations(
   return bonuses;
 }
 
+// ── URL pattern detection ────────────────────────────────────────────────────
+
+const SHORTENED_URL_DOMAINS = [
+  "bit.ly", "tinyurl.com", "han.gl", "vo.la", "me2.do", "goo.gl",
+  "t.co", "is.gd", "v.gd", "ow.ly", "rb.gy", "shorturl.at",
+  "url.kr", "zrr.kr", "lrl.kr", "buly.kr",
+];
+
+const SUSPICIOUS_TLDS = [
+  ".xyz", ".top", ".click", ".site", ".online", ".icu", ".buzz",
+  ".fun", ".club", ".info", ".work", ".live", ".store", ".shop",
+  ".link", ".space", ".monster", ".rest", ".cam", ".bid", ".win",
+];
+
+const OFFICIAL_GOV_DOMAINS = [".go.kr", ".or.kr"];
+const GOV_KEYWORDS = [
+  "nhis", "nps", "nts", "police", "prosecutor", "court", "gov",
+  "hometax", "minwon", "bokjiro", "건강보험", "국민연금", "국세청",
+];
+
+const BRAND_KEYWORDS = [
+  "cj", "cjlogistics", "hanjin", "logen", "epost", "우체국",
+  "naver", "kakao", "samsung", "coupang", "toss", "shinhan",
+  "kookmin", "woori", "hana", "ibk", "농협", "국민은행",
+  "신한", "우리", "하나", "네이버페이", "카카오페이",
+];
+const OFFICIAL_BRAND_DOMAINS = [
+  "naver.com", "kakao.com", "kakaocorp.com", "cj.net", "cjlogistics.com",
+  "samsung.com", "coupang.com", "toss.im", "shinhan.com", "kbstar.com",
+  "wooribank.com", "hanabank.com", "ibk.co.kr", "nonghyup.com",
+];
+
+export function matchSuspiciousUrls(text: string): MatchedUrl[] {
+  const matched: MatchedUrl[] = [];
+  // Extract URLs from text
+  const urlRegex = /https?:\/\/[^\s<>"')\]]+|[a-zA-Z0-9-]+\.[a-zA-Z]{2,}[^\s<>"')\]]*/gi;
+  const urls = text.match(urlRegex) ?? [];
+
+  for (const rawUrl of urls) {
+    const url = rawUrl.toLowerCase().replace(/\/+$/, "");
+
+    // 1. Shortened URL check
+    if (SHORTENED_URL_DOMAINS.some((d) => url.includes(d))) {
+      matched.push({ url: rawUrl, reason: "단축 URL — 실제 목적지를 숨기는 피싱 기법", riskType: "shortened" });
+      continue;
+    }
+
+    // 2. Government impersonation: contains gov keywords but NOT official domain
+    const hasGovKeyword = GOV_KEYWORDS.some((kw) => url.includes(kw));
+    const isOfficialGov = OFFICIAL_GOV_DOMAINS.some((d) => url.includes(d));
+    if (hasGovKeyword && !isOfficialGov) {
+      matched.push({ url: rawUrl, reason: "정부기관 사칭 도메인 — 공식 도메인(.go.kr)이 아님", riskType: "impersonation" });
+      continue;
+    }
+
+    // 3. Brand impersonation: contains brand keywords but NOT official domain
+    const hasBrandKeyword = BRAND_KEYWORDS.some((kw) => url.includes(kw));
+    const isOfficialBrand = OFFICIAL_BRAND_DOMAINS.some((d) => url.includes(d));
+    if (hasBrandKeyword && !isOfficialBrand) {
+      matched.push({ url: rawUrl, reason: "브랜드 사칭 도메인 — 공식 도메인이 아님", riskType: "brand-fake" });
+      continue;
+    }
+
+    // 4. Suspicious TLD check
+    if (SUSPICIOUS_TLDS.some((tld) => url.endsWith(tld) || url.includes(tld + "/") || url.includes(tld + "?"))) {
+      matched.push({ url: rawUrl, reason: "의심스러운 도메인 확장자 — 피싱에 자주 악용되는 TLD", riskType: "suspicious-tld" });
+      continue;
+    }
+  }
+
+  return matched;
+}
+
 // ── Main entry point ──────────────────────────────────────────────────────────
 
 export function preScreenText(text: string): PreScreenResult {
@@ -192,6 +272,9 @@ export function preScreenText(text: string): PreScreenResult {
 
   const combinationBonuses = evaluateCombinations(matchedPhrases, normalizedText);
 
+  // URL pattern detection (run on both original and normalized)
+  const matchedUrls = matchSuspiciousUrls(text);
+
   // Weighted score: phrases 70%, signals 30%
   let riskScore = 0;
 
@@ -205,12 +288,18 @@ export function preScreenText(text: string): PreScreenResult {
     riskScore += signalAvg * 0.3;
   }
 
+  // URL matches add risk
+  if (matchedUrls.length > 0) {
+    riskScore += matchedUrls.length * 15;
+  }
+
   riskScore += combinationBonuses.reduce((s, b) => s + b.bonus, 0);
   riskScore = Math.min(100, Math.round(riskScore));
 
-  const shouldCallGPT = riskScore > 15;
+  // Always call AI — Gemini 2.5 Flash free tier (500 RPD) makes this viable
+  const shouldCallGPT = true;
 
-  // Build context string injected into GPT prompt
+  // Build context string injected into AI prompt
   const lines = ["[1차 로컬 분석 결과]"];
 
   if (matchedPhrases.length > 0) {
@@ -227,6 +316,10 @@ export function preScreenText(text: string): PreScreenResult {
     lines.push("감지된 위험 신호: 없음");
   }
 
+  if (matchedUrls.length > 0) {
+    lines.push(`감지된 의심 URL: ${matchedUrls.map((u) => `${u.url} (${u.reason})`).join(", ")}`);
+  }
+
   lines.push(`1차 위험 점수: ${riskScore}/100`);
   lines.push("위 결과를 참고하되, 전체 맥락을 고려하여 최종 판정하세요.");
 
@@ -234,6 +327,7 @@ export function preScreenText(text: string): PreScreenResult {
     riskScore,
     matchedPhrases,
     matchedSignals,
+    matchedUrls,
     combinationBonuses,
     shouldCallGPT,
     promptContext: lines.join("\n"),

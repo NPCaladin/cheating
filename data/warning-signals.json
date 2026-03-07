@@ -222,7 +222,12 @@
         "배달의민족 제휴",
         "카카오 공식",
         "삼성 체험단",
-        "LG 체험단"
+        "LG 체험단",
+        "국민건강보험",
+        "국세청",
+        "경찰청",
+        "금융감독원",
+        "검찰청"
       ],
       "explanation": "정상 기업은 문자/카카오톡으로 개인에게 먼저 연락하지 않으며, 외부 메신저 ID를 알려달라고 하지 않음. 기업 공식 앱/사이트에서 동일 이벤트 확인 불가 시 사기.",
       "relatedScamTypes": ["team-mission", "reward-platform"],
@@ -246,6 +251,93 @@
       "explanation": "스팸 탐지 시스템을 우회하려는 의도적 행위. 정상 기업의 공식 메시지에는 이런 패턴이 없음.",
       "relatedScamTypes": ["team-mission", "reward-platform", "online-side-job"],
       "checkQuestion": "메시지에 글자 사이에 점이나 특수문자가 삽입되어 있나요?"
+    },
+    {
+      "id": "government-impersonation",
+      "rank": 14,
+      "name": "정부기관/공공기관 사칭",
+      "category": "impersonation",
+      "riskLevel": "critical",
+      "riskScore": 95,
+      "description": "건강보험공단, 국세청, 경찰, 검찰, 법원 등 정부기관을 사칭하여 공포를 유발하고 개인정보나 금전을 요구",
+      "examples": [
+        "국민건강보험공단",
+        "국세청 환급",
+        "검찰 출석",
+        "경찰 수사",
+        "법원 통지",
+        "금융감독원",
+        "계좌 동결",
+        "범죄 연루",
+        "명의도용",
+        "안전계좌"
+      ],
+      "explanation": "공공기관은 문자/전화로 링크 클릭, 개인정보 입력, 계좌이체를 요구하지 않음. 의심 시 해당 기관 대표번호로 직접 확인.",
+      "relatedScamTypes": ["government-impersonation", "voice-phishing"],
+      "checkQuestion": "정부기관이나 공공기관을 사칭하여 긴급한 조치를 요구하나요?"
+    },
+    {
+      "id": "suspicious-url",
+      "rank": 15,
+      "name": "의심 URL/링크",
+      "category": "phishing",
+      "riskLevel": "high",
+      "riskScore": 80,
+      "description": "단축 URL, 비공식 도메인, 의심스러운 TLD를 사용하여 피싱 사이트로 유도",
+      "examples": [
+        "bit.ly",
+        "han.gl",
+        ".xyz",
+        ".top",
+        ".click",
+        ".site",
+        "확인하세요 http"
+      ],
+      "explanation": "공식 기관/기업은 단축 URL을 사용하지 않으며, .go.kr, .or.kr, .co.kr 등 공식 도메인을 사용함.",
+      "relatedScamTypes": ["sms-phishing", "financial-impersonation", "used-market-fraud"],
+      "checkQuestion": "링크의 도메인이 공식 기관/기업의 도메인(.go.kr, .co.kr 등)과 일치하나요?"
+    },
+    {
+      "id": "personal-info-request",
+      "rank": 16,
+      "name": "개인정보 입력 요구",
+      "category": "phishing",
+      "riskLevel": "critical",
+      "riskScore": 92,
+      "description": "주민등록번호, 계좌번호, OTP, 비밀번호 등 민감한 개인정보 입력을 요구",
+      "examples": [
+        "주민번호 입력",
+        "주민등록번호",
+        "계좌번호 입력",
+        "OTP 번호",
+        "보안카드 번호",
+        "비밀번호 입력",
+        "인증번호 전달"
+      ],
+      "explanation": "정상적인 기관은 문자/전화로 주민번호, 계좌 비밀번호, OTP, 보안카드 전체 번호를 절대 요구하지 않음.",
+      "relatedScamTypes": ["government-impersonation", "financial-impersonation", "sms-phishing"],
+      "checkQuestion": "주민번호, 계좌 비밀번호, OTP 등 민감한 개인정보 입력을 요구하나요?"
+    },
+    {
+      "id": "delivery-impersonation",
+      "rank": 17,
+      "name": "택배/배송 사칭",
+      "category": "impersonation",
+      "riskLevel": "high",
+      "riskScore": 85,
+      "description": "CJ대한통운, 우체국, 한진택배 등 택배사를 사칭하여 링크 클릭을 유도하는 스미싱",
+      "examples": [
+        "CJ대한통운",
+        "배송 불가",
+        "미수취 반송",
+        "주소 확인 요청",
+        "통관 보류",
+        "배송비 추가",
+        "관세 납부"
+      ],
+      "explanation": "택배사는 문자로 링크를 발송하지 않음. 배송 조회는 반드시 공식 택배 앱이나 네이버/다음 운송장 조회를 이용.",
+      "relatedScamTypes": ["sms-phishing"],
+      "checkQuestion": "택배사 공식 앱이나 사이트에서 동일한 배송 정보를 직접 확인할 수 있나요?"
     }
   ],
   "riskLevels": {

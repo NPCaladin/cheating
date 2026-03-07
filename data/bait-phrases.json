@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "lastUpdated": "2026-03-04",
   "description": "AI 판별기 학습용 미끼 문구 데이터베이스 (200개+)",
-  "totalCount": 207,
+  "totalCount": 302,
   "categories": [
     {
       "id": "investment",
@@ -1715,6 +1715,141 @@
           "explanation": "극단적 긴급성 조작으로 냉철한 판단 차단"
         }
       ]
+    },
+    {
+      "id": "sms-phishing",
+      "name": "택배/배송 사칭 스미싱",
+      "weight": 0.95,
+      "count": 20,
+      "phrases": [
+        { "id": "bp-208", "text": "배송 불가 주소 확인", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "critical", "explanation": "택배사는 문자로 링크를 보내지 않음. 배송 상태는 공식 앱에서 확인" },
+        { "id": "bp-209", "text": "미수취 반송 예정", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "critical", "explanation": "실제 택배사는 반송 전 전화 연락을 함" },
+        { "id": "bp-210", "text": "배송지 변경 요청", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "high", "explanation": "링크 클릭 유도 후 개인정보 탈취" },
+        { "id": "bp-211", "text": "택배 수령 확인", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "high", "explanation": "실제 택배사는 배송 완료 후 별도 확인 링크를 보내지 않음" },
+        { "id": "bp-212", "text": "운송장 번호 확인", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "high", "explanation": "운송장 조회는 공식 택배 앱이나 사이트에서만 가능" },
+        { "id": "bp-213", "text": "CJ대한통운", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "high", "variants": ["cj대한통운", "CJ택배", "cj택배"], "explanation": "CJ대한통운 사칭 문자는 가장 흔한 스미싱 유형" },
+        { "id": "bp-214", "text": "우체국 택배", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "high", "variants": ["우체국택배", "국제우편"], "explanation": "우체국 사칭 스미싱" },
+        { "id": "bp-215", "text": "로젠택배", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "high", "variants": ["로젠 택배"], "explanation": "로젠택배 사칭 스미싱" },
+        { "id": "bp-216", "text": "한진택배", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "high", "variants": ["한진 택배"], "explanation": "한진택배 사칭 스미싱" },
+        { "id": "bp-217", "text": "통관 보류", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "critical", "variants": ["세관 보류", "통관 지연"], "explanation": "해외직구 통관 사칭 스미싱. 실제 통관 문제는 관세청에서 직접 연락" },
+        { "id": "bp-218", "text": "배송비 추가 결제", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "critical", "explanation": "추가 배송비 결제를 유도하며 카드정보 탈취" },
+        { "id": "bp-219", "text": "택배 분실 보상", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "high", "explanation": "보상금 수령을 빙자한 개인정보 수집" },
+        { "id": "bp-220", "text": "배달 실패 재배송", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "high", "variants": ["재배송 요청"], "explanation": "배달 실패 알림을 사칭한 링크 유도" },
+        { "id": "bp-221", "text": "관세 납부 요청", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "critical", "explanation": "관세 납부는 관세청 유니패스에서만 진행. 문자 링크 결제는 사기" },
+        { "id": "bp-222", "text": "도로명주소 오류", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "high", "variants": ["주소 불일치", "주소 오류"], "explanation": "주소 확인을 빙자한 피싱 링크" },
+        { "id": "bp-223", "text": "등기우편 확인", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "high", "variants": ["등기 도착"], "explanation": "등기우편 사칭 스미싱" },
+        { "id": "bp-224", "text": "배송 일정 변경", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "medium", "explanation": "배송 일정 변경을 빙자한 링크 유도" },
+        { "id": "bp-225", "text": "수취 거부 처리", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "high", "explanation": "수취 거부 처리를 빙자한 개인정보 요구" },
+        { "id": "bp-226", "text": "송장번호 조회", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "medium", "explanation": "공식 사이트 외 송장 조회 링크는 피싱" },
+        { "id": "bp-227", "text": "배송 완료 평가", "category": "sms-phishing", "scamType": "택배 사칭 스미싱", "riskLevel": "medium", "explanation": "배송 평가를 빙자한 개인정보 수집" }
+      ]
+    },
+    {
+      "id": "government-impersonation",
+      "name": "정부기관 사칭",
+      "weight": 0.95,
+      "count": 25,
+      "phrases": [
+        { "id": "bp-228", "text": "건강검진 결과 확인", "category": "government-impersonation", "scamType": "정부기관 사칭", "riskLevel": "critical", "variants": ["건강검진 안내", "검진 결과 조회"], "explanation": "국민건강보험공단은 문자 링크로 검진 결과를 보내지 않음" },
+        { "id": "bp-229", "text": "국민건강보험", "category": "government-impersonation", "scamType": "정부기관 사칭", "riskLevel": "critical", "variants": ["건강보험공단", "국민건강보험공단", "NHIS"], "explanation": "건보공단 사칭은 가장 흔한 정부기관 사칭 스미싱" },
+        { "id": "bp-230", "text": "국민연금 수령 안내", "category": "government-impersonation", "scamType": "정부기관 사칭", "riskLevel": "critical", "variants": ["국민연금공단", "연금 수급", "연금 조회"], "explanation": "국민연금 관련 안내는 공단 공식 앱/사이트에서만 확인" },
+        { "id": "bp-231", "text": "국세청 환급금", "category": "government-impersonation", "scamType": "정부기관 사칭", "riskLevel": "critical", "variants": ["세금 환급", "환급금 안내", "종합소득세 환급"], "explanation": "국세청은 문자 링크로 환급을 안내하지 않음. 홈택스에서만 확인" },
+        { "id": "bp-232", "text": "과태료 납부 안내", "category": "government-impersonation", "scamType": "정부기관 사칭", "riskLevel": "critical", "variants": ["과태료 미납", "범칙금 납부", "교통 과태료"], "explanation": "과태료는 정부24나 이택스에서 직접 확인. 문자 링크 결제는 사기" },
+        { "id": "bp-233", "text": "출석요구서", "category": "government-impersonation", "scamType": "정부기관 사칭 (경찰/검찰)", "riskLevel": "critical", "variants": ["출석 통보", "수사 협조 요청"], "explanation": "경찰/검찰 출석 요구는 우편 등기로 발송. 문자/전화로 출석을 요구하지 않음" },
+        { "id": "bp-234", "text": "범죄 연루 확인", "category": "government-impersonation", "scamType": "보이스피싱/기관 사칭", "riskLevel": "critical", "variants": ["범죄 혐의", "사건 연루", "수사 대상"], "explanation": "전형적인 보이스피싱 수법. 검찰/경찰은 전화로 범죄 연루를 통보하지 않음" },
+        { "id": "bp-235", "text": "계좌 동결", "category": "government-impersonation", "scamType": "보이스피싱", "riskLevel": "critical", "variants": ["계좌 지급정지", "계좌 정지"], "explanation": "계좌 동결 통보를 빙자한 전형적 보이스피싱. 실제 동결은 법원 명령으로만 가능" },
+        { "id": "bp-236", "text": "명의도용 확인", "category": "government-impersonation", "scamType": "보이스피싱", "riskLevel": "critical", "variants": ["명의 도용", "개인정보 유출 확인"], "explanation": "명의도용 확인을 빙자한 개인정보 탈취. KISA(118)에서 직접 확인" },
+        { "id": "bp-237", "text": "자금세탁 의심", "category": "government-impersonation", "scamType": "보이스피싱/금감원 사칭", "riskLevel": "critical", "variants": ["자금 세탁", "불법 자금"], "explanation": "금감원/경찰 사칭하여 안전계좌 이체를 유도하는 사기" },
+        { "id": "bp-238", "text": "안전계좌 이체", "category": "government-impersonation", "scamType": "보이스피싱", "riskLevel": "critical", "variants": ["안전 계좌", "보안 계좌", "안전조치 계좌"], "explanation": "'안전계좌'라는 것은 존재하지 않음. 100% 사기" },
+        { "id": "bp-239", "text": "전자금융사기 피해 방지", "category": "government-impersonation", "scamType": "보이스피싱", "riskLevel": "critical", "explanation": "피해 방지를 빙자한 계좌이체 유도" },
+        { "id": "bp-240", "text": "건강보험료 환급", "category": "government-impersonation", "scamType": "정부기관 사칭", "riskLevel": "critical", "variants": ["보험료 과납 환급"], "explanation": "건보공단 사칭 환급 스미싱" },
+        { "id": "bp-241", "text": "주민등록번호 입력", "category": "government-impersonation", "scamType": "개인정보 탈취", "riskLevel": "critical", "variants": ["주민번호 확인", "신분증 사본"], "explanation": "어떤 기관도 문자/전화로 주민번호를 요구하지 않음" },
+        { "id": "bp-242", "text": "긴급재난지원금", "category": "government-impersonation", "scamType": "정부기관 사칭", "riskLevel": "critical", "variants": ["재난지원금 신청", "지원금 수령"], "explanation": "정부 지원금은 정부24에서만 신청. 문자 링크는 사기" },
+        { "id": "bp-243", "text": "체납세금 납부", "category": "government-impersonation", "scamType": "국세청 사칭", "riskLevel": "critical", "variants": ["세금 체납", "납세 고지"], "explanation": "세금 체납 안내는 등기우편으로 발송. 문자 링크 납부는 사기" },
+        { "id": "bp-244", "text": "금융감독원 사칭", "category": "government-impersonation", "scamType": "보이스피싱", "riskLevel": "critical", "variants": ["금감원", "금융감독원"], "explanation": "금감원은 개인에게 전화로 계좌이체를 요구하지 않음" },
+        { "id": "bp-245", "text": "법원 통지서", "category": "government-impersonation", "scamType": "기관 사칭", "riskLevel": "critical", "variants": ["소송 통지", "재판 출석"], "explanation": "법원 통지는 등기우편으로만 발송. 문자/카톡으로 보내지 않음" },
+        { "id": "bp-246", "text": "원격제어 앱 설치", "category": "government-impersonation", "scamType": "보이스피싱", "riskLevel": "critical", "variants": ["TeamViewer 설치", "AnyDesk 설치", "원격 접속"], "explanation": "원격제어 앱 설치를 요구하면 100% 사기. 공공기관은 절대 원격제어를 요구하지 않음" },
+        { "id": "bp-247", "text": "보안카드 번호 입력", "category": "government-impersonation", "scamType": "피싱", "riskLevel": "critical", "variants": ["OTP 번호 입력", "인증번호 전달"], "explanation": "보안카드/OTP 전체 입력은 어떤 기관도 요구하지 않음" },
+        { "id": "bp-248", "text": "회선 정지 예정", "category": "government-impersonation", "scamType": "통신사 사칭", "riskLevel": "high", "variants": ["요금 미납", "통신 정지"], "explanation": "통신사 사칭 스미싱. 실제 요금 미납은 통신사 앱에서 확인" },
+        { "id": "bp-249", "text": "경찰청 사이버수사대", "category": "government-impersonation", "scamType": "경찰 사칭", "riskLevel": "critical", "variants": ["사이버수사국", "사이버수사"], "explanation": "경찰은 전화/문자로 수사를 통보하지 않음" },
+        { "id": "bp-250", "text": "APK 파일 설치", "category": "government-impersonation", "scamType": "악성앱 설치 유도", "riskLevel": "critical", "variants": ["앱 다운로드 링크", ".apk"], "explanation": "APK 직접 설치를 유도하면 악성앱(원격제어, 정보탈취). 공식 앱스토어에서만 설치" },
+        { "id": "bp-251", "text": "보이스피싱 피해 확인", "category": "government-impersonation", "scamType": "보이스피싱 2차 사기", "riskLevel": "critical", "explanation": "보이스피싱 피해 확인을 빙자한 2차 사기" },
+        { "id": "bp-252", "text": "금융거래 정지 안내", "category": "government-impersonation", "scamType": "보이스피싱", "riskLevel": "critical", "variants": ["거래 정지", "이체 제한"], "explanation": "금융거래 정지를 빙자한 계좌이체 유도" }
+      ]
+    },
+    {
+      "id": "financial-impersonation",
+      "name": "금융기관 사칭",
+      "weight": 0.9,
+      "count": 20,
+      "phrases": [
+        { "id": "bp-253", "text": "저금리 대환대출", "category": "financial-impersonation", "scamType": "대출 사기", "riskLevel": "critical", "variants": ["대환대출 승인", "저금리 전환"], "explanation": "저금리 대환대출을 미끼로 선납금/수수료를 편취하는 사기" },
+        { "id": "bp-254", "text": "대출 승인 완료", "category": "financial-impersonation", "scamType": "대출 사기", "riskLevel": "critical", "variants": ["대출 사전 승인", "즉시 대출 가능"], "explanation": "신청하지 않은 대출 승인 통보는 100% 사기" },
+        { "id": "bp-255", "text": "해외결제 승인", "category": "financial-impersonation", "scamType": "카드사 사칭", "riskLevel": "critical", "variants": ["해외 결제", "해외 카드 사용"], "explanation": "해외결제 승인 알림 사칭. 실제 승인은 카드사 공식 앱에서 확인" },
+        { "id": "bp-256", "text": "카드 도용 의심", "category": "financial-impersonation", "scamType": "카드사 사칭", "riskLevel": "critical", "variants": ["카드 부정 사용", "카드 무단 결제"], "explanation": "카드 도용 알림을 빙자한 피싱. 카드사 공식 번호(뒷면)로 직접 확인" },
+        { "id": "bp-257", "text": "금리 인하 특별 안내", "category": "financial-impersonation", "scamType": "대출 사기", "riskLevel": "high", "variants": ["특별 금리", "우대 금리"], "explanation": "특별 금리를 미끼로 수수료 편취" },
+        { "id": "bp-258", "text": "대출 수수료 선납", "category": "financial-impersonation", "scamType": "대출 사기", "riskLevel": "critical", "variants": ["선납 수수료", "보증보험료 선납", "인지대 납부"], "explanation": "대출 전 수수료 요구는 불법. 정상 금융기관은 대출금에서 차감" },
+        { "id": "bp-259", "text": "신용등급 상향 안내", "category": "financial-impersonation", "scamType": "대출 사기", "riskLevel": "high", "variants": ["신용점수 올리기", "신용 복원"], "explanation": "신용등급 상향을 미끼로 수수료를 요구하는 사기" },
+        { "id": "bp-260", "text": "정부지원 서민대출", "category": "financial-impersonation", "scamType": "대출 사기", "riskLevel": "critical", "variants": ["서민 대출", "정부 지원 대출", "햇살론"], "explanation": "정부 지원 대출 사칭. 실제는 서민금융진흥원 공식 사이트에서만 신청 가능" },
+        { "id": "bp-261", "text": "계좌 비밀번호 변경", "category": "financial-impersonation", "scamType": "피싱", "riskLevel": "critical", "variants": ["비밀번호 만료", "비밀번호 재설정"], "explanation": "은행은 문자로 비밀번호 변경을 요구하지 않음" },
+        { "id": "bp-262", "text": "이체 한도 초과", "category": "financial-impersonation", "scamType": "은행 사칭", "riskLevel": "high", "variants": ["한도 증액", "이체 제한 해제"], "explanation": "이체 한도 관련은 은행 앱/창구에서만 처리" },
+        { "id": "bp-263", "text": "보험금 수령 안내", "category": "financial-impersonation", "scamType": "보험사 사칭", "riskLevel": "high", "variants": ["보험 환급", "만기 보험금"], "explanation": "보험금 수령은 보험사 공식 채널에서만 처리" },
+        { "id": "bp-264", "text": "자동이체 실패", "category": "financial-impersonation", "scamType": "은행 사칭", "riskLevel": "high", "variants": ["이체 오류", "출금 실패"], "explanation": "자동이체 실패를 빙자한 피싱 링크" },
+        { "id": "bp-265", "text": "무직자 대출 가능", "category": "financial-impersonation", "scamType": "대출 사기", "riskLevel": "critical", "variants": ["무서류 대출", "무심사 대출"], "explanation": "무직자/무서류 대출 광고는 불법 대부업 또는 사기" },
+        { "id": "bp-266", "text": "주식담보대출 안내", "category": "financial-impersonation", "scamType": "투자/대출 사기", "riskLevel": "high", "explanation": "주식담보대출을 빙자한 증권사 사칭" },
+        { "id": "bp-267", "text": "카드론 한도 안내", "category": "financial-impersonation", "scamType": "카드사 사칭", "riskLevel": "high", "variants": ["카드론 승인", "현금서비스"], "explanation": "신청하지 않은 카드론 안내는 사칭 가능성" },
+        { "id": "bp-268", "text": "보안 인증 만료", "category": "financial-impersonation", "scamType": "은행 사칭 피싱", "riskLevel": "critical", "variants": ["인증서 갱신", "공인인증서 만료"], "explanation": "인증서 갱신을 빙자한 피싱 사이트 유도" },
+        { "id": "bp-269", "text": "계좌 이상거래 감지", "category": "financial-impersonation", "scamType": "은행 사칭", "riskLevel": "critical", "variants": ["이상거래 알림", "의심거래 확인"], "explanation": "이상거래 알림을 빙자한 피싱. 실제는 은행 공식 앱에서 확인" },
+        { "id": "bp-270", "text": "신용카드 발급 확인", "category": "financial-impersonation", "scamType": "카드사 사칭", "riskLevel": "high", "variants": ["카드 발급 알림", "신규 카드 개설"], "explanation": "신청하지 않은 카드 발급 알림은 개인정보 탈취 목적" },
+        { "id": "bp-271", "text": "대출 이자 감면 안내", "category": "financial-impersonation", "scamType": "대출 사기", "riskLevel": "high", "variants": ["이자 감면", "금리 인하 요구권"], "explanation": "금리 인하를 미끼로 수수료를 요구하는 사기" },
+        { "id": "bp-272", "text": "전자서명 요청", "category": "financial-impersonation", "scamType": "피싱", "riskLevel": "critical", "variants": ["본인인증 요청", "전자서명 확인"], "explanation": "문자 링크를 통한 전자서명은 피싱. 은행 앱에서만 처리" }
+      ]
+    },
+    {
+      "id": "romance-bodycam",
+      "name": "로맨스/몸캠 피싱",
+      "weight": 0.9,
+      "count": 15,
+      "phrases": [
+        { "id": "bp-273", "text": "영상통화 녹화", "category": "romance-bodycam", "scamType": "몸캠 피싱", "riskLevel": "critical", "variants": ["화상통화 녹화", "영상 캡처"], "explanation": "영상통화 녹화 협박은 전형적인 몸캠 피싱" },
+        { "id": "bp-274", "text": "유포 협박", "category": "romance-bodycam", "scamType": "몸캠 피싱", "riskLevel": "critical", "variants": ["지인 유포", "SNS 유포", "연락처 유포"], "explanation": "녹화 영상 유포 협박으로 금전을 요구하는 사기" },
+        { "id": "bp-275", "text": "합의금 입금", "category": "romance-bodycam", "scamType": "몸캠 피싱/사기", "riskLevel": "critical", "variants": ["합의금", "합의 비용", "삭제 비용"], "explanation": "합의금을 요구하는 것은 공갈죄에 해당" },
+        { "id": "bp-276", "text": "해외 군인 사칭", "category": "romance-bodycam", "scamType": "로맨스 스캠", "riskLevel": "critical", "variants": ["미군", "UN 소속", "해외 파병"], "explanation": "해외 군인을 사칭한 로맨스 스캠은 국제적 사기 조직이 운영" },
+        { "id": "bp-277", "text": "소포 배송비 송금", "category": "romance-bodycam", "scamType": "로맨스 스캠", "riskLevel": "critical", "variants": ["선물 배송비", "관세 비용"], "explanation": "해외에서 선물을 보내겠다며 배송비/관세를 요구하는 로맨스 스캠" },
+        { "id": "bp-278", "text": "비트코인으로 송금", "category": "romance-bodycam", "scamType": "로맨스 스캠", "riskLevel": "critical", "variants": ["암호화폐 송금", "코인 전송"], "explanation": "추적 회피를 위해 암호화폐 송금을 요구하는 사기" },
+        { "id": "bp-279", "text": "치료비 도움 요청", "category": "romance-bodycam", "scamType": "로맨스 스캠", "riskLevel": "high", "variants": ["수술비 필요", "입원비 도움"], "explanation": "긴급 치료비를 빙자한 송금 요구" },
+        { "id": "bp-280", "text": "사업 투자 부탁", "category": "romance-bodycam", "scamType": "로맨스 스캠", "riskLevel": "critical", "variants": ["사업 자금 필요", "투자 기회"], "explanation": "연인 관계를 이용한 투자 사기" },
+        { "id": "bp-281", "text": "연락처 해킹", "category": "romance-bodycam", "scamType": "몸캠 피싱", "riskLevel": "critical", "variants": ["주소록 유출", "연락처 탈취"], "explanation": "연락처를 탈취하여 지인 유포 협박에 사용" },
+        { "id": "bp-282", "text": "몸캠 피싱", "category": "romance-bodycam", "scamType": "몸캠 피싱", "riskLevel": "critical", "explanation": "영상통화 유도 후 녹화 협박하는 범죄" },
+        { "id": "bp-283", "text": "삭제 비용 요구", "category": "romance-bodycam", "scamType": "몸캠 피싱", "riskLevel": "critical", "variants": ["영상 삭제비", "파일 삭제 비용"], "explanation": "한 번 입금하면 추가 요구가 계속됨. 절대 입금하지 말 것" },
+        { "id": "bp-284", "text": "만남 전 송금 요구", "category": "romance-bodycam", "scamType": "로맨스 스캠", "riskLevel": "critical", "variants": ["만남 비용", "교통비 선송금"], "explanation": "실제 만남 전 금전을 요구하면 로맨스 스캠" },
+        { "id": "bp-285", "text": "가족 비상 상황", "category": "romance-bodycam", "scamType": "로맨스 스캠", "riskLevel": "high", "variants": ["가족 사고", "부모님 입원"], "explanation": "가족 비상상황을 빙자한 긴급 송금 요구" },
+        { "id": "bp-286", "text": "항공권 구매 요청", "category": "romance-bodycam", "scamType": "로맨스 스캠", "riskLevel": "critical", "variants": ["비행기 표 구매", "한국 방문 비용"], "explanation": "만남을 위한 항공권 비용을 요구하는 사기" },
+        { "id": "bp-287", "text": "결혼 비자 비용", "category": "romance-bodycam", "scamType": "로맨스 스캠", "riskLevel": "critical", "variants": ["비자 수수료", "이민 서류 비용"], "explanation": "결혼/이민 관련 비용을 요구하는 로맨스 스캠" }
+      ]
+    },
+    {
+      "id": "used-market-fraud",
+      "name": "중고거래 사기",
+      "weight": 0.85,
+      "count": 15,
+      "phrases": [
+        { "id": "bp-288", "text": "안전결제 링크", "category": "used-market-fraud", "scamType": "중고거래 사기", "riskLevel": "critical", "variants": ["안전거래 링크", "에스크로 링크"], "explanation": "가짜 안전결제 페이지로 유도하여 결제정보 탈취" },
+        { "id": "bp-289", "text": "네이버페이 안전거래", "category": "used-market-fraud", "scamType": "중고거래 사기", "riskLevel": "critical", "variants": ["네이버페이 결제", "네이버 안전결제"], "explanation": "네이버페이를 사칭한 가짜 결제 페이지. 실제 네이버페이는 앱 내에서만 결제" },
+        { "id": "bp-290", "text": "카카오페이 안전결제", "category": "used-market-fraud", "scamType": "중고거래 사기", "riskLevel": "critical", "variants": ["카카오페이 결제", "카카오 안전거래"], "explanation": "카카오페이를 사칭한 가짜 결제 페이지" },
+        { "id": "bp-291", "text": "선입금 후 발송", "category": "used-market-fraud", "scamType": "중고거래 사기", "riskLevel": "high", "variants": ["선입금 필수", "입금 확인 후 배송"], "explanation": "선입금을 요구하고 물건을 보내지 않는 전형적 사기" },
+        { "id": "bp-292", "text": "급처합니다", "category": "used-market-fraud", "scamType": "중고거래 사기", "riskLevel": "medium", "variants": ["급처", "급매", "떨이"], "explanation": "시세보다 크게 낮은 가격으로 급처를 내세우며 선입금 유도" },
+        { "id": "bp-293", "text": "택배비 별도 입금", "category": "used-market-fraud", "scamType": "중고거래 사기", "riskLevel": "high", "variants": ["배송비 별도", "택배비 선결제"], "explanation": "택배비를 별도 계좌로 요구하는 사기 수법" },
+        { "id": "bp-294", "text": "직거래 불가 택배만", "category": "used-market-fraud", "scamType": "중고거래 사기", "riskLevel": "medium", "variants": ["직거래 안 됨", "택배 거래만"], "explanation": "직거래를 거부하고 선입금 택배만 고집하면 사기 가능성" },
+        { "id": "bp-295", "text": "운송장 번호 전송", "category": "used-market-fraud", "scamType": "중고거래 사기", "riskLevel": "medium", "explanation": "가짜 운송장 번호를 보내고 잠적하는 수법" },
+        { "id": "bp-296", "text": "당근마켓 결제", "category": "used-market-fraud", "scamType": "중고거래 사기", "riskLevel": "high", "variants": ["당근페이 결제", "당근마켓 안전결제"], "explanation": "당근마켓을 사칭한 가짜 결제 페이지" },
+        { "id": "bp-297", "text": "번개장터 안전결제", "category": "used-market-fraud", "scamType": "중고거래 사기", "riskLevel": "high", "variants": ["번개페이 결제"], "explanation": "번개장터 사칭 가짜 결제 페이지" },
+        { "id": "bp-298", "text": "중고나라 에스크로", "category": "used-market-fraud", "scamType": "중고거래 사기", "riskLevel": "high", "explanation": "중고나라 사칭 가짜 에스크로 페이지" },
+        { "id": "bp-299", "text": "입금 캡처 전송", "category": "used-market-fraud", "scamType": "중고거래 사기", "riskLevel": "high", "variants": ["이체 확인증", "입금 증빙"], "explanation": "가짜 입금 캡처를 보내고 물건 수령 후 잠적" },
+        { "id": "bp-300", "text": "물건 상태 확인 링크", "category": "used-market-fraud", "scamType": "중고거래 사기", "riskLevel": "high", "variants": ["상품 사진 링크", "실물 확인 링크"], "explanation": "물건 확인을 빙자한 피싱 링크" },
+        { "id": "bp-301", "text": "교환 환불 불가", "category": "used-market-fraud", "scamType": "중고거래 사기", "riskLevel": "medium", "explanation": "교환/환불 불가를 강조하며 하자 있는 물건을 판매" },
+        { "id": "bp-302", "text": "타 사이트 거래 유도", "category": "used-market-fraud", "scamType": "중고거래 사기", "riskLevel": "high", "variants": ["다른 사이트에서 거래", "외부 링크 결제"], "explanation": "플랫폼 보호를 벗어나기 위해 외부 사이트 거래를 유도" }
+      ]
     }
   ],
   "combinationRules": [
@@ -1787,6 +1922,34 @@
       "conditions": ["오늘", "선착순"],
       "bonusRiskScore": 12,
       "note": "긴급성과 희소성 이중 조작으로 즉각 결정 강요"
+    },
+    {
+      "id": "delivery-plus-url",
+      "description": "택배 키워드 + URL 조합",
+      "conditions": ["배송", "확인"],
+      "bonusRiskScore": 20,
+      "note": "택배 사칭 + 링크 클릭 유도는 스미싱의 핵심 패턴"
+    },
+    {
+      "id": "gov-plus-refund",
+      "description": "정부기관 + 환급/납부 조합",
+      "conditions": ["환급", "확인"],
+      "bonusRiskScore": 18,
+      "note": "정부기관 사칭 환급 스미싱"
+    },
+    {
+      "id": "loan-plus-fee",
+      "description": "대출 + 수수료/선납 조합",
+      "conditions": ["대출", "수수료"],
+      "bonusRiskScore": 25,
+      "note": "대출 사기의 핵심 — 대출 전 수수료 요구는 불법"
+    },
+    {
+      "id": "safe-payment-link",
+      "description": "안전결제/안전거래 + 링크 조합",
+      "conditions": ["안전결제", "링크"],
+      "bonusRiskScore": 22,
+      "note": "중고거래 사기의 핵심 — 가짜 안전결제 페이지 유도"
     }
   ]
 }
