@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+const BASE_URL = "https://cheating.vibelogic.net";
+
 export const metadata: Metadata = {
   title: "사기 유형 백과",
   description:
@@ -11,13 +13,30 @@ export const metadata: Metadata = {
   openGraph: {
     title: "사기 유형 백과 | 사기감별사",
     description: "15개 사기 유형의 특징과 피하는 방법을 알아보세요.",
-    url: "https://cheating-henna.vercel.app/types",
+    url: `${BASE_URL}/types`,
   },
   alternates: {
-    canonical: "https://cheating-henna.vercel.app/types",
+    canonical: `${BASE_URL}/types`,
   },
 };
 
 export default function TypesLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "홈", item: BASE_URL },
+      { "@type": "ListItem", position: 2, name: "사기 유형 백과", item: `${BASE_URL}/types` },
+    ],
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+      />
+      {children}
+    </>
+  );
 }

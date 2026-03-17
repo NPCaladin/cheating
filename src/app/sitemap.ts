@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 import scamTypes from "../../data/scam-types.json";
 
-const BASE_URL = "https://cheating-henna.vercel.app";
+const BASE_URL = "https://cheating.vibelogic.net";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const allTypeIds = scamTypes.categories.flatMap((cat) =>

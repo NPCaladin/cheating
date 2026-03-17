@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/admin/"],
       },
     ],
-    sitemap: "https://cheating-henna.vercel.app/sitemap.xml",
+    sitemap: "https://cheating.vibelogic.net/sitemap.xml",
   };
 }

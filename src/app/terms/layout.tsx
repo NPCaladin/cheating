@@ -7,6 +7,9 @@ export const metadata: Metadata = {
     title: "이용약관 | 사기감별사",
     description: "사기감별사의 이용약관입니다.",
   },
+  alternates: {
+    canonical: "https://cheating.vibelogic.net/terms",
+  },
 };
 
 export default function TermsLayout({ children }: { children: React.ReactNode }) {

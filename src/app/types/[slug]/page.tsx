@@ -4,7 +4,7 @@ import Link from "next/link";
 import { AlertTriangle, ShieldAlert, CheckCircle, ExternalLink, ArrowLeft, Phone } from "lucide-react";
 import scamTypesData from "../../../../data/scam-types.json";
 
-const BASE_URL = "https://cheating-henna.vercel.app";
+const BASE_URL = "https://cheating.vibelogic.net";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -108,6 +108,16 @@ export default async function ScamTypePage({
 
   const { type, category } = found;
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "홈", item: BASE_URL },
+      { "@type": "ListItem", position: 2, name: "사기 유형 백과", item: `${BASE_URL}/types` },
+      { "@type": "ListItem", position: 3, name: `${type.shortName} 사기`, item: `${BASE_URL}/types/${slug}` },
+    ],
+  };
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -149,6 +159,10 @@ export default async function ScamTypePage({
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}

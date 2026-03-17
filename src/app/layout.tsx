@@ -3,7 +3,7 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
-const BASE_URL = "https://cheating-henna.vercel.app";
+const BASE_URL = "https://cheating.vibelogic.net";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -64,25 +64,52 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "사기감별사",
-    url: BASE_URL,
-    description: "강연·교육·투자 사기 AI 판별 공익 서비스",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${BASE_URL}/detector?q={search_term_string}`,
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "사기감별사",
+      url: BASE_URL,
+      description: "강연·교육·투자 사기 AI 판별 공익 서비스",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${BASE_URL}/detector?q={search_term_string}`,
+        },
+        "query-input": "required name=search_term_string",
       },
-      "query-input": "required name=search_term_string",
     },
-  };
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "사기감별사",
+      url: BASE_URL,
+      logo: `${BASE_URL}/logo.png`,
+      description: "AI 기반 사기 판별 무료 공익 서비스",
+      sameAs: [],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      name: "사기감별사 AI 판별기",
+      url: `${BASE_URL}/detector`,
+      applicationCategory: "UtilitiesApplication",
+      operatingSystem: "Web",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "KRW",
+      },
+      description: "광고 문구, 유튜브 링크를 붙여넣으면 AI가 즉시 사기 패턴을 분석합니다.",
+    },
+  ];
 
   return (
     <html lang="ko">
       <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#f0a500" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
