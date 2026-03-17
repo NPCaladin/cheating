@@ -284,7 +284,7 @@ export async function POST(req: NextRequest) {
       result._blacklist = blacklistResult;
     }
 
-    logAnalysis({
+    await logAnalysis({
       type: "text",
       riskLevel: result.riskLevel,
       riskScore: result.riskScore,

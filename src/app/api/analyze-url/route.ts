@@ -273,7 +273,7 @@ export async function POST(req: NextRequest) {
       };
       if (blacklistResult) result._blacklist = blacklistResult;
 
-      logAnalysis({
+      await logAnalysis({
         type: "youtube",
         riskLevel: result.riskLevel,
         riskScore: result.riskScore,

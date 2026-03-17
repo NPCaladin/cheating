@@ -9,12 +9,12 @@ interface LogAnalysisData {
   ipHash?: string;
 }
 
-/** Fire-and-forget: logs analysis result to Supabase analysis_logs table */
-export function logAnalysis(data: LogAnalysisData): void {
+/** Logs analysis result to Supabase analysis_logs table */
+export async function logAnalysis(data: LogAnalysisData): Promise<void> {
   const client = getAdminClient();
   if (!client) return;
 
-  void client
+  const { error } = await client
     .from("analysis_logs")
     .insert({
       type: data.type,
@@ -24,4 +24,8 @@ export function logAnalysis(data: LogAnalysisData): void {
       ai_called: data.aiCalled ?? true,
       ip_hash: data.ipHash ?? null,
     });
+
+  if (error) {
+    console.error("[log-analysis] insert failed:", error.message);
+  }
 }
