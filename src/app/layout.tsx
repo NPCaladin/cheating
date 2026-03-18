@@ -110,6 +110,7 @@ export default function RootLayout({
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#f0a500" />
+        <meta name="naver-site-verification" content="68f85df41032405c14bbe520c54ee791aec1c21a" />
         <script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-BD2JMMTS88"
