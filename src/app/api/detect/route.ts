@@ -4,6 +4,7 @@ import { preScreenText } from "@/lib/rule-engine";
 import { checkBlacklist } from "@/lib/blacklist";
 import { logAnalysis } from "@/lib/log-analysis";
 import { callGemini } from "@/lib/gemini";
+import { getKnowledgeContext } from "@/lib/knowledge-db";
 
 export const maxDuration = 120;
 
@@ -263,7 +264,10 @@ export async function POST(req: NextRequest) {
       ? `\n[이용자 제보 이력]\n"${blacklistResult.entityName}"에 대해 이용자 제보 이력이 ${blacklistResult.reportCount}건 있습니다. (제보 유형: ${blacklistResult.scamType}) 이 정보는 참고용이며, 사실 여부는 확인되지 않았습니다.\n`
       : "";
 
+    const knowledgeContext = getKnowledgeContext();
+
     const userMessage = [
+      `[참고 지식 DB — 분석 시 유사 사례/수법 매칭에 활용하세요]\n${knowledgeContext}`,
       prescreen.promptContext,
       blacklistContext,
       `\n다음 텍스트를 분석해주세요:\n---분석 대상 시작---\n${sanitizedText}\n---분석 대상 끝---`,
