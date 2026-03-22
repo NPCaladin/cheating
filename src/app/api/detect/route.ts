@@ -2,7 +2,7 @@ import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { preScreenText } from "@/lib/rule-engine";
 import { checkBlacklist } from "@/lib/blacklist";
-import { logAnalysis } from "@/lib/log-analysis";
+import { logAnalysis, maskSensitive } from "@/lib/log-analysis";
 import { callGemini } from "@/lib/gemini";
 import { getKnowledgeContext } from "@/lib/knowledge-db";
 
@@ -263,6 +263,7 @@ export async function POST(req: NextRequest) {
     }
 
     const sanitizedText = sanitizeInput(text);
+    const startTime = Date.now();
 
     // Phase 1A: local rule-based pre-screen
     const prescreen = preScreenText(sanitizedText);
@@ -298,6 +299,8 @@ export async function POST(req: NextRequest) {
       result._blacklist = blacklistResult;
     }
 
+    const responseTimeMs = Date.now() - startTime;
+
     await logAnalysis({
       type: "text",
       riskLevel: result.riskLevel,
@@ -305,6 +308,11 @@ export async function POST(req: NextRequest) {
       scamType: result.matchedScamTypes?.[0]?.type ?? null,
       aiCalled: true,
       ipHash,
+      inputPreview: maskSensitive(sanitizedText),
+      inputLength: sanitizedText.length,
+      aiResult: result,
+      detectedSignalsCount: result.detectedSignals?.length ?? 0,
+      responseTimeMs,
     });
 
     return NextResponse.json(result);
@@ -328,6 +336,7 @@ export async function POST(req: NextRequest) {
       }
     }
     console.error("Detection error:", error);
+    logAnalysis({ type: "text", error: true, aiCalled: true }).catch(() => {});
     return NextResponse.json({ error: "분석 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요." }, { status: 500 });
   }
 }

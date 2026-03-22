@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { extractYoutubeId, fetchYoutubeMeta, fetchYoutubeTranscript } from "@/lib/youtube";
 import { preScreenText } from "@/lib/rule-engine";
 import { checkBlacklist } from "@/lib/blacklist";
-import { logAnalysis } from "@/lib/log-analysis";
+import { logAnalysis, maskSensitive, extractDomain } from "@/lib/log-analysis";
 import { callGemini } from "@/lib/gemini";
 import { getKnowledgeContext } from "@/lib/knowledge-db";
 
@@ -226,6 +226,8 @@ export async function POST(req: NextRequest) {
     }
 
     const youtubeId = extractYoutubeId(url);
+    const startTime = Date.now();
+    const urlDomain = extractDomain(url);
 
     if (youtubeId) {
       // YouTube 분석
@@ -286,6 +288,8 @@ export async function POST(req: NextRequest) {
       };
       if (blacklistResult) result._blacklist = blacklistResult;
 
+      const responseTimeMs = Date.now() - startTime;
+
       await logAnalysis({
         type: "youtube",
         riskLevel: result.riskLevel,
@@ -293,6 +297,14 @@ export async function POST(req: NextRequest) {
         scamType: result.matchedScamTypes?.[0]?.type ?? null,
         aiCalled: true,
         ipHash,
+        inputPreview: maskSensitive(analysisText),
+        inputLength: analysisText.length,
+        aiResult: result,
+        metaTitle: meta.title,
+        metaChannel: meta.channelName,
+        urlDomain: urlDomain ?? undefined,
+        detectedSignalsCount: result.detectedSignals?.length ?? 0,
+        responseTimeMs,
       });
 
       return NextResponse.json({
@@ -353,13 +365,21 @@ export async function POST(req: NextRequest) {
     };
     if (blacklistResult) result._blacklist = blacklistResult;
 
-    logAnalysis({
+    const responseTimeMs = Date.now() - startTime;
+
+    await logAnalysis({
       type: "sns",
       riskLevel: result.riskLevel,
       riskScore: result.riskScore,
       scamType: result.matchedScamTypes?.[0]?.type ?? null,
       aiCalled: true,
       ipHash,
+      inputPreview: maskSensitive(sanitizedExtra),
+      inputLength: sanitizedExtra.length,
+      aiResult: result,
+      urlDomain: urlDomain ?? undefined,
+      detectedSignalsCount: result.detectedSignals?.length ?? 0,
+      responseTimeMs,
     });
 
     return NextResponse.json({
@@ -367,6 +387,7 @@ export async function POST(req: NextRequest) {
       meta: { type: "sns", url },
     });
   } catch (error) {
+    logAnalysis({ type: "youtube", error: true, aiCalled: true }).catch(() => {});
     if (error instanceof SyntaxError) {
       return NextResponse.json({ error: "AI 응답 파싱 오류가 발생했습니다." }, { status: 500 });
     }
