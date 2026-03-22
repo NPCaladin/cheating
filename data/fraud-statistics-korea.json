@@ -1,0 +1,663 @@
+{
+  "category": "한국 사기 범죄 피해 통계",
+  "lastUpdated": "2026-03-22",
+  "collectionNote": "언론 보도 및 정부 발표 기반 수집. 일부 수치는 출처 간 집계 기준 차이(경찰청 vs 금감원 등)로 상이할 수 있음.",
+  "stats": [
+    {
+      "_section": "1. 전체 사기 범죄 발생 건수 및 피해액 (연도별)"
+    },
+    {
+      "metric": "사기범죄 발생건수",
+      "value": "347,675건",
+      "year": "2020",
+      "source": "시사저널, '[단독] 작년 사기범죄 피해액 28조1353억인데…범죄 검거율은 하락세'",
+      "sourceDate": "2025-03-16",
+      "sourceUrl": "https://www.sisajournal.com/news/articleView.html?idxno=345796"
+    },
+    {
+      "metric": "사기범죄 피해액",
+      "value": "40조 3,480억원",
+      "year": "2020",
+      "source": "시사저널, '[단독] 작년 사기범죄 피해액 28조1353억인데…범죄 검거율은 하락세'",
+      "sourceDate": "2025-03-16",
+      "sourceUrl": "https://www.sisajournal.com/news/articleView.html?idxno=345796"
+    },
+    {
+      "metric": "사기범죄 발생건수",
+      "value": "294,075건",
+      "year": "2021",
+      "source": "농민신문, '지난해 사기범죄 42만건 역대 최대…4년간 지속 증가'",
+      "sourceDate": "2025-07-15",
+      "sourceUrl": "https://www.nongmin.com/article/20250715500381"
+    },
+    {
+      "metric": "사기범죄 피해액",
+      "value": "15조 844억원",
+      "year": "2021",
+      "source": "시사저널, '[단독] 작년 사기범죄 피해액 28조1353억인데…범죄 검거율은 하락세'",
+      "sourceDate": "2025-03-16",
+      "sourceUrl": "https://www.sisajournal.com/news/articleView.html?idxno=345796"
+    },
+    {
+      "metric": "사기범죄 발생건수",
+      "value": "325,848건",
+      "year": "2022",
+      "source": "농민신문, '지난해 사기범죄 42만건 역대 최대…4년간 지속 증가'",
+      "sourceDate": "2025-07-15",
+      "sourceUrl": "https://www.nongmin.com/article/20250715500381"
+    },
+    {
+      "metric": "사기범죄 피해액",
+      "value": "29조 2,487억원",
+      "year": "2022",
+      "source": "시사저널, '[단독] 작년 사기범죄 피해액 28조1353억인데…범죄 검거율은 하락세'",
+      "sourceDate": "2025-03-16",
+      "sourceUrl": "https://www.sisajournal.com/news/articleView.html?idxno=345796"
+    },
+    {
+      "metric": "사기범죄 발생건수",
+      "value": "347,901건",
+      "year": "2023",
+      "source": "농민신문, '지난해 사기범죄 42만건 역대 최대…4년간 지속 증가'",
+      "sourceDate": "2025-07-15",
+      "sourceUrl": "https://www.nongmin.com/article/20250715500381"
+    },
+    {
+      "metric": "사기범죄 피해액",
+      "value": "18조 5,137억원",
+      "year": "2023",
+      "source": "시사저널, '[단독] 작년 사기범죄 피해액 28조1353억인데…범죄 검거율은 하락세'",
+      "sourceDate": "2025-03-16",
+      "sourceUrl": "https://www.sisajournal.com/news/articleView.html?idxno=345796"
+    },
+    {
+      "metric": "사기범죄 발생건수",
+      "value": "421,421건 (역대 최대)",
+      "year": "2024",
+      "source": "농민신문, '지난해 사기범죄 42만건 역대 최대…4년간 지속 증가'",
+      "sourceDate": "2025-07-15",
+      "sourceUrl": "https://www.nongmin.com/article/20250715500381"
+    },
+    {
+      "metric": "사기범죄 피해액",
+      "value": "28조 1,353억원",
+      "year": "2024",
+      "source": "시사저널, '[단독] 작년 사기범죄 피해액 28조1353억인데…범죄 검거율은 하락세'",
+      "sourceDate": "2025-03-16",
+      "sourceUrl": "https://www.sisajournal.com/news/articleView.html?idxno=345796"
+    },
+    {
+      "metric": "전체 범죄 중 사기범죄 비율",
+      "value": "21.9% → 20.6% → 22% → 22.9% → 26.6%",
+      "year": "2020-2024",
+      "source": "시사저널, '[단독] 작년 사기범죄 피해액 28조1353억인데…범죄 검거율은 하락세'",
+      "sourceDate": "2025-03-16",
+      "sourceUrl": "https://www.sisajournal.com/news/articleView.html?idxno=345796"
+    },
+    {
+      "metric": "사기범죄 검거율",
+      "value": "73.9% (2019) → 60.3% (2024)",
+      "year": "2019-2024",
+      "source": "농민신문, '지난해 사기범죄 42만건 역대 최대…4년간 지속 증가'",
+      "sourceDate": "2025-07-15",
+      "sourceUrl": "https://www.nongmin.com/article/20250715500381"
+    },
+
+    {
+      "_section": "2. 보이스피싱 연도별 피해액 및 건수"
+    },
+    {
+      "metric": "보이스피싱 피해액",
+      "value": "2,353억원",
+      "year": "2020",
+      "source": "한국경제, '보이스피싱, 건수 줄었지만 1인당 피해액 1.4배 급증'",
+      "sourceDate": "2024-02-06",
+      "sourceUrl": "https://www.hankyung.com/article/202402067108i"
+    },
+    {
+      "metric": "보이스피싱 피해건수",
+      "value": "25,859건",
+      "year": "2020",
+      "source": "한국경제, '보이스피싱, 건수 줄었지만 1인당 피해액 1.4배 급증'",
+      "sourceDate": "2024-02-06",
+      "sourceUrl": "https://www.hankyung.com/article/202402067108i"
+    },
+    {
+      "metric": "보이스피싱 1인당 피해액",
+      "value": "1,288만원",
+      "year": "2020",
+      "source": "한국경제, '보이스피싱, 건수 줄었지만 1인당 피해액 1.4배 급증'",
+      "sourceDate": "2024-02-06",
+      "sourceUrl": "https://www.hankyung.com/article/202402067108i"
+    },
+    {
+      "metric": "보이스피싱 피해액",
+      "value": "7,744억원",
+      "year": "2021",
+      "source": "뉴데일리, '지난해 보이스피싱 피해액 8545억원 … 국수본 다중피해사기 대응 회의'",
+      "sourceDate": "2025-07-15",
+      "sourceUrl": "https://www.newdaily.co.kr/site/data/html/2025/07/15/2025071500048.html"
+    },
+    {
+      "metric": "보이스피싱 피해건수",
+      "value": "30,982건",
+      "year": "2021",
+      "source": "통계개발원, '보이스피싱 현황, 유형, 추이와 대응관련 시사점'",
+      "sourceDate": "2024",
+      "sourceUrl": "https://kostat.go.kr/board.es?mid=a90104010311&bid=12312&act=view&list_no=422196"
+    },
+    {
+      "metric": "보이스피싱 피해액",
+      "value": "1,451억원",
+      "year": "2022",
+      "source": "뉴시스, '그놈 목소리 때문에…지난해 보이스피싱 피해액 35.4% 급증'",
+      "sourceDate": "2024-03-07",
+      "sourceUrl": "https://mobile.newsis.com/view.html?ar_id=NISX20240307_0002651945"
+    },
+    {
+      "metric": "보이스피싱 피해건수",
+      "value": "18,902건",
+      "year": "2022",
+      "source": "서울매일, '2023년 보이스피싱 피해 현황 분석'",
+      "sourceDate": "2024",
+      "sourceUrl": "http://www.seoulmaeil.co.kr/news/articleView.html?idxno=3993"
+    },
+    {
+      "metric": "보이스피싱 피해액",
+      "value": "1,965억원 (전년비 35.4% 증가)",
+      "year": "2023",
+      "source": "뉴시스, '그놈 목소리 때문에…지난해 보이스피싱 피해액 35.4% 급증'",
+      "sourceDate": "2024-03-07",
+      "sourceUrl": "https://mobile.newsis.com/view.html?ar_id=NISX20240307_0002651945"
+    },
+    {
+      "metric": "보이스피싱 피해액",
+      "value": "4,472억원",
+      "year": "2023",
+      "note": "경찰청 기준(금감원 기준 1,965억원과 차이 — 집계 범위 상이)",
+      "source": "뉴데일리, '지난해 보이스피싱 피해액 8545억원'",
+      "sourceDate": "2025-07-15",
+      "sourceUrl": "https://www.newdaily.co.kr/site/data/html/2025/07/15/2025071500048.html"
+    },
+    {
+      "metric": "보이스피싱 피해액",
+      "value": "8,545억원 (역대 최고, 경찰청 기준)",
+      "year": "2024",
+      "source": "뉴데일리, '지난해 보이스피싱 피해액 8545억원 … 국수본 다중피해사기 대응 회의'",
+      "sourceDate": "2025-07-15",
+      "sourceUrl": "https://www.newdaily.co.kr/site/data/html/2025/07/15/2025071500048.html"
+    },
+    {
+      "metric": "보이스피싱 피해건수",
+      "value": "20,893건",
+      "year": "2024",
+      "source": "뉴데일리, '지난해 보이스피싱 피해액 8545억원'",
+      "sourceDate": "2025-07-15",
+      "sourceUrl": "https://www.newdaily.co.kr/site/data/html/2025/07/15/2025071500048.html"
+    },
+    {
+      "metric": "보이스피싱 건당 평균 피해액",
+      "value": "7,554만원",
+      "year": "2024",
+      "source": "뉴데일리, '지난해 보이스피싱 피해액 8545억원'",
+      "sourceDate": "2025-07-15",
+      "sourceUrl": "https://www.newdaily.co.kr/site/data/html/2025/07/15/2025071500048.html"
+    },
+    {
+      "metric": "보이스피싱 피해액 (1~3월)",
+      "value": "3,116억원 (전년 동기 대비 2.2배)",
+      "year": "2025",
+      "source": "세계일보, '2025년 1분기 보이스피싱 피해액 3116억원… 2024년 대비 2.2배 급증'",
+      "sourceDate": "2025-04-27",
+      "sourceUrl": "https://www.segye.com/newsView/20250427507459"
+    },
+    {
+      "metric": "보이스피싱 피해액 (1~10월)",
+      "value": "1조 566억원 (사상 첫 1조 돌파)",
+      "year": "2025",
+      "source": "뉴시스, '올해 보이스피싱 피해액 1조원 넘어…다중피해도 8천억 돌파'",
+      "sourceDate": "2025-11-24",
+      "sourceUrl": "https://www.newsis.com/view/NISX20251124_0003414755"
+    },
+    {
+      "metric": "보이스피싱 건당 평균 피해액",
+      "value": "5,290만원 (전년 2,813만원 대비 1.9배)",
+      "year": "2025",
+      "source": "세계일보, '2025년 1분기 보이스피싱 피해액 3116억원'",
+      "sourceDate": "2025-04-27",
+      "sourceUrl": "https://www.segye.com/newsView/20250427507459"
+    },
+    {
+      "metric": "기관사칭형 보이스피싱 건수",
+      "value": "13,323건 (2016년 3,384건 대비 약 4배)",
+      "year": "2025",
+      "source": "세계일보, '2025년 1분기 보이스피싱 피해액 3116억원'",
+      "sourceDate": "2025-04-27",
+      "sourceUrl": "https://www.segye.com/newsView/20250427507459"
+    },
+
+    {
+      "_section": "3. 투자 리딩방 사기 피해 통계"
+    },
+    {
+      "metric": "투자 리딩방 신고건수 (2년 누적)",
+      "value": "14,629건",
+      "year": "2023.09~2025.09",
+      "source": "EBN뉴스센터, '불법 투자리딩방, 2년간 1.3조 피해…국가적 위기 수준'",
+      "sourceDate": "2025-10",
+      "sourceUrl": "https://www.ebn.co.kr/news/articleView.html?idxno=1683680"
+    },
+    {
+      "metric": "투자 리딩방 피해액 (2년 누적)",
+      "value": "1조 2,901억원",
+      "year": "2023.09~2025.09",
+      "source": "EBN뉴스센터, '불법 투자리딩방, 2년간 1.3조 피해…국가적 위기 수준'",
+      "sourceDate": "2025-10",
+      "sourceUrl": "https://www.ebn.co.kr/news/articleView.html?idxno=1683680"
+    },
+    {
+      "metric": "투자 리딩방 검거 인원",
+      "value": "5,181명 (검거건수 12,000건)",
+      "year": "2023.09~2025.09",
+      "source": "경향신문, '고수익 보장 투자 정보는 리딩방 사기 공통점…경찰 3300명 검거'",
+      "sourceDate": "2025-02-26",
+      "sourceUrl": "https://www.khan.co.kr/article/202502261200001"
+    },
+    {
+      "metric": "투자 리딩방 연간 신고건수",
+      "value": "8,104건",
+      "year": "2024",
+      "source": "EBN뉴스센터, '불법 투자리딩방, 2년간 1.3조 피해'",
+      "sourceDate": "2025-10",
+      "sourceUrl": "https://www.ebn.co.kr/news/articleView.html?idxno=1683680"
+    },
+    {
+      "metric": "투자 리딩방 연간 피해액",
+      "value": "7,104억원",
+      "year": "2024",
+      "source": "EBN뉴스센터, '불법 투자리딩방, 2년간 1.3조 피해'",
+      "sourceDate": "2025-10",
+      "sourceUrl": "https://www.ebn.co.kr/news/articleView.html?idxno=1683680"
+    },
+    {
+      "metric": "투자 리딩방 신고건수 (1~8월)",
+      "value": "4,524건",
+      "year": "2025",
+      "source": "EBN뉴스센터, '불법 투자리딩방, 2년간 1.3조 피해'",
+      "sourceDate": "2025-10",
+      "sourceUrl": "https://www.ebn.co.kr/news/articleView.html?idxno=1683680"
+    },
+    {
+      "metric": "사이버투자 사기 (경찰청 신규 유형)",
+      "value": "12,851건",
+      "year": "2024",
+      "source": "지이코노미, '사이버사기 피해 3조 돌파…늘어나는 피해, 추락하는 검거율'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://www.geconomy.co.kr/news/article.html?no=306825"
+    },
+
+    {
+      "_section": "4. 교육/강연 사기 피해 통계"
+    },
+    {
+      "metric": "고액 온라인 부업강의 피해구제 신청 (5년 누적)",
+      "value": "59건",
+      "year": "2021~2025",
+      "source": "이투데이, '한 달에 50만원 보장..고수익 보장 온라인 부업 강의 피해주의보'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://www.etoday.co.kr/news/view/2557709"
+    },
+    {
+      "metric": "고액 온라인 부업강의 피해구제 신청",
+      "value": "11건",
+      "year": "2024",
+      "source": "이투데이, '한 달에 50만원 보장..고수익 보장 온라인 부업 강의 피해주의보'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://www.etoday.co.kr/news/view/2557709"
+    },
+    {
+      "metric": "고액 온라인 부업강의 피해구제 신청",
+      "value": "42건 (전년 대비 약 4배 급증)",
+      "year": "2025",
+      "source": "이투데이, '한 달에 50만원 보장..고수익 보장 온라인 부업 강의 피해주의보'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://www.etoday.co.kr/news/view/2557709"
+    },
+    {
+      "metric": "강의 품질 불만 비율",
+      "value": "40.7% (24건)",
+      "year": "2021~2025",
+      "source": "이투데이, '한 달에 50만원 보장..고수익 보장 온라인 부업 강의 피해주의보'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://www.etoday.co.kr/news/view/2557709"
+    },
+    {
+      "metric": "계약 불이행 비율",
+      "value": "28.8% (17건)",
+      "year": "2021~2025",
+      "source": "이투데이, '한 달에 50만원 보장..고수익 보장 온라인 부업 강의 피해주의보'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://www.etoday.co.kr/news/view/2557709"
+    },
+    {
+      "metric": "환급 거부 비율",
+      "value": "27.1% (16건)",
+      "year": "2021~2025",
+      "source": "이투데이, '한 달에 50만원 보장..고수익 보장 온라인 부업 강의 피해주의보'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://www.etoday.co.kr/news/view/2557709"
+    },
+    {
+      "metric": "비고",
+      "value": "교육/강연 사기는 별도 범죄 유형으로 집계되지 않아 공식 통계가 매우 제한적. 한국소비자원 피해구제 신청 기준만 존재.",
+      "year": "참고",
+      "source": "한국소비자원 경유 이투데이 보도",
+      "sourceDate": "",
+      "sourceUrl": ""
+    },
+
+    {
+      "_section": "5. 다단계/유사수신 사기 피해 통계 (대표 사건별)"
+    },
+    {
+      "metric": "휴스템코리아 — 피해자 수 / 피해액",
+      "value": "피해자 약 20만명 / 피해액 3조 3,000억원",
+      "year": "2020.05~2023.12",
+      "source": "헤럴드경제, '피해자 20만명, 피해액 3조원…불법다단계 휴스템코리아 회장, 재판 行'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://biz.heraldcorp.com/article/10626474"
+    },
+    {
+      "metric": "브이글로벌 (가상자산 다단계) — 피해자 수 / 피해액",
+      "value": "피해자 5만명+ / 피해액 2조원+",
+      "year": "2023 확정판결",
+      "source": "YTN, '코인 범죄 피해액 5년 동안 5조 원 넘어'",
+      "sourceDate": "2023-05-21",
+      "sourceUrl": "https://www.ytn.co.kr/_ln/0103_202305211821349590"
+    },
+    {
+      "metric": "옵티머스 펀드 사기 — 피해액",
+      "value": "5,600억원",
+      "year": "2020 적발",
+      "source": "나무위키 '옵티머스 사태'",
+      "sourceDate": "",
+      "sourceUrl": "https://namu.wiki/w/%EC%98%B5%ED%8B%B0%EB%A8%B8%EC%8A%A4%20%EC%82%AC%ED%83%9C"
+    },
+    {
+      "metric": "머지포인트 사태 — 피해액",
+      "value": "약 1,000억원 (판매액 2,500억원 상당)",
+      "year": "2021 적발",
+      "source": "노컷뉴스, '환불 대란 머지포인트 대표 남매 구속기소…피해액 1000억여원'",
+      "sourceDate": "2022",
+      "sourceUrl": "https://www.nocutnews.co.kr/news/5686119"
+    },
+    {
+      "metric": "보험영업 가장 폰지사기",
+      "value": "1,400억원",
+      "year": "2025 적발",
+      "source": "농민신문, '보험영업 가장한 폰지사기...1400억대 유사수신 사기 적발'",
+      "sourceDate": "2025-03-24",
+      "sourceUrl": "https://www.nongmin.com/article/20250324500135"
+    },
+    {
+      "metric": "가상자산 관련 불법행위 피해액 (5년 누적)",
+      "value": "5조원+ (유사수신·다단계 비중 73%+)",
+      "year": "2018~2023",
+      "source": "YTN, '코인 범죄 피해액 5년 동안 5조 원 넘어…수익 약속 다단계 방식 많아'",
+      "sourceDate": "2023-05-21",
+      "sourceUrl": "https://www.ytn.co.kr/_ln/0103_202305211821349590"
+    },
+
+    {
+      "_section": "6. 중고거래 사기 통계"
+    },
+    {
+      "metric": "중고거래 사기 발생건수",
+      "value": "78,320건",
+      "year": "2023",
+      "source": "KBC뉴스, '중고거래 사기 올해만 8만 건..경찰서 업무량 포화 상태'",
+      "sourceDate": "2024-12-03",
+      "sourceUrl": "https://news.ikbc.co.kr/article/view/kbc202412030031"
+    },
+    {
+      "metric": "중고거래 사기 피해액",
+      "value": "1,373억원",
+      "year": "2023",
+      "source": "KBC뉴스, '중고거래 사기 올해만 8만 건..경찰서 업무량 포화 상태'",
+      "sourceDate": "2024-12-03",
+      "sourceUrl": "https://news.ikbc.co.kr/article/view/kbc202412030031"
+    },
+    {
+      "metric": "중고거래 사기 발생건수",
+      "value": "100,539건",
+      "year": "2024",
+      "source": "KBC뉴스, '중고거래 사기 올해만 8만 건..경찰서 업무량 포화 상태'",
+      "sourceDate": "2024-12-03",
+      "sourceUrl": "https://news.ikbc.co.kr/article/view/kbc202412030031"
+    },
+    {
+      "metric": "중고거래 사기 피해액",
+      "value": "3,340억원 (전년 대비 2배+)",
+      "year": "2024",
+      "source": "KBC뉴스, '중고거래 사기 올해만 8만 건..경찰서 업무량 포화 상태'",
+      "sourceDate": "2024-12-03",
+      "sourceUrl": "https://news.ikbc.co.kr/article/view/kbc202412030031"
+    },
+    {
+      "metric": "중고거래 사기 피해자·피의자 중 10~30대 비중",
+      "value": "약 75%",
+      "year": "2024",
+      "source": "한국경제, 'MZ세대 사기 놀이터 된 중고거래'",
+      "sourceDate": "2024-04-24",
+      "sourceUrl": "https://www.hankyung.com/article/2024042442981"
+    },
+    {
+      "metric": "당근마켓 소비자상담 건수",
+      "value": "429건(2021) → 441건(2022) → 529건(2023) → 844건(2024.01~09)",
+      "year": "2021~2024",
+      "source": "비즈뉴스, '[2024 국감] 당근마켓 거래 매년 폭증…소비자 피해도 증가'",
+      "sourceDate": "2024-10",
+      "sourceUrl": "https://www.bizwnews.com/news/articleView.html?idxno=90203"
+    },
+
+    {
+      "_section": "7. 로맨스 스캠 통계"
+    },
+    {
+      "metric": "로맨스 스캠 신고건수 (1~10월)",
+      "value": "111건",
+      "year": "2023",
+      "source": "대구MBC, '로맨스 스캠 통계 1년 반 만에 2,400여 건···1,380억 원 피해'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://dgmbc.com/NewsArticle/636100"
+    },
+    {
+      "metric": "로맨스 스캠 확인 피해액",
+      "value": "48억 6,000만원",
+      "year": "2023",
+      "source": "대구MBC, '로맨스 스캠 통계 1년 반 만에 2,400여 건'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://dgmbc.com/NewsArticle/636100"
+    },
+    {
+      "metric": "로맨스 스캠 상반기 신고건수",
+      "value": "628건 (전년 대비 5.6배)",
+      "year": "2024 상반기",
+      "source": "뉴스핌, '로맨스 스캠③ 한달 피해액 29억…건당 피해 보이스피싱보다 많다'",
+      "sourceDate": "2024-04-17",
+      "sourceUrl": "https://www.newspim.com/news/view/20240417000188"
+    },
+    {
+      "metric": "로맨스 스캠 상반기 피해액",
+      "value": "약 454억원 (전년 대비 9.2배)",
+      "year": "2024 상반기",
+      "source": "뉴스핌, '로맨스 스캠③ 한달 피해액 29억'",
+      "sourceDate": "2024-04-17",
+      "sourceUrl": "https://www.newspim.com/news/view/20240417000188"
+    },
+    {
+      "metric": "로맨스 스캠 누적 건수 (2024.02~2025.07 약 18개월)",
+      "value": "2,428건 (월평균 135건)",
+      "year": "2024.02~2025.07",
+      "source": "대구MBC, '로맨스 스캠 통계 1년 반 만에 2,400여 건···1,380억 원 피해'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://dgmbc.com/NewsArticle/636100"
+    },
+    {
+      "metric": "로맨스 스캠 누적 피해액 (18개월)",
+      "value": "약 1,380억원",
+      "year": "2024.02~2025.07",
+      "source": "대구MBC, '로맨스 스캠 통계 1년 반 만에 2,400여 건···1,380억 원 피해'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://dgmbc.com/NewsArticle/636100"
+    },
+    {
+      "metric": "로맨스 스캠 건당 평균 피해액",
+      "value": "약 4,400만원",
+      "year": "2024~2025",
+      "source": "뉴스핌, '로맨스 스캠③ 한달 피해액 29억…건당 피해 보이스피싱보다 많다'",
+      "sourceDate": "2024-04-17",
+      "sourceUrl": "https://www.newspim.com/news/view/20240417000188"
+    },
+
+    {
+      "_section": "8. 피해자 연령별 분포"
+    },
+    {
+      "metric": "사기 범죄 피의자 중 19~30세 비중 (전체 1위)",
+      "value": "26.9%",
+      "year": "2022",
+      "source": "한국경제, '[단독] 20代 사기범죄율 1위, 대한민국'",
+      "sourceDate": "2024-04-22",
+      "sourceUrl": "https://www.hankyung.com/article/2024042285061"
+    },
+    {
+      "metric": "MZ세대(19~39세) 사기 범죄 비중",
+      "value": "43.1% (40·50대 합계 40.1% 추월)",
+      "year": "2022",
+      "source": "한국경제, '[단독] 20代 사기범죄율 1위, 대한민국'",
+      "sourceDate": "2024-04-22",
+      "sourceUrl": "https://www.hankyung.com/article/2024042285061"
+    },
+    {
+      "metric": "보이스피싱 피해자 중 50대 이상 비중",
+      "value": "32%(2023) → 47%(2024) → 53%(2025 1분기)",
+      "year": "2023~2025",
+      "source": "세계일보, '2025년 1분기 보이스피싱 피해액 3116억원… 2024년 대비 2.2배 급증'",
+      "sourceDate": "2025-04-27",
+      "sourceUrl": "https://www.segye.com/newsView/20250427507459"
+    },
+    {
+      "metric": "보이스피싱 피해자 중 20대 이하 비중",
+      "value": "47% (8,886명/18,902명)",
+      "year": "2023",
+      "source": "아시아경제, '[단독]보이스피싱 중심엔 MZ…피해자·피의자 20대 비율 최대'",
+      "sourceDate": "2024-10-29",
+      "sourceUrl": "https://www.asiae.co.kr/article/2024102915421222583"
+    },
+    {
+      "metric": "사이버 사기범죄 피의자 연령대별 비율",
+      "value": "20대 48.49%, 30대 22.95%, 19세미만 14.14%, 40대 9%, 50대 3.82%, 60대+ 1.6%",
+      "year": "2023",
+      "source": "보안뉴스, '2023년 사이버 사기·금융사범 2만 7,264명 검거'",
+      "sourceDate": "2024",
+      "sourceUrl": "https://m.boannews.com/html/detail.html?idx=124034&kind=2"
+    },
+    {
+      "metric": "몸캠피싱 피해자 중 10~20대 비중",
+      "value": "61% (10대 17%, 20대 44%)",
+      "year": "2024 (1~9월)",
+      "source": "뉴스1/머니S, '[단독]몸캠피싱 피해자 60%가 10·20대'",
+      "sourceDate": "2024-11-09",
+      "sourceUrl": "https://www.news1.kr/society/incident-accident/5594834"
+    },
+    {
+      "metric": "60대 이상 보이스피싱 피해 급증",
+      "value": "피해자 3명 중 1명이 60대 이상",
+      "year": "2025",
+      "source": "EBN뉴스센터, '60대 이상 노인 보이스피싱 피해 급증…피해자 세명 중 한명'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://www.ebn.co.kr/news/articleView.html?idxno=1680675"
+    },
+
+    {
+      "_section": "9. 피해자 성별 분포"
+    },
+    {
+      "metric": "보이스피싱 피해자 성별 (전체)",
+      "value": "남성 51.6%, 여성 48.4%",
+      "year": "2023",
+      "source": "금융감독원/KDSA, '2023년 보이스피싱 피해현황'",
+      "sourceDate": "2024",
+      "sourceUrl": "http://www.kdsa.or.kr/kor/customer/notice.php?m=v&idx=210&pNo=1"
+    },
+    {
+      "metric": "보이스피싱 20대 성별 피해 (피해자 수)",
+      "value": "남성 6,391명 vs 여성 2,495명",
+      "year": "2023",
+      "source": "아시아경제, '[단독]보이스피싱 중심엔 MZ…피해자·피의자 20대 비율 최대'",
+      "sourceDate": "2024-10-29",
+      "sourceUrl": "https://www.asiae.co.kr/article/2024102915421222583"
+    },
+    {
+      "metric": "성별 추이",
+      "value": "2020~2022 여성 피해 과반 → 2023~ 남성 비율 역전 (투자형 사기 증가 영향)",
+      "year": "2020~2024",
+      "source": "EBN뉴스센터, '보이스피싱 피해…고령층 여전하나 2030대 급증세'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://www.ebn.co.kr/news/articleView.html?idxno=1681433"
+    },
+    {
+      "metric": "디지털 성범죄(몸캠피싱) 남성 피해자 증가",
+      "value": "6년간 11배 증가",
+      "year": "2018~2024",
+      "source": "여성신문, '디지털 성범죄 남성 피해자 6년간 11배 증가…몸캠 피싱 대다수'",
+      "sourceDate": "2024",
+      "sourceUrl": "https://www.womennews.co.kr/news/articleView.html?idxno=248839"
+    },
+
+    {
+      "_section": "10. 사이버 사기 전체 현황 (보충)"
+    },
+    {
+      "metric": "사이버사기 발생건수",
+      "value": "208,920건",
+      "year": "2024",
+      "source": "지이코노미, '사이버사기 피해 3조 돌파…늘어나는 피해, 추락하는 검거율'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://www.geconomy.co.kr/news/article.html?no=306825"
+    },
+    {
+      "metric": "사이버사기 피해액",
+      "value": "3조 4,062억원",
+      "year": "2024",
+      "source": "지이코노미, '사이버사기 피해 3조 돌파…늘어나는 피해, 추락하는 검거율'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://www.geconomy.co.kr/news/article.html?no=306825"
+    },
+    {
+      "metric": "사이버사기 피해자 수",
+      "value": "279,416명",
+      "year": "2024",
+      "source": "지이코노미, '사이버사기 피해 3조 돌파…늘어나는 피해, 추락하는 검거율'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://www.geconomy.co.kr/news/article.html?no=306825"
+    },
+    {
+      "metric": "연예빙자 사기 (신종)",
+      "value": "2,253건",
+      "year": "2024",
+      "source": "지이코노미, '사이버사기 피해 3조 돌파'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://www.geconomy.co.kr/news/article.html?no=306825"
+    },
+    {
+      "metric": "몸캠피싱 경찰 접수건수",
+      "value": "3,545건 (2018년 1,848건 대비 약 2배)",
+      "year": "2024",
+      "source": "더나은미래, '몸캠피싱 급증...10대 피해자 80%가 침묵한다'",
+      "sourceDate": "2025",
+      "sourceUrl": "https://futurechosun.com/archives/111001"
+    }
+  ]
+}
