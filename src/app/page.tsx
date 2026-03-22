@@ -89,7 +89,7 @@ export default function HomePage() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-6">
             <span className="text-[#e6edf3]">결제 전에 꼭 확인하세요</span>
             <br />
-            <span className="text-[#f0a500]">AI가 즉시 판별합니다</span>
+            <span className="text-[#f0a500]">AI가 즉시 분석합니다</span>
           </h1>
 
           <p className="text-[#8b949e] text-lg sm:text-xl max-w-2xl leading-relaxed mb-6">
