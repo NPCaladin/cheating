@@ -1,5 +1,6 @@
 "use client";
 
+import MobileHome from "./mobile-home";
 import Link from "next/link";
 import { ArrowRight, ShieldAlert, Search, BookOpen, AlertTriangle, TrendingUp, Users, FileText, Zap, ChevronRight } from "lucide-react";
 
@@ -66,7 +67,13 @@ const warningSignals = [
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen">
+    <>
+    {/* 모바일 전용 (md 미만) */}
+    <div className="block md:hidden">
+      <MobileHome />
+    </div>
+    {/* 데스크톱 전용 (md 이상) — 기존 다크 테마 */}
+    <div className="hidden md:block min-h-screen">
       {/* Hero */}
       <section className="relative overflow-hidden px-4 sm:px-6 pt-16 pb-20">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0d1117] via-[#161b22] to-[#0d1117]" />
@@ -322,5 +329,6 @@ export default function HomePage() {
         </div>
       </section>
     </div>
+    </>
   );
 }

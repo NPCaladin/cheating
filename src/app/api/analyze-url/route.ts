@@ -8,13 +8,10 @@ import { callGemini } from "@/lib/gemini";
 
 export const maxDuration = 300;
 
-const BASE_SYSTEM_PROMPT = `당신은 단순 AI가 아닌, 금융감독원/공정위 수준의 사기 분석 전문가입니다.
-ChatGPT나 Gemini 같은 범용 AI보다 훨씬 구체적이고 날카로운 분석을 제공해야 합니다.
-자막이 존재할 경우, 반드시 자막의 원문을 직접 인용("큰따옴표"로 감싸서)하여 근거를 제시하세요.
-단순한 요약이 아닌, 법정에서 증거로 사용될 수 있는 수준의 구체적 분석을 작성하세요.
-
-당신은 한국의 사기 강연·교육·투자 YouTube 채널 및 SNS 콘텐츠를 판별하는 전문 AI 분석관입니다.
-금융감독원·공정거래위원회 수준의 상세 분석, 한국 법령 위반 검토, 심리 조작 기법 분석을 수행합니다.
+const BASE_SYSTEM_PROMPT = `당신은 소비자 피해 예방을 위한 콘텐츠 패턴 분석 AI입니다.
+YouTube 영상, SNS 게시글 등 온라인 콘텐츠에서 알려진 위험 패턴을 탐지하고, 이용자가 스스로 판단할 수 있도록 참고 정보를 제공합니다.
+특정 개인이나 채널을 사기꾼으로 단정하지 마세요. 콘텐츠의 패턴을 분석하는 것이며, 최종 판단은 이용자와 수사기관의 몫입니다.
+자막이 존재할 경우, 자막의 원문을 직접 인용("큰따옴표"로 감싸서)하여 분석 근거를 제시하세요.
 
 ## 핵심 역할 및 차별화
 1. **한국 법령 전문**: 자본시장법, 방문판매법, 전자상거래법 등 구체적 조항과 처벌 내용 명시
@@ -79,7 +76,7 @@ ChatGPT나 Gemini 같은 범용 AI보다 훨씬 구체적이고 날카로운 분
 {
   "riskScore": 0-100,
   "riskLevel": "safe|low|medium|high|critical",
-  "verdict": "안전|주의|위험|매우 위험|극도 위험",
+  "verdict": "안전|주의|확인 필요|높은 주의|즉시 확인 필요",
   "summary": "반드시 4-5문장. 채널 성격/타겟 분석 → 제목/콘텐츠 전략 → 발견된 위험 요소 → 법적 위반 가능성 → 시청자 행동 권고 순서로 서술",
   "matchedScamTypes": [
     {
@@ -142,11 +139,11 @@ ChatGPT나 Gemini 같은 범용 AI보다 훨씬 구체적이고 날카로운 분
 }
 
 점수 기준:
-- 0-20: safe (안전)
-- 21-40: low (낮은 위험)
-- 41-60: medium (주의)
-- 61-80: high (위험)
-- 81-100: critical (극도 위험)
+- 0-20: safe (안전) — 알려진 위험 패턴 미감지
+- 21-40: low (낮은 주의) — 일부 주의 요소, 추가 확인 권장
+- 41-60: medium (주의) — 위험 패턴 감지, 참여 전 철저한 검증 필요
+- 61-80: high (높은 주의) — 다수의 위험 패턴 감지, 참여 전 반드시 검증 필요
+- 81-100: critical (즉시 확인 필요) — 다수의 위험 패턴이 강하게 감지됨, 관련 기관에 확인 권장
 
 ## 분석 품질 기준 (반드시 준수)
 - summary: 반드시 6-8문장. 채널 성격/타겟 → 자막 핵심 문제 발언 인용 → 사기 유형 매칭 근거 → 제목/콘텐츠 전략 → 법적 위반 가능성 → 피해 규모 추정 → 시청자 행동 권고 → 결론
@@ -243,7 +240,7 @@ export async function POST(req: NextRequest) {
       // Phase 2: blacklist check by channel name
       const blacklistResult = await checkBlacklist(meta.channelName, url);
       const blacklistContext = blacklistResult
-        ? `\n[블랙리스트 경고]\n채널 "${blacklistResult.entityName}"이 블랙리스트에 등록된 사기 사례입니다. (신고 ${blacklistResult.reportCount}건)\n`
+        ? `\n[이용자 제보 이력]\n"${blacklistResult.entityName}"에 대해 이용자 제보 이력이 ${blacklistResult.reportCount}건 있습니다. 이 정보는 참고용이며, 사실 여부는 확인되지 않았습니다.\n`
         : "";
 
       const userMessage = [
@@ -309,7 +306,7 @@ export async function POST(req: NextRequest) {
     const prescreen = preScreenText(analysisText);
     const blacklistResult = await checkBlacklist(sanitizedExtra, url);
     const blacklistContext = blacklistResult
-      ? `\n[블랙리스트 경고]\n"${blacklistResult.entityName}"이 블랙리스트에 등록된 사기 사례입니다.\n`
+      ? `\n[이용자 제보 이력]\n"${blacklistResult.entityName}"에 대해 이용자 제보 이력이 있습니다. 이 정보는 참고용이며, 사실 여부는 확인되지 않았습니다.\n`
       : "";
 
     const userMessage = [

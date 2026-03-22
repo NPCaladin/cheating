@@ -130,7 +130,7 @@ const ANALYSIS_STAGES = [
 ];
 
 const severityLabels = {
-  critical: "극도 위험",
+  critical: "즉시 확인",
   high: "높은 위험",
   medium: "주의",
   low: "참고",
@@ -203,7 +203,7 @@ function ResultPanel({ result }: { result: DetectionResult }) {
         {/* Risk bar */}
         <div className="mb-5">
           <div className="flex justify-between text-xs text-[#8b949e] mb-1.5">
-            <span>안전</span><span>극도 위험</span>
+            <span>안전</span><span>즉시 확인 필요</span>
           </div>
           <div className="h-2.5 bg-[#0d1117] rounded-full overflow-hidden">
             <div className={`h-full ${config.barColor} rounded-full transition-all duration-700`} style={{ width: `${result.riskScore}%` }} />
@@ -322,7 +322,7 @@ function ResultPanel({ result }: { result: DetectionResult }) {
                       <div className="flex items-center gap-2 mb-1.5">
                         <span className="font-semibold text-xs">{signal.signal}</span>
                         <span className="text-xs opacity-60 border border-current/30 rounded px-1.5 py-0.5">
-                          {signal.severity === "critical" ? "극도 위험" : signal.severity === "high" ? "높은 위험" : signal.severity === "medium" ? "주의" : "참고"}
+                          {signal.severity === "critical" ? "즉시 확인" : signal.severity === "high" ? "높은 주의" : signal.severity === "medium" ? "주의" : "참고"}
                         </span>
                       </div>
                       <p className="text-xs font-mono bg-black/20 rounded px-2 py-1 mb-2 leading-relaxed">"{signal.evidence}"</p>
