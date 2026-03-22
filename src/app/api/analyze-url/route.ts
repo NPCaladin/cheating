@@ -206,23 +206,62 @@ function handleApiError(error: unknown): NextResponse {
   );
 }
 
+// ── Rate limiter (in-memory, resets on deploy) ──────────────────────────────
+
+const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour
+const RATE_LIMIT_MAX = 20; // 20 requests per IP per hour (URL analysis is heavier)
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+function checkRateLimit(ipHash: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ipHash);
+
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ipHash, { count: 1, resetAt: now + RATE_LIMIT_WINDOW });
+    return true;
+  }
+
+  if (entry.count >= RATE_LIMIT_MAX) return false;
+  entry.count++;
+  return true;
+}
+
 function hashIp(req: NextRequest): string {
   const ip =
     req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
   return crypto.createHash("sha256").update(ip).digest("hex").slice(0, 16);
 }
 
+const MAX_EXTRA_TEXT_LENGTH = 10000; // extraText 최대 10,000자
+const MAX_URL_LENGTH = 2048;
+
 export async function POST(req: NextRequest) {
   try {
     const ipHash = hashIp(req);
+
+    if (!checkRateLimit(ipHash)) {
+      return NextResponse.json(
+        { error: "분석 요청이 너무 많습니다. 1시간에 20건까지 가능합니다. 잠시 후 다시 시도해주세요." },
+        { status: 429 }
+      );
+    }
+
     const { url, extraText } = await req.json();
 
     if (!url || typeof url !== "string") {
       return NextResponse.json({ error: "URL을 입력해주세요." }, { status: 400 });
     }
 
+    if (url.length > MAX_URL_LENGTH) {
+      return NextResponse.json({ error: "URL이 너무 깁니다." }, { status: 400 });
+    }
+
     if (!isValidUrl(url)) {
       return NextResponse.json({ error: "올바른 URL 형식이 아닙니다." }, { status: 400 });
+    }
+
+    if (extraText && typeof extraText === "string" && extraText.length > MAX_EXTRA_TEXT_LENGTH) {
+      return NextResponse.json({ error: `텍스트가 너무 깁니다. ${MAX_EXTRA_TEXT_LENGTH.toLocaleString()}자 이내로 입력해주세요.` }, { status: 400 });
     }
 
     const youtubeId = extractYoutubeId(url);
