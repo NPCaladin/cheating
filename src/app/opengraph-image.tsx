@@ -60,7 +60,7 @@ export default function OgImage() {
             marginBottom: "20px",
           }}
         >
-          강연·교육·투자 사기 AI 판별
+          강연·교육·투자 AI 위험 패턴 분석
         </div>
 
         {/* Description */}

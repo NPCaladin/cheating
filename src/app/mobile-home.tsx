@@ -80,7 +80,7 @@ export default function MobileHome() {
           </div>
           <Link href="/detector" className="mh-btn-go">
             <ShieldCheck size={16} />
-            판별하기
+            분석하기
           </Link>
         </div>
       </div>
@@ -199,7 +199,7 @@ export default function MobileHome() {
         <div className="mh-disc">
           <Info size={15} className="text-[#64748B] shrink-0 mt-0.5" />
           <p>
-            AI 판별 결과는 참고용이며 법적 효력이 없습니다. 피해 시{" "}
+            AI 분석 결과는 참고용이며 법적 효력이 없습니다. 피해 시{" "}
             <strong>경찰청(182)</strong>, <strong>금감원(1332)</strong>, <strong>소비자원(1372)</strong>에 신고하세요.
           </p>
         </div>

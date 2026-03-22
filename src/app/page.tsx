@@ -118,7 +118,7 @@ export default function HomePage() {
               className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#f0a500] text-[#0d1117] font-semibold text-sm hover:bg-[#f0a500]/90 transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
               <Search size={16} />
-              지금 무료로 판별하기
+              지금 무료로 분석하기
               <ArrowRight size={14} />
             </Link>
             <Link
@@ -150,7 +150,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
-            {/* AI 판별기 card */}
+            {/* AI 분석기 card */}
             <div className="lg:col-span-2 relative overflow-hidden rounded-2xl border border-[#30363d] bg-gradient-to-br from-[#161b22] to-[#0d1117] p-6 sm:p-8 group hover:border-[#f0a500]/40 transition-colors">
               <div className="absolute top-0 right-0 w-48 h-48 bg-[#f0a500]/5 rounded-full blur-2xl" />
               <div className="relative">
@@ -182,7 +182,7 @@ export default function HomePage() {
                   href="/detector"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#f0a500] text-[#0d1117] font-semibold text-sm hover:bg-[#f0a500]/90 transition-all"
                 >
-                  판별 시작하기
+                  분석 시작하기
                   <ArrowRight size={14} />
                 </Link>
               </div>
@@ -270,7 +270,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-2xl sm:text-3xl font-bold text-[#e6edf3] mb-3">
-              어떻게 판별하나요?
+              어떻게 분석하나요?
             </h2>
             <p className="text-[#8b949e]">3단계로 간단하게</p>
           </div>
@@ -320,7 +320,7 @@ export default function HomePage() {
             <AlertTriangle size={16} className="text-amber-400 shrink-0 mt-0.5" />
             <p className="text-[#8b949e] text-xs leading-relaxed">
               <span className="text-amber-400 font-medium">이용 안내:</span>{" "}
-              AI 판별 결과는 참고 자료이며 법적 효력이 없습니다. 최종 판단은 직접 하시기 바랍니다.
+              AI 분석 결과는 참고 자료이며 법적 효력이 없습니다. 최종 판단은 직접 하시기 바랍니다.
               피해가 발생했거나 확실히 의심되는 경우 <span className="text-[#e6edf3]">경찰청 사이버범죄신고(182)</span>,{" "}
               <span className="text-[#e6edf3]">금융감독원(1332)</span>,{" "}
               <span className="text-[#e6edf3]">한국소비자원(1372)</span>에 신고하세요.

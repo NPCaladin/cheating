@@ -8,11 +8,11 @@ const BASE_URL = "https://cheating.vibelogic.net";
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: "사기감별사 — 강연·교육·투자 사기 AI 판별 공익 서비스",
+    default: "사기감별사 — 강연·교육·투자 사기 AI 분석 공익 서비스",
     template: "%s | 사기감별사",
   },
   description:
-    "결제 전 꼭 확인하세요. AI가 강연·교육·투자·부업 광고 문구를 즉시 분석해 사기 여부를 판별합니다. 15개 유형 사기 패턴 데이터베이스 기반 무료 공익 서비스.",
+    "결제 전 꼭 확인하세요. AI가 강연·교육·투자·부업 광고 문구를 즉시 분석해 위험 패턴을 탐지합니다. 15개 유형 패턴 데이터베이스 기반 무료 공익 서비스.",
   keywords: [
     "사기 판별", "강연 사기", "교육 사기", "투자 사기", "주식 리딩방",
     "코인 리딩방", "성공팔이", "부업 사기", "AI 사기 분석", "사기 확인",
@@ -25,9 +25,9 @@ export const metadata: Metadata = {
     locale: "ko_KR",
     url: BASE_URL,
     siteName: "사기감별사",
-    title: "사기감별사 — 강연·교육·투자 사기 AI 판별",
+    title: "사기감별사 — 강연·교육·투자 사기 AI 분석",
     description:
-      "결제 전 꼭 확인하세요. AI가 광고 문구를 즉시 분석해 사기 여부를 판별합니다. 무료 공익 서비스.",
+      "결제 전 꼭 확인하세요. AI가 광고 문구를 즉시 분석해 위험 패턴을 탐지합니다. 무료 공익 서비스.",
     images: [
       {
         url: "/og-image.png",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "사기감별사 — 강연·교육·투자 사기 AI 판별",
+    title: "사기감별사 — 강연·교육·투자 사기 AI 분석",
     description: "결제 전 꼭 확인하세요. AI가 광고 문구를 즉시 분석합니다.",
     images: ["/og-image.png"],
   },
@@ -70,7 +70,7 @@ export default function RootLayout({
       "@type": "WebSite",
       name: "사기감별사",
       url: BASE_URL,
-      description: "강연·교육·투자 사기 AI 판별 공익 서비스",
+      description: "강연·교육·투자 관련 AI 위험 패턴 분석 공익 서비스",
       potentialAction: {
         "@type": "SearchAction",
         target: {

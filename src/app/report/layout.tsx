@@ -5,7 +5,7 @@ const BASE_URL = "https://cheating.vibelogic.net";
 export const metadata: Metadata = {
   title: "피해 사례 제보",
   description:
-    "강연·교육·투자 사기 피해 사례를 익명으로 제보해 다른 피해자를 막아주세요. 제보된 사례는 AI 판별 데이터베이스에 반영됩니다.",
+    "강연·교육·투자 관련 피해 사례를 익명으로 제보해 다른 피해자를 막아주세요. 제보된 사례는 AI 분석 데이터베이스에 반영됩니다.",
   keywords: [
     "사기 제보", "사기 피해 신고", "사기 신고 방법", "투자 사기 제보",
     "강연 사기 신고", "피해 사례 공유",

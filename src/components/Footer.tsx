@@ -28,7 +28,7 @@ export default function Footer() {
             </div>
             <p className="text-[#8b949e] text-xs leading-relaxed">
               강연·교육·투자 사기로부터 시민을 보호하는<br />
-              AI 기반 공익 판별 서비스입니다.
+              AI 기반 공익 서비스입니다.
             </p>
             <p className="text-[#8b949e] text-xs mt-3">
               본 서비스는 참고용이며, 법적 효력이 없습니다.<br />
