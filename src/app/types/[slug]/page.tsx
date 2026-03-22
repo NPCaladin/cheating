@@ -368,7 +368,7 @@ export default async function ScamTypePage({
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#f0a500] text-[#0d1117] font-semibold text-sm hover:bg-[#f0a500]/90 transition-all"
             >
               <ShieldAlert size={14} />
-              AI 판별기로 직접 확인하기
+              AI 분석기로 직접 확인하기
             </Link>
             <Link
               href="/report"

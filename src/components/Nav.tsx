@@ -7,7 +7,7 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
 const navItems = [
-  { href: "/detector", label: "AI 판별기" },
+  { href: "/detector", label: "AI 분석기" },
   { href: "/types", label: "사기 유형 백과" },
   { href: "/report", label: "피해 제보" },
 ];

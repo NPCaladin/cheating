@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "사기감별사 — AI 사기 판별 서비스";
+export const alt = "사기감별사 — AI 위험 패턴 분석 서비스";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

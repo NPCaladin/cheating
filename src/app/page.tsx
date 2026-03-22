@@ -159,7 +159,7 @@ export default function HomePage() {
                   AI POWERED
                 </div>
                 <h2 className="text-2xl font-bold text-[#e6edf3] mb-3">
-                  실시간 AI 사기 판별기
+                  실시간 AI 위험 패턴 분석
                 </h2>
                 <p className="text-[#8b949e] text-sm leading-relaxed mb-6">
                   광고 문구, 강의 소개글, 투자 제안서를 붙여넣으면

@@ -33,7 +33,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "사기감별사 — AI 사기 판별 서비스",
+        alt: "사기감별사 — AI 위험 패턴 분석 서비스",
       },
     ],
   },
@@ -92,7 +92,7 @@ export default function RootLayout({
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      name: "사기감별사 AI 판별기",
+      name: "사기감별사 AI 분석기",
       url: `${BASE_URL}/detector`,
       applicationCategory: "UtilitiesApplication",
       operatingSystem: "Web",
