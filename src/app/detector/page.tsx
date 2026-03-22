@@ -15,23 +15,30 @@ interface DetectionResult {
   riskLevel: "safe" | "low" | "medium" | "high" | "critical";
   verdict: string;
   summary: string;
-  matchedScamTypes: Array<{
+  matchedScamTypes?: Array<{
     type: string;
+    similarity: "high" | "medium" | "low";
+    reason: string;
+  }>;
+  similarPatterns?: Array<{
+    pattern: string;
     similarity: "high" | "medium" | "low";
     reason: string;
   }>;
   detectedSignals: Array<{
     signal: string;
     evidence: string;
-    severity: "critical" | "high" | "medium" | "low";
+    severity: "high" | "medium" | "low";
     explanation?: string;
   }>;
   safeAspects: string[];
   recommendation: string;
   reportTo: string[];
   legalAnalysis?: {
-    violationRisk: "high" | "medium" | "low" | "none";
-    applicableLaws: string[];
+    violationRisk?: "high" | "medium" | "low" | "none";
+    relevanceLevel?: "high" | "medium" | "low" | "none";
+    applicableLaws?: string[];
+    relatedLaws?: string[];
     explanation: string;
   };
   psychologyTactics?: Array<{
@@ -56,8 +63,9 @@ interface DetectionResult {
     quote: string;
     timestamp: string;
     issue: string;
-    scamPattern: string;
-    severity: "critical" | "high" | "medium" | "low";
+    scamPattern?: string;
+    relatedPattern?: string;
+    severity: "high" | "medium" | "low";
   }>;
   meta?: {
     type: "youtube" | "sns";
@@ -260,15 +268,16 @@ function ResultPanel({ result }: { result: DetectionResult }) {
               <div>
                 <SectionHeader icon={Scale} title="법적 분석" />
                 <div className="space-y-3">
-                  <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-medium ${legalRiskColors[result.legalAnalysis.violationRisk]}`}>
-                    {result.legalAnalysis.violationRisk === "high" ? "법적 위반 위험 높음" :
-                     result.legalAnalysis.violationRisk === "medium" ? "법적 위반 가능성 있음" :
-                     result.legalAnalysis.violationRisk === "low" ? "경미한 위반 가능성" : "명확한 위반 없음"}
+                  <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-medium ${legalRiskColors[(result.legalAnalysis.relevanceLevel || result.legalAnalysis.violationRisk) ?? "none"]}`}>
+                    {(() => { const level = result.legalAnalysis!.relevanceLevel || result.legalAnalysis!.violationRisk;
+                      return level === "high" ? "관련 법령 확인 권장" :
+                             level === "medium" ? "관련 법령 참고" :
+                             level === "low" ? "경미한 관련성" : "관련 법령 없음"; })()}
                   </div>
                   <p className="text-[#e6edf3] text-sm leading-relaxed">{result.legalAnalysis.explanation}</p>
-                  {result.legalAnalysis.applicableLaws.length > 0 && (
+                  {(result.legalAnalysis.relatedLaws || result.legalAnalysis.applicableLaws || []).length > 0 && (
                     <div className="space-y-2">
-                      {result.legalAnalysis.applicableLaws.map((law, i) => (
+                      {(result.legalAnalysis.relatedLaws || result.legalAnalysis.applicableLaws || []).map((law, i) => (
                         <div key={i} className="flex items-start gap-2 p-3 rounded-lg bg-[#0d1117] border border-[#21262d]">
                           <span className="text-[#f0a500] text-xs mt-0.5 shrink-0">§</span>
                           <p className="text-[#8b949e] text-xs leading-relaxed">{law}</p>
@@ -303,7 +312,7 @@ function ResultPanel({ result }: { result: DetectionResult }) {
                         <p className="text-[#8b949e] text-xs leading-relaxed mb-2">{item.issue}</p>
                         <div className="flex items-center gap-1.5">
                           <Target size={10} className="text-[#f0a500]" />
-                          <span className="text-[#f0a500] text-xs font-medium">{item.scamPattern}</span>
+                          <span className="text-[#f0a500] text-xs font-medium">{item.relatedPattern || item.scamPattern}</span>
                         </div>
                       </div>
                     </div>
@@ -322,7 +331,7 @@ function ResultPanel({ result }: { result: DetectionResult }) {
                       <div className="flex items-center gap-2 mb-1.5">
                         <span className="font-semibold text-xs">{signal.signal}</span>
                         <span className="text-xs opacity-60 border border-current/30 rounded px-1.5 py-0.5">
-                          {signal.severity === "critical" ? "즉시 확인" : signal.severity === "high" ? "높은 주의" : signal.severity === "medium" ? "주의" : "참고"}
+                          {signal.severity === "high" ? "높은 주의" : signal.severity === "medium" ? "주의" : "참고"}
                         </span>
                       </div>
                       <p className="text-xs font-mono bg-black/20 rounded px-2 py-1 mb-2 leading-relaxed">"{signal.evidence}"</p>
@@ -418,25 +427,28 @@ function ResultPanel({ result }: { result: DetectionResult }) {
               </div>
             )}
 
-            {/* Matched Scam Types */}
-            {result.matchedScamTypes.length > 0 && (
+            {/* Similar Patterns */}
+            {(() => {
+              const patterns = result.similarPatterns || (result.matchedScamTypes || []).map(s => ({ pattern: s.type, similarity: s.similarity, reason: s.reason }));
+              return patterns.length > 0 && (
               <div>
-                <SectionHeader icon={ShieldAlert} title="유사 사기 유형" />
+                <SectionHeader icon={ShieldAlert} title="유사 위험 패턴" />
                 <div className="space-y-2.5">
-                  {result.matchedScamTypes.map((scam, i) => (
+                  {patterns.map((p, i) => (
                     <div key={i} className="p-3.5 rounded-xl bg-[#0d1117] border border-[#21262d]">
                       <div className="flex items-center gap-2 mb-1.5">
-                        <span className="text-[#e6edf3] text-xs font-semibold">{scam.type}</span>
-                        <span className={`text-xs font-medium ${similarityColors[scam.similarity]}`}>
-                          유사도 {scam.similarity === "high" ? "높음" : scam.similarity === "medium" ? "중간" : "낮음"}
+                        <span className="text-[#e6edf3] text-xs font-semibold">{p.pattern}</span>
+                        <span className={`text-xs font-medium ${similarityColors[p.similarity]}`}>
+                          유사도 {p.similarity === "high" ? "높음" : p.similarity === "medium" ? "중간" : "낮음"}
                         </span>
                       </div>
-                      <p className="text-[#8b949e] text-xs leading-relaxed">{scam.reason}</p>
+                      <p className="text-[#8b949e] text-xs leading-relaxed">{p.reason}</p>
                     </div>
                   ))}
                 </div>
               </div>
-            )}
+            );
+            })()}
 
             {/* Safe Aspects */}
             {result.safeAspects.length > 0 && (
