@@ -122,7 +122,7 @@ const ANALYSIS_STAGES = [
   { message: "URL 정보 수집 중...", duration: 2000 },
   { message: "자막 데이터 추출 중...", duration: 2000 },
   { message: "사기 유형 DB(207개 패턴) 매칭 중...", duration: 3000 },
-  { message: "금융감독원 블랙리스트 대조 중...", duration: 3000 },
+  { message: "이용자 제보 이력 대조 중...", duration: 3000 },
   { message: "법적 판례 및 관련 법규 분석 중...", duration: 4000 },
   { message: "심리 조작 기법 패턴 분석 중...", duration: 4000 },
   { message: "전문가 수준 종합 리포트 생성 중...", duration: 4000 },
@@ -131,7 +131,7 @@ const ANALYSIS_STAGES = [
 
 const severityLabels = {
   critical: "즉시 확인",
-  high: "높은 위험",
+  high: "높은 주의",
   medium: "주의",
   low: "참고",
 };
@@ -535,10 +535,10 @@ export default function DetectorPage() {
             <Zap size={11} />
             AI POWERED DETECTOR
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#e6edf3] mb-2">사기 판별기</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#e6edf3] mb-2">AI 위험 패턴 분석</h1>
           <p className="text-[#8b949e] text-sm">
-            텍스트, YouTube 링크, SNS 게시글을 AI가 즉시 분석합니다.
-            한국 법령 위반, 심리 조작 기법, 검증 체크리스트까지 상세 제공.
+            텍스트, YouTube 링크, SNS 게시글의 위험 패턴을 AI가 즉시 분석합니다.
+            관련 법령, 심리 조작 기법, 검증 체크리스트까지 상세 제공.
           </p>
         </div>
 
@@ -729,12 +729,26 @@ export default function DetectorPage() {
         )}
 
         {/* Result */}
-        {result && <ResultPanel result={result} />}
+        {result && (
+          <>
+            <ResultPanel result={result} />
+            {/* 분석 결과 직후 면책 고지 */}
+            <div className="mt-4 p-4 rounded-xl bg-[#161b22] border border-[#30363d]">
+              <div className="flex gap-2 text-xs">
+                <AlertTriangle size={13} className="text-amber-400 shrink-0 mt-0.5" />
+                <p className="text-[#c9d1d9] leading-relaxed">
+                  <span className="text-amber-400 font-semibold">안내:</span> 본 결과는 AI의 텍스트 패턴 분석이며, 특정 개인·단체에 대한 사실 판단이 아닙니다. 법적 효력이 없으며, 최종 판단은 이용자 본인의 책임입니다.
+                  본 결과를 근거로 특정인을 비방하거나 사실로 단정하여 유포하는 행위는 <span className="text-[#e6edf3] font-medium">이용약관 위반</span>이며 법적 책임이 발생할 수 있습니다.
+                </p>
+              </div>
+            </div>
+          </>
+        )}
 
         {/* Disclaimer */}
         <div className="mt-6 flex gap-2 text-[#8b949e] text-xs">
           <AlertTriangle size={13} className="text-amber-400 shrink-0 mt-0.5" />
-          <p>AI 판별 결과는 참고용이며 법적 효력이 없습니다. 실제 피해 시 경찰(182), 금감원(1332), 소비자원(1372)에 신고하세요.</p>
+          <p>본 분석은 AI 패턴 매칭 결과이며 법적 효력이 없습니다. 실제 피해가 의심되면 경찰(182), 금감원(1332), 소비자원(1372)에 확인하세요.</p>
         </div>
       </div>
     </div>

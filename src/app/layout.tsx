@@ -86,7 +86,7 @@ export default function RootLayout({
       name: "사기감별사",
       url: BASE_URL,
       logo: `${BASE_URL}/logo.png`,
-      description: "AI 기반 사기 판별 무료 공익 서비스",
+      description: "AI 기반 소비자 피해 예방 무료 공익 서비스",
       sameAs: [],
     },
     {

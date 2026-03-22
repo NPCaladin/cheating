@@ -65,7 +65,7 @@ export default function MobileHome() {
         <div className="mh-input-bar" />
         <div className="mh-input-top">
           <div className="mh-input-dot" />
-          <span className="mh-input-label">AI 사기 판별</span>
+          <span className="mh-input-label">AI 위험 패턴 분석</span>
         </div>
         <textarea
           className="mh-textarea"

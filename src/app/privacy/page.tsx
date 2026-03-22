@@ -10,7 +10,7 @@ export default function PrivacyPage() {
           <p>사기감별사(이하 &quot;서비스&quot;)는 서비스 제공을 위해 아래의 개인정보를 수집합니다.</p>
           <ul className="list-disc pl-5 mt-2 space-y-1">
             <li><strong>자동 수집 항목:</strong> IP 주소(해시 처리), 쿠키(광고·분석용), 접속 일시, 브라우저 및 기기 정보</li>
-            <li><strong>이용자 입력 항목:</strong> 분석 요청 텍스트, URL(AI 사기 판별 분석 목적)</li>
+            <li><strong>이용자 입력 항목:</strong> 분석 요청 텍스트, URL(AI 위험 패턴 분석 목적)</li>
             <li><strong>제보 시:</strong> 사기 사례 관련 텍스트 정보(개인 식별 정보 수집하지 않음)</li>
           </ul>
         </section>
@@ -18,7 +18,7 @@ export default function PrivacyPage() {
         <section>
           <h2 className="text-lg font-semibold text-[#e6edf3] mb-3">2. 개인정보의 수집 및 이용 목적</h2>
           <ul className="list-disc pl-5 space-y-1">
-            <li>AI 기반 사기 판별 분석 서비스 제공</li>
+            <li>AI 기반 위험 패턴 분석 서비스 제공</li>
             <li>사기 유형 데이터베이스 운영 및 개선</li>
             <li>서비스 이용 통계 분석 및 품질 개선</li>
             <li>광고 제공(Google AdSense)</li>
@@ -55,7 +55,7 @@ export default function PrivacyPage() {
                 </tr>
                 <tr>
                   <td className="border border-[#30363d] px-3 py-2">Google (Gemini)</td>
-                  <td className="border border-[#30363d] px-3 py-2">AI 사기 분석</td>
+                  <td className="border border-[#30363d] px-3 py-2">AI 위험 패턴 분석</td>
                   <td className="border border-[#30363d] px-3 py-2">분석 요청 텍스트</td>
                 </tr>
                 <tr>

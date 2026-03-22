@@ -41,7 +41,7 @@ export default function Footer() {
             <h3 className="text-xs font-semibold text-[#e6edf3] mb-3 uppercase tracking-wider">서비스</h3>
             <ul className="space-y-2">
               {[
-                { href: "/detector", label: "AI 사기 판별기" },
+                { href: "/detector", label: "AI 위험 패턴 분석" },
                 { href: "/types", label: "사기 유형 백과" },
                 { href: "/report", label: "피해 사례 제보" },
                 { href: "/about", label: "서비스 소개" },
